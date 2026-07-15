@@ -1,6 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import Approach from '../components/Approach.astro';
+import Capabilities from '../components/Capabilities.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Hero from '../components/Hero.astro';
+import Studio from '../components/Studio.astro';
 import { site } from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
@@ -9,8 +14,9 @@ import { site } from '../content/site';
   pathname="/"
   includeOrganizationData
 >
-  <section class="page-shell" aria-labelledby="page-title">
-    <h1 id="page-title">{site.tagline}</h1>
-    <p>{site.description}</p>
-  </section>
+  <Hero />
+  <Capabilities />
+  <Approach />
+  <Studio />
+  <FinalCta />
 </BaseLayout>

@@ -1,0 +1,165 @@
+---
+import { approachSteps } from '../content/site';
+---
+
+<section class="approach" id="approach" aria-labelledby="approach-title" data-approach>
+  <div class="approach-intro">
+    <p>How we work</p>
+    <h2 id="approach-title">The model is one component. The system is the product.</h2>
+    <div class="approach-signal" aria-hidden="true">
+      <span></span>
+    </div>
+  </div>
+
+  <ol class="approach-steps">
+    {
+      approachSteps.map((step) => (
+        <li data-approach-step>
+          <span>{step.index}</span>
+          <div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<script>
+  const approach = document.querySelector<HTMLElement>('[data-approach]');
+  const steps = approach?.querySelectorAll<HTMLElement>('[data-approach-step]');
+
+  if (approach && steps && document.documentElement.dataset.motion !== 'reduced') {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const index = Array.from(steps).indexOf(entry.target as HTMLElement);
+          approach.style.setProperty('--approach-progress', `${(index + 1) / steps.length}`);
+          steps.forEach((step, stepIndex) => {
+            step.dataset.active = String(stepIndex <= index);
+          });
+        }
+      },
+      { rootMargin: '-35% 0px -40% 0px' },
+    );
+
+    steps.forEach((step) => observer.observe(step));
+  }
+</script>
+
+<style>
+  .approach {
+    --approach-progress: 0.12;
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(3rem, 8vw, 10rem);
+    padding: var(--section-space) var(--gutter);
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  .approach-intro {
+    position: sticky;
+    top: 7rem;
+    align-self: start;
+  }
+
+  .approach-intro > p {
+    margin: 0 0 2rem;
+    color: var(--signal);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .approach-intro h2 {
+    max-width: 11ch;
+    margin: 0;
+    font-size: clamp(2.8rem, 5.6vw, 6rem);
+    font-weight: 500;
+    letter-spacing: -0.065em;
+    line-height: 0.93;
+  }
+
+  .approach-signal {
+    position: relative;
+    width: min(100%, 32rem);
+    height: 2px;
+    margin-top: 4rem;
+    background: #35353c;
+    overflow: hidden;
+  }
+
+  .approach-signal span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--signal);
+    transform: scaleX(var(--approach-progress));
+    transform-origin: left;
+    transition: transform 500ms var(--ease-out);
+  }
+
+  .approach-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .approach-steps li {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1rem;
+    min-height: clamp(16rem, 32vh, 24rem);
+    padding: 1.75rem 0 4rem;
+    border-top: 1px solid #3b3b42;
+    opacity: 0.48;
+    transition: opacity 400ms var(--ease-out);
+  }
+
+  .approach-steps li[data-active='true'],
+  .approach-steps li:hover {
+    opacity: 1;
+  }
+
+  .approach-steps li > span {
+    color: var(--signal);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .approach-steps h3 {
+    margin: -0.35rem 0 1.5rem;
+    font-size: clamp(2rem, 4.4vw, 4.8rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .approach-steps p {
+    max-width: 34rem;
+    margin: 0;
+    color: #aaaab0;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+  }
+
+  @media (max-width: 840px) {
+    .approach {
+      grid-template-columns: 1fr;
+    }
+
+    .approach-intro {
+      position: static;
+    }
+
+    .approach-steps li {
+      min-height: auto;
+      padding: 2rem 0 5rem;
+      opacity: 1;
+    }
+  }
+</style>

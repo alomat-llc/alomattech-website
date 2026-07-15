@@ -1,0 +1,136 @@
+---
+import { experienceNotes } from '../content/site';
+---
+
+<section class="studio section-frame" id="studio" aria-labelledby="studio-title">
+  <header class="studio-heading">
+    <p>Studio perspective</p>
+    <h2 id="studio-title">Experience across voice, language, and product.</h2>
+    <p class="studio-lede">
+      Our team's experience spans the layers intelligent products depend on—from data and models to interfaces and operations.
+    </p>
+  </header>
+
+  <div class="experience-list">
+    {
+      experienceNotes.map((note, index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <p class="experience-label">{note.label}</p>
+          <h3>{note.title}</h3>
+          <p>{note.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .section-frame {
+    padding: var(--section-space) var(--gutter);
+  }
+
+  .studio-heading {
+    display: grid;
+    grid-template-columns: 0.5fr 1.3fr 0.7fr;
+    gap: clamp(1.5rem, 4vw, 5rem);
+    align-items: end;
+    margin-bottom: clamp(5rem, 10vw, 10rem);
+  }
+
+  .studio-heading > p:first-child,
+  .experience-label {
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .studio-heading > p:first-child {
+    align-self: start;
+    margin: 0;
+  }
+
+  .studio-heading h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: var(--heading);
+    font-weight: 520;
+    letter-spacing: -0.065em;
+    line-height: 0.93;
+  }
+
+  .studio-lede {
+    max-width: 27rem;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .experience-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--ink);
+  }
+
+  .experience-list article {
+    display: flex;
+    flex-direction: column;
+    min-height: 34rem;
+    padding: 1.5rem clamp(1.25rem, 3vw, 3.5rem) 2rem 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .experience-list article + article {
+    padding-left: clamp(1.25rem, 3vw, 3.5rem);
+  }
+
+  .experience-list article:last-child {
+    border-right: 0;
+  }
+
+  .experience-list article > span {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+  }
+
+  .experience-label {
+    margin: 3rem 0 1.5rem;
+  }
+
+  .experience-list h3 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2rem, 3.5vw, 4rem);
+    font-weight: 530;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+  }
+
+  .experience-list article > p:last-child {
+    max-width: 31rem;
+    margin: auto 0 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .studio-heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .experience-list {
+      grid-template-columns: 1fr;
+    }
+
+    .experience-list article,
+    .experience-list article + article {
+      min-height: 28rem;
+      padding: 1.5rem 0 2.5rem;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+</style>

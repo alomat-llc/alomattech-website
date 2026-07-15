@@ -1,0 +1,165 @@
+---
+import { capabilities } from '../content/site';
+---
+
+<section class="capabilities section-frame" id="capabilities" aria-labelledby="capabilities-title">
+  <header class="section-heading">
+    <p>What we build</p>
+    <h2 id="capabilities-title">Intelligence needs a system around it.</h2>
+  </header>
+
+  <div class="capability-list">
+    {
+      capabilities.map((capability) => (
+        <article class="capability" tabindex="0">
+          <span class="capability-index">{capability.index}</span>
+          <h3>{capability.title}</h3>
+          <p>{capability.statement}</p>
+          <ul aria-label={`${capability.title} disciplines`}>
+            {capability.primitives.map((primitive) => <li>{primitive}</li>)}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .section-frame {
+    padding: var(--section-space) var(--gutter);
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.45fr) 1.55fr;
+    gap: 2rem;
+    margin-bottom: clamp(4rem, 8vw, 8rem);
+  }
+
+  .section-heading p {
+    margin: 0;
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .section-heading h2 {
+    max-width: 13ch;
+    margin: 0;
+    font-size: var(--heading);
+    font-weight: 520;
+    letter-spacing: -0.065em;
+    line-height: 0.93;
+  }
+
+  .capability-list {
+    border-top: 1px solid var(--ink);
+  }
+
+  .capability {
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.25fr 1fr 1.15fr 0.8fr;
+    gap: clamp(1rem, 3vw, 3.5rem);
+    align-items: start;
+    padding: clamp(2rem, 4vw, 4.5rem) 0;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .capability::before {
+    position: absolute;
+    top: -1px;
+    right: 0;
+    left: 0;
+    height: 2px;
+    background: var(--signal);
+    content: '';
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 360ms var(--ease-out);
+  }
+
+  .capability:hover::before,
+  .capability:focus-visible::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .capability-index {
+    color: var(--signal-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .capability h3 {
+    margin: -0.25rem 0 0;
+    font-size: clamp(1.9rem, 3.3vw, 3.75rem);
+    font-weight: 580;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .capability > p {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .capability ul {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .capability li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .capability li::before {
+    position: absolute;
+    top: 0.55em;
+    left: 0;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: var(--signal);
+    content: '';
+  }
+
+  @media (max-width: 900px) {
+    .capability {
+      grid-template-columns: 0.18fr 0.82fr;
+    }
+
+    .capability > p,
+    .capability ul {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .section-heading {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .capability {
+      grid-template-columns: auto 1fr;
+    }
+
+    .capability h3 {
+      font-size: 2.35rem;
+    }
+  }
+</style>

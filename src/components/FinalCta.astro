@@ -1,0 +1,84 @@
+---
+import { site } from '../content/site';
+---
+
+<section class="final-cta" aria-labelledby="cta-title">
+  <p>Have a signal worth following?</p>
+  <h2 id="cta-title">Let's build the system around it.</h2>
+  <a href={`mailto:${site.email}`}>
+    <span>Start a conversation</span>
+    <svg viewBox="0 0 120 44" aria-hidden="true">
+      <path d="M0 22h115M96 3l19 19-19 19"></path>
+    </svg>
+  </a>
+  <div class="cta-addresses">
+    <a href={`mailto:${site.email}`}>{site.email}</a>
+    <a href={`mailto:${site.founderEmail}`}>{site.founderEmail}</a>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    padding: var(--section-space) var(--gutter);
+    border-top: 1px solid var(--ink);
+  }
+
+  .final-cta > p {
+    margin: 0 0 2rem;
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .final-cta h2 {
+    max-width: 12ch;
+    margin: 0 0 clamp(4rem, 8vw, 8rem);
+    font-size: clamp(3.7rem, 9.4vw, 10rem);
+    font-weight: 520;
+    letter-spacing: -0.075em;
+    line-height: 0.84;
+  }
+
+  .final-cta > a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    font-size: clamp(1.4rem, 3.4vw, 3.7rem);
+    font-weight: 560;
+    letter-spacing: -0.045em;
+  }
+
+  .final-cta > a svg {
+    width: clamp(4rem, 8vw, 8rem);
+    fill: none;
+    stroke: var(--signal);
+    stroke-width: 1.5;
+    transition: transform 220ms var(--ease-out);
+  }
+
+  .final-cta > a:hover svg,
+  .final-cta > a:focus-visible svg {
+    transform: translateX(0.75rem);
+  }
+
+  .cta-addresses {
+    display: flex;
+    gap: 1.5rem 3rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .cta-addresses a {
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>
