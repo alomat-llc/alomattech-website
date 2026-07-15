@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e',
+  workers: 2,
   webServer: {
     command:
       'npm run build && npm run preview -- --host 127.0.0.1 --port 4321',

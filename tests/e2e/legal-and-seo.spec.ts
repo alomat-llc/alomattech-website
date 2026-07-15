@@ -19,11 +19,14 @@ test('publishes crawl and organization trust signals', async ({
 }) => {
   await page.goto('/');
 
-  const organizationData = await page
-    .locator('script[type="application/ld+json"]')
-    .filter({ hasText: 'Organization' })
-    .textContent();
-  expect(organizationData).toContain('hello@alomattech.com');
+  const entities = await page.locator('script[type="application/ld+json"]').evaluateAll(
+    (scripts) => scripts.flatMap((script) => {
+      const parsed = JSON.parse(script.textContent ?? '{}');
+      return Array.isArray(parsed) ? parsed : [parsed];
+    }),
+  );
+  const organization = entities.find((entity) => entity['@type'] === 'Organization');
+  expect(organization?.email).toBe('hello@alomattech.com');
   expect((await request.get('/robots.txt')).ok()).toBeTruthy();
   expect((await request.get('/sitemap-index.xml')).ok()).toBeTruthy();
   expect((await request.get('/favicon.svg')).ok()).toBeTruthy();

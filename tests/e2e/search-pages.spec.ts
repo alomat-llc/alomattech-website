@@ -60,9 +60,13 @@ test('service pages connect visible content to Service and BreadcrumbList data',
 
 test('FAQ schema mirrors every visible question and answer', async ({ page }) => {
   await page.goto('/faq');
-  const faq = JSON.parse(
-    (await page.locator('script[type="application/ld+json"]').filter({ hasText: 'FAQPage' }).textContent()) ?? '{}',
+  const entities = await page.locator('script[type="application/ld+json"]').evaluateAll(
+    (scripts) => scripts.flatMap((script) => {
+      const parsed = JSON.parse(script.textContent ?? '{}');
+      return Array.isArray(parsed) ? parsed : [parsed];
+    }),
   );
+  const faq = entities.find((entity) => entity['@type'] === 'FAQPage');
   const visibleQuestions = await page.locator('[data-faq-item] h2').allTextContents();
   const schemaQuestions = faq.mainEntity.map((item: { name: string }) => item.name);
 
