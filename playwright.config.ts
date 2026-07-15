@@ -3,13 +3,17 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e',
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1',
+    command:
+      'npm run build && python3 -m http.server 4321 --bind 127.0.0.1 --directory dist',
     port: 4321,
     reuseExistingServer: !process.env.CI,
   },
-  use: { baseURL: 'http://127.0.0.1:4321' },
+  use: {
+    baseURL: 'http://127.0.0.1:4321',
+    channel: 'chrome',
+  },
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
-    { name: 'mobile', use: { ...devices['iPhone 13'] } },
+    { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
 });

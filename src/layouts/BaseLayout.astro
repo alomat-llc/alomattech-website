@@ -1,0 +1,83 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { site } from '../content/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  pathname?: string;
+  image?: string;
+  includeOrganizationData?: boolean;
+}
+
+const {
+  title,
+  description,
+  pathname = Astro.url.pathname,
+  image = '/brand/alomat-banner.svg',
+  includeOrganizationData = false,
+} = Astro.props;
+
+const canonical = new URL(pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
+const organizationData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: site.url,
+  logo: new URL('/brand/alomat-logo.svg', Astro.site).toString(),
+  email: site.email,
+  sameAs: [site.linkedin, site.github],
+};
+---
+
+<!doctype html>
+<html lang="en" data-motion="pending">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="theme-color" content="#f1f1ee" />
+    <title>{title}</title>
+
+    {
+      includeOrganizationData && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(organizationData)}
+        />
+      )
+    }
+    <script is:inline>
+      document.documentElement.dataset.motion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches
+        ? 'reduced'
+        : 'full';
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <SiteHeader />
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

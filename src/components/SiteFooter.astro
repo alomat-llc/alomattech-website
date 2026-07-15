@@ -1,0 +1,20 @@
+---
+import { site } from '../content/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-mark" aria-hidden="true">.a</div>
+  <div class="footer-contact">
+    <p>Have a system worth building?</p>
+    <a href={`mailto:${site.email}`}>{site.email}</a>
+  </div>
+  <nav class="footer-links" aria-label="Footer">
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+    <a href={site.github} target="_blank" rel="noreferrer">GitHub</a>
+  </nav>
+  <p class="copyright">© {year} Alomat LLC</p>
+</footer>

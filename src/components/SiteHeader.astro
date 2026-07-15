@@ -1,0 +1,62 @@
+---
+import { navigation, site } from '../content/site';
+---
+
+<header class="site-header" data-site-header>
+  <a class="brand" href="/" aria-label="Alomat home">
+    <span aria-hidden="true">.alomat</span>
+  </a>
+
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="primary-navigation"
+    aria-label="Open navigation"
+    data-nav-toggle
+  >
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav
+    class="primary-navigation"
+    id="primary-navigation"
+    aria-label="Primary"
+    data-navigation
+  >
+    <div class="nav-links">
+      {
+        navigation.map((item) => (
+          <a href={item.href} data-nav-link>{item.label}</a>
+        ))
+      }
+    </div>
+    <a class="header-cta" href={`mailto:${site.email}`}>Start a conversation</a>
+  </nav>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const toggle = header?.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const navigation = header?.querySelector<HTMLElement>('[data-navigation]');
+
+  const setOpen = (open: boolean) => {
+    if (!header || !toggle || !navigation) return;
+    header.dataset.open = String(open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  };
+
+  toggle?.addEventListener('click', () => {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  header?.querySelectorAll('[data-nav-link]').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
+  });
+</script>
