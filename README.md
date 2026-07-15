@@ -42,6 +42,10 @@ The project produces a fully static site and is ready for Cloudflare Pages:
 
 After the Pages deployment is healthy, attach `alomattech.com` as a custom domain. Preserve the existing MX, SPF, DKIM, and DMARC records when changing web DNS records.
 
+## Release records
+
+- [2026-07-15 SEO, GEO, and AEO release](docs/seo/2026-07-15-seo-geo-aeo-release-report.md)
+
 ## Project structure
 
 - `src/content/site.ts` — canonical public copy and company links
