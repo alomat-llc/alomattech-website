@@ -1,0 +1,48 @@
+---
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { experienceNotes, site } from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const description = 'Learn how Alomat LLC approaches AI agent systems, multilingual technology, and full-stack AI product engineering for US and global teams.';
+const aboutData = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${site.url}/about/#page`,
+  name: 'About Alomat LLC',
+  description,
+  url: `${site.url}/about`,
+  mainEntity: { '@id': `${site.url}/#organization` },
+};
+---
+
+<BaseLayout title="About Alomat LLC — Intelligent Systems Studio" description={description} pathname="/about" structuredData={[aboutData]}>
+  <article class="editorial-page about-page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+    <header class="editorial-hero">
+      <p>Company / Alomat LLC</p>
+      <h1>About Alomat: building signals into systems.</h1>
+      <p class="direct-answer">Alomat LLC is an intelligent systems studio that builds AI agent systems, multilingual language technologies, and full-stack AI products for product teams serving the United States and global markets.</p>
+    </header>
+    <section class="editorial-section" aria-labelledby="principles-title">
+      <h2 id="principles-title">How we think about intelligent products</h2>
+      <div class="prose-block">
+        <p>Models are components inside a larger operating system. Useful products also need clear interfaces, dependable software, context, tools, evaluations, observability, and accountable human decisions.</p>
+        <p>Alomat starts with the work a system must understand and perform. We then define where probabilistic models help, where deterministic software should lead, and how the complete product can be observed and improved.</p>
+      </div>
+    </section>
+    <section class="editorial-section" aria-labelledby="experience-title">
+      <h2 id="experience-title">Experience that informs the studio</h2>
+      <div class="experience-grid">{experienceNotes.map((note) => <article><p>{note.label}</p><h3>{note.title}</h3><p>{note.description}</p></article>)}</div>
+    </section>
+    <section class="editorial-section" aria-labelledby="identity-title">
+      <h2 id="identity-title">Public company identity</h2>
+      <dl class="identity-list">
+        <div><dt>Company</dt><dd>{site.name}</dd></div>
+        <div><dt>Website</dt><dd><a href={site.url}>{site.url}</a></dd></div>
+        <div><dt>General contact</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+        <div><dt>Founder contact</dt><dd><a href={`mailto:${site.founderEmail}`}>{site.founderEmail}</a></dd></div>
+        <div><dt>Markets served</dt><dd>{site.markets.join(' and ')}</dd></div>
+      </dl>
+    </section>
+  </article>
+</BaseLayout>

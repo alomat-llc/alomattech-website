@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests/e2e',
   webServer: {
     command:
-      'npm run build && python3 -m http.server 4321 --bind 127.0.0.1 --directory dist',
+      'npm run build && npm run preview -- --host 127.0.0.1 --port 4321',
     port: 4321,
     reuseExistingServer: !process.env.CI,
   },

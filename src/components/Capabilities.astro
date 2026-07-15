@@ -11,13 +11,16 @@ import { capabilities } from '../content/site';
   <div class="capability-list">
     {
       capabilities.map((capability) => (
-        <article class="capability" tabindex="0">
+        <article class="capability">
           <span class="capability-index">{capability.index}</span>
           <h3>{capability.title}</h3>
           <p>{capability.statement}</p>
           <ul aria-label={`${capability.title} disciplines`}>
             {capability.primitives.map((primitive) => <li>{primitive}</li>)}
           </ul>
+          <a class="capability-link" href={`/${['agent-systems', 'multilingual-ai', 'full-stack-ai-products'][Number(capability.index) - 1]}`}>
+            Explore {capability.title.toLowerCase()} <span aria-hidden="true">↗</span>
+          </a>
         </article>
       ))
     }
@@ -69,6 +72,20 @@ import { capabilities } from '../content/site';
     overflow: hidden;
   }
 
+  .capability-link {
+    grid-column: 2;
+    display: inline-flex;
+    gap: 0.5rem;
+    width: fit-content;
+    margin-top: 1.25rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--signal);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
   .capability::before {
     position: absolute;
     top: -1px;
@@ -83,7 +100,7 @@ import { capabilities } from '../content/site';
   }
 
   .capability:hover::before,
-  .capability:focus-visible::before {
+  .capability:focus-within::before {
     transform: scaleX(1);
     transform-origin: left;
   }

@@ -1,0 +1,32 @@
+---
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { faqItems, site } from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const description = 'Direct answers about Alomat LLC, AI agent systems, multilingual AI, full-stack AI product engineering, delivery, markets, and contact.';
+const faqData = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${site.url}/faq/#page`,
+  url: `${site.url}/faq`,
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+---
+
+<BaseLayout title="AI Engineering FAQ — Alomat LLC" description={description} pathname="/faq" structuredData={[faqData]}>
+  <article class="editorial-page faq-page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'FAQ' }]} />
+    <header class="editorial-hero">
+      <p>Answers / 01–07</p>
+      <h1>Questions about working with Alomat.</h1>
+      <p class="direct-answer">These concise answers explain what Alomat builds, how the studio approaches AI engineering, which markets it serves, and how a product team can begin a conversation.</p>
+    </header>
+    <div class="faq-list">
+      {faqItems.map((item, index) => <section data-faq-item><span>0{index + 1}</span><div><h2>{item.question}</h2><p>{item.answer}</p></div></section>)}
+    </div>
+  </article>
+</BaseLayout>
