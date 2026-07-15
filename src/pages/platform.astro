@@ -1,0 +1,373 @@
+---
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import {
+  deploymentPatterns,
+  managedOffer,
+  productModules,
+  publishingWorkflow,
+  site,
+} from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const description = 'Explore Alomat, a managed agentic publishing platform that connects source intelligence, editorial memory, specialist agents, human approval, and observable delivery for global digital publishers.';
+const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
+const productData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': `${site.url}/platform/#product`,
+  name: 'Alomat Agentic Publishing Platform',
+  description,
+  url: `${site.url}/platform`,
+  applicationCategory: 'BusinessApplication',
+  provider: { '@id': `${site.url}/#organization` },
+  audience: {
+    '@type': 'BusinessAudience',
+    audienceType: 'Digital publishers and editorial teams',
+  },
+  featureList: productModules.map((module) => module.title),
+};
+const breadcrumbData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Platform', item: `${site.url}/platform` },
+  ],
+};
+---
+
+<BaseLayout
+  title="Agentic Publishing Platform — Alomat LLC"
+  description={description}
+  pathname="/platform"
+  structuredData={[productData, breadcrumbData]}
+>
+  <article class="editorial-page platform-page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Platform' }]} />
+
+    <header class="editorial-hero">
+      <p>Product / Managed SaaS</p>
+      <h1>One operating layer for modern publishing.</h1>
+      <p class="direct-answer">
+        Alomat turns approved sources into publish-ready content by connecting source intelligence, editorial memory, specialist agents, and accountable human review in one managed workflow.
+      </p>
+    </header>
+
+    <section class="platform-proof" aria-labelledby="platform-proof-title">
+      <p>Production boundary</p>
+      <h2 id="platform-proof-title">Built from a live publisher workflow.</h2>
+      <p>
+        The operating patterns behind Alomat are already used with an active digital publisher. The customer remains private; the product evidence is concrete: live sources, archive-backed context, specialist stages, and human approval before delivery.
+      </p>
+    </section>
+
+    <section class="editorial-section" aria-labelledby="modules-title">
+      <div>
+        <p class="section-index">01 / Platform</p>
+        <h2 id="modules-title">Six connected modules</h2>
+      </div>
+      <div class="module-grid">
+        {productModules.map((module) => (
+          <article>
+            <span>{module.index}</span>
+            <h3>{module.title}</h3>
+            <p>{module.statement}</p>
+            <ul aria-label={`${module.title} capabilities`}>
+              {module.primitives.map((primitive) => <li>{primitive}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="editorial-section" aria-labelledby="workflow-title">
+      <div>
+        <p class="section-index">02 / Workflow</p>
+        <h2 id="workflow-title">Source to editorial decision</h2>
+      </div>
+      <ol class="platform-workflow">
+        {publishingWorkflow.map((step) => (
+          <li>
+            <span>{step.index}</span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="editorial-section" aria-labelledby="patterns-title">
+      <div>
+        <p class="section-index">03 / Evidence</p>
+        <h2 id="patterns-title">Production-tested patterns</h2>
+      </div>
+      <div class="pattern-list">
+        {deploymentPatterns.map((pattern) => (
+          <article>
+            <p>{pattern.label}</p>
+            <h3>{pattern.title}</h3>
+            <p>{pattern.description}</p>
+            <ul>{pattern.evidence.map((item) => <li>{item}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="editorial-section" aria-labelledby="managed-title">
+      <div>
+        <p class="section-index">04 / Managed SaaS</p>
+        <h2 id="managed-title">Configured and operated with your team</h2>
+      </div>
+      <div class="managed-list">
+        {managedOffer.map((item) => (
+          <article>
+            <p>{item.label}</p>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="control-boundary" aria-labelledby="control-title">
+      <p>Control boundary</p>
+      <h2 id="control-title">The agents prepare. Editors decide.</h2>
+      <div>
+        <p>
+          Alomat preserves source references, review state, edit and reject paths, escalation rules, and explicit hard stops. It does not present probabilistic output as an unaccountable autonomous newsroom.
+        </p>
+        <ul>
+          <li>Approved-source boundaries</li>
+          <li>Visible human review</li>
+          <li>Traceable workflow stages</li>
+          <li>Evaluation and fallback paths</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page-cta" aria-labelledby="platform-cta-title">
+      <p>Start with one real workflow.</p>
+      <h2 id="platform-cta-title">Build a managed publishing operation around your editorial judgment.</h2>
+      <a href={pilotHref}>Request a managed pilot</a>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .platform-proof,
+  .control-boundary {
+    display: grid;
+    grid-template-columns: 0.45fr 1fr 0.85fr;
+    gap: clamp(1.5rem, 4vw, 5rem);
+    margin-top: clamp(4rem, 8vw, 8rem);
+    padding: clamp(2rem, 4vw, 4rem);
+    border: 1px solid var(--ink);
+  }
+
+  .platform-proof {
+    background: var(--signal);
+  }
+
+  .platform-proof > p:first-child,
+  .control-boundary > p,
+  .section-index,
+  .pattern-list article > p:first-child,
+  .managed-list article > p:first-child {
+    margin: 0;
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .platform-proof > p:first-child {
+    color: var(--ink);
+  }
+
+  .platform-proof h2,
+  .control-boundary h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2.25rem, 4.7vw, 5rem);
+    font-weight: 550;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .platform-proof > p:last-child,
+  .control-boundary > div > p {
+    margin: 0;
+  }
+
+  .editorial-section > div:first-child h2 {
+    margin-top: 1rem;
+  }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+  }
+
+  .module-grid article {
+    min-height: 22rem;
+    padding: 1.5rem 2rem 2rem 0;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .module-grid article:nth-child(even) {
+    padding-right: 0;
+    padding-left: 2rem;
+    border-right: 0;
+  }
+
+  .module-grid article > span,
+  .platform-workflow > li > span {
+    color: var(--signal-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .module-grid h3,
+  .pattern-list h3,
+  .managed-list h3,
+  .platform-workflow h3 {
+    margin: 2rem 0 1rem;
+    font-size: clamp(1.7rem, 3vw, 3.2rem);
+    font-weight: 550;
+    letter-spacing: -0.045em;
+    line-height: 0.96;
+  }
+
+  .module-grid article > p,
+  .pattern-list article > p:last-of-type,
+  .managed-list article > p:last-child,
+  .platform-workflow p {
+    color: var(--muted);
+  }
+
+  .module-grid ul,
+  .pattern-list ul,
+  .control-boundary ul {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .module-grid li,
+  .pattern-list li,
+  .control-boundary li {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--line);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .platform-workflow,
+  .pattern-list,
+  .managed-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .platform-workflow li {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .platform-workflow h3 {
+    margin-top: -0.3rem;
+  }
+
+  .platform-workflow p {
+    max-width: 42rem;
+    margin: 0;
+  }
+
+  .pattern-list,
+  .managed-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+  }
+
+  .pattern-list article,
+  .managed-list article {
+    min-height: 27rem;
+    padding: 1.5rem 1.5rem 2rem 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .pattern-list article + article,
+  .managed-list article + article {
+    padding-left: 1.5rem;
+  }
+
+  .pattern-list article:last-child,
+  .managed-list article:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .control-boundary {
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  .control-boundary > p {
+    color: var(--signal);
+  }
+
+  .control-boundary > div > p {
+    color: #bdbdc2;
+  }
+
+  .control-boundary li {
+    border-color: #45454d;
+  }
+
+  @media (max-width: 900px) {
+    .platform-proof,
+    .control-boundary,
+    .pattern-list,
+    .managed-list {
+      grid-template-columns: 1fr;
+    }
+
+    .pattern-list article,
+    .pattern-list article + article,
+    .managed-list article,
+    .managed-list article + article {
+      min-height: auto;
+      padding: 1.5rem 0 3rem;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .module-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .module-grid article,
+    .module-grid article:nth-child(even) {
+      min-height: auto;
+      padding: 1.5rem 0 3rem;
+      border-right: 0;
+    }
+  }
+</style>

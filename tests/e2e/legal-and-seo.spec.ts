@@ -40,7 +40,7 @@ test('publishes crawl and answer-engine discovery files', async ({ request }) =>
   expect(llmsResponse.ok()).toBeTruthy();
   const llms = await llmsResponse.text();
   expect(llms).toContain('# Alomat LLC');
-  for (const path of ['/agent-systems', '/multilingual-ai', '/full-stack-ai-products', '/about', '/faq']) {
+  for (const path of ['/platform', '/agent-systems', '/multilingual-ai', '/full-stack-ai-products', '/about', '/faq']) {
     expect(llms).toContain(`https://alomattech.com${path}`);
   }
 
@@ -57,6 +57,7 @@ test('generated sitemap contains every canonical public route', async ({ request
   const sitemap = await (await request.get('/sitemap-0.xml')).text();
   for (const path of [
     '/',
+    '/platform/',
     '/agent-systems/',
     '/multilingual-ai/',
     '/full-stack-ai-products/',

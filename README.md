@@ -1,11 +1,11 @@
 # Alomat LLC Website
 
-The official public website for Alomat LLC, an intelligent systems studio focused on agent systems, language technologies, and full-stack AI products.
+The official public website for Alomat LLC, a managed agentic publishing platform that turns trusted sources into publish-ready content through source intelligence, editorial memory, specialist agents, and human approval.
 
 ## Content principles
 
 - Describe real team experience without presenting former workplaces as Alomat clients.
-- Do not publish unverified formation, customer, partnership, funding, or performance claims.
+- Keep the active publisher customer anonymous and do not publish unverified customer counts, partnership, funding, or performance claims.
 - Keep the initial release tracker-free and form-free.
 - Use `hello@alomattech.com` as the primary conversation channel.
 

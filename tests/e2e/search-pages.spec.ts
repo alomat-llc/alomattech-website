@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 const publicPages = [
+  { path: '/platform', title: /Agentic Publishing Platform/, h1: /One operating layer for modern publishing/ },
   { path: '/agent-systems', title: /AI Agent Systems Engineering/, h1: /AI agent systems built/ },
   { path: '/multilingual-ai', title: /Multilingual AI and Language Technology/, h1: /Multilingual AI that listens/ },
   { path: '/full-stack-ai-products', title: /Full-Stack AI Product Engineering/, h1: /Full-stack AI products/ },
@@ -39,6 +40,19 @@ test('home publishes stable Organization and WebSite entities', async ({ page })
   expect(entities.find((entity) => entity['@type'] === 'Organization')['@id']).toBe(
     'https://alomattech.com/#organization',
   );
+});
+
+test('platform page publishes visible SoftwareApplication data', async ({ page }) => {
+  await page.goto('/platform');
+  const entities = await page.locator('script[type="application/ld+json"]').evaluateAll(
+    (scripts) => scripts.map((script) => JSON.parse(script.textContent ?? '{}')),
+  );
+  const product = entities.find((entity) => entity['@type'] === 'SoftwareApplication');
+
+  expect(product?.name).toBe('Alomat Agentic Publishing Platform');
+  expect(product?.applicationCategory).toBe('BusinessApplication');
+  expect(product).not.toHaveProperty('aggregateRating');
+  expect(product).not.toHaveProperty('offers');
 });
 
 test('service pages connect visible content to Service and BreadcrumbList data', async ({ page }) => {
