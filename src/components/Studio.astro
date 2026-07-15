@@ -1,33 +1,94 @@
 ---
-import { experienceNotes } from '../content/site';
+import { deploymentPatterns } from '../content/site';
 ---
 
-<section class="studio section-frame" id="studio" aria-labelledby="studio-title">
+<section class="studio section-frame" aria-labelledby="studio-title">
+  <aside class="production-proof" data-production-proof aria-labelledby="proof-title">
+    <p>Production evidence</p>
+    <h2 id="proof-title">In production with an active digital publisher.</h2>
+    <ul>
+      <li>Live source monitoring</li>
+      <li>Archive-backed editorial memory</li>
+      <li>Specialist agent workflow</li>
+      <li>Human approval before delivery</li>
+    </ul>
+  </aside>
+
+  <div id="deployments" class="deployments">
   <header class="studio-heading">
-    <p>Studio perspective</p>
-    <h2 id="studio-title">Experience across voice, language, and product.</h2>
+    <p>Deployment patterns</p>
+    <h2 id="studio-title">Built from live publishing workflows, not a prompt demo.</h2>
     <p class="studio-lede">
-      Our team's experience spans the layers intelligent products depend on—from data and models to interfaces and operations.
+      Three operating patterns shaped the platform. Customer identity and operational details remain private.
     </p>
   </header>
 
   <div class="experience-list">
     {
-      experienceNotes.map((note, index) => (
+      deploymentPatterns.map((note, index) => (
         <article>
           <span>{String(index + 1).padStart(2, '0')}</span>
           <p class="experience-label">{note.label}</p>
           <h3>{note.title}</h3>
           <p>{note.description}</p>
+          <ul aria-label={`${note.title} evidence`}>
+            {note.evidence.map((item) => <li>{item}</li>)}
+          </ul>
         </article>
       ))
     }
+  </div>
   </div>
 </section>
 
 <style>
   .section-frame {
     padding: var(--section-space) var(--gutter);
+  }
+
+  .production-proof {
+    display: grid;
+    grid-template-columns: 0.45fr 1.05fr 1fr;
+    gap: clamp(1.5rem, 4vw, 5rem);
+    align-items: start;
+    margin-bottom: var(--section-space);
+    padding: clamp(2rem, 4vw, 4rem);
+    border: 1px solid var(--ink);
+    background: var(--signal);
+  }
+
+  .production-proof > p {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 850;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .production-proof h2 {
+    max-width: 13ch;
+    margin: 0;
+    font-size: clamp(2.2rem, 4.8vw, 5.25rem);
+    font-weight: 560;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .production-proof ul,
+  .experience-list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .production-proof li,
+  .experience-list li {
+    padding: 0.65rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 45%, transparent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .studio-heading {
@@ -111,11 +172,20 @@ import { experienceNotes } from '../content/site';
 
   .experience-list article > p:last-child {
     max-width: 31rem;
-    margin: auto 0 0;
+    margin: 2rem 0 0;
     color: var(--muted);
   }
 
+  .experience-list article > ul {
+    margin-top: auto;
+    padding-top: 2rem;
+  }
+
   @media (max-width: 900px) {
+    .production-proof {
+      grid-template-columns: 1fr;
+    }
+
     .studio-heading {
       grid-template-columns: 1fr;
       align-items: start;
@@ -127,7 +197,7 @@ import { experienceNotes } from '../content/site';
 
     .experience-list article,
     .experience-list article + article {
-      min-height: 28rem;
+      min-height: 31rem;
       padding: 1.5rem 0 2.5rem;
       border-right: 0;
       border-bottom: 1px solid var(--line);

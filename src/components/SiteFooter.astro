@@ -2,17 +2,19 @@
 import { site } from '../content/site';
 
 const year = new Date().getFullYear();
+const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 ---
 
 <footer class="site-footer">
   <div class="footer-mark" aria-hidden="true">.a</div>
   <div class="footer-contact">
-    <p>Have a system worth building?</p>
-    <a href={`mailto:${site.email}`}>{site.email}</a>
+    <p>Ready to test one workflow?</p>
+    <a href={pilotHref}>{site.email}</a>
   </div>
   <nav class="footer-links" aria-label="Footer">
     <a href="/about">About</a>
     <a href="/faq">FAQ</a>
+    <a href="/platform">Platform</a>
     <a href="/privacy">Privacy</a>
     <a href="/terms">Terms</a>
     <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>

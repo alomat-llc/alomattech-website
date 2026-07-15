@@ -1,11 +1,13 @@
 ---
 import { site } from '../content/site';
+
+const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 ---
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-meta hero-reveal">
     <span>Alomat LLC</span>
-    <span>Intelligent systems studio</span>
+    <span>{site.category}</span>
   </div>
 
   <div class="hero-copy">
@@ -13,8 +15,8 @@ import { site } from '../content/site';
     <h1 class="hero-reveal" id="hero-title">{site.tagline}</h1>
     <div class="hero-intro hero-reveal">
       <p>{site.description}</p>
-      <a class="text-link" href={`mailto:${site.email}`}>
-        <span>Start a conversation</span>
+      <a class="text-link" href={pilotHref}>
+        <span>Request a managed pilot</span>
         <svg viewBox="0 0 40 16" aria-hidden="true">
           <path d="M0 8h37M31 2l6 6-6 6"></path>
         </svg>
@@ -35,28 +37,36 @@ import { site } from '../content/site';
       </g>
       <path
         class="signal-path signal-path-muted"
-        d="M72 442C180 442 178 282 278 282S390 122 502 122s102 320 210 320h160"
+        d="M72 442C148 442 156 282 232 282S316 122 392 122s84 160 160 160 84 160 160 160 84-160 160-160"
       ></path>
       <path
         class="signal-path signal-path-active"
         pathLength="1"
-        d="M72 442C180 442 178 282 278 282S390 122 502 122s102 320 210 320h160"
+        d="M72 442C148 442 156 282 232 282S316 122 392 122s84 160 160 160 84 160 160 160 84-160 160-160"
       ></path>
       <g class="signal-node node-a" transform="translate(72 442)">
         <circle r="8"></circle>
-        <text x="-4" y="-24">INPUT</text>
+        <text x="-4" y="-24">SOURCE</text>
       </g>
-      <g class="signal-node node-b" transform="translate(278 282)">
+      <g class="signal-node node-b" transform="translate(232 282)">
         <circle r="8"></circle>
-        <text x="-4" y="-24">CONTEXT</text>
+        <text x="-4" y="-24">VERIFY</text>
       </g>
-      <g class="signal-node node-c" transform="translate(502 122)">
+      <g class="signal-node node-c" transform="translate(392 122)">
         <circle r="8"></circle>
-        <text x="-4" y="-24">HARNESS</text>
+        <text x="-4" y="-24">MEMORY</text>
       </g>
-      <g class="signal-node node-d" transform="translate(712 442)">
+      <g class="signal-node node-d" transform="translate(552 282)">
         <circle r="8"></circle>
-        <text x="-4" y="-24">SYSTEM</text>
+        <text x="-4" y="-24">COMPOSE</text>
+      </g>
+      <g class="signal-node node-e" transform="translate(712 442)">
+        <circle r="8"></circle>
+        <text x="-4" y="-24">REVIEW</text>
+      </g>
+      <g class="signal-node node-f" transform="translate(872 282)">
+        <circle r="8"></circle>
+        <text x="-76" y="-24">DELIVER</text>
       </g>
       <g class="signal-index">
         <text x="48" y="94">01</text>
@@ -70,7 +80,7 @@ import { site } from '../content/site';
   </div>
 
   <div class="hero-foot hero-reveal">
-    <span>Agents · Context · Orchestration · Cloud</span>
+    <span>Sources · Memory · Agents · Human approval</span>
     <span>Scroll to inspect</span>
   </div>
 </section>
@@ -128,9 +138,9 @@ import { site } from '../content/site';
   }
 
   h1 {
-    max-width: 10ch;
+    max-width: 13ch;
     margin: 0;
-    font-size: clamp(2.8rem, 6vw, 7rem);
+    font-size: clamp(2.7rem, 5.5vw, 6.4rem);
     font-weight: 500;
     letter-spacing: -0.065em;
     line-height: 0.9;
@@ -303,8 +313,8 @@ import { site } from '../content/site';
     }
 
     h1 {
-      max-width: 8ch;
-      font-size: clamp(3.4rem, 16vw, 5.2rem);
+      max-width: 11ch;
+      font-size: clamp(2.75rem, 12.5vw, 4.35rem);
     }
 
     .hero-intro p {

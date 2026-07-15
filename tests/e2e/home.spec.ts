@@ -1,29 +1,40 @@
 import { expect, test } from '@playwright/test';
 
-test('communicates the studio promise and all three capabilities', async ({
+test('communicates the publishing SaaS promise and production boundary', async ({
   page,
 }) => {
   await page.goto('/');
 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Building signals into systems.',
+    'Turn trusted sources into publish-ready content.',
   );
-  for (const name of [
-    'Agent systems',
-    'Language technologies',
-    'Full-stack AI products',
-  ]) {
-    await expect(page.getByRole('heading', { name })).toBeVisible();
-  }
+  await expect(page.locator('[data-production-proof]')).toContainText(
+    'In production with an active digital publisher.',
+  );
+  await expect(page.locator('#product').getByRole('article')).toHaveCount(6);
+  await expect(
+    page.locator('#workflow').locator('[data-approach-step]'),
+  ).toHaveCount(6);
 });
 
-test('offers a direct, correct email conversion', async ({ page }) => {
+test('presents three anonymous deployment patterns', async ({ page }) => {
   await page.goto('/');
 
-  const links = page.getByRole('link', { name: 'Start a conversation' });
-  await expect(links.first()).toHaveAttribute(
+  const deployments = page.locator('#deployments');
+  await expect(deployments.getByRole('article')).toHaveCount(3);
+  await expect(deployments).toContainText('Always-on signal desk');
+  await expect(deployments).not.toContainText(/Xushnudbek|Uzbek|Telegram/i);
+});
+
+test('offers the managed pilot conversion', async ({ page }) => {
+  await page.goto('/');
+
+  const pilot = page
+    .getByRole('link', { name: 'Request a managed pilot' })
+    .first();
+  await expect(pilot).toHaveAttribute(
     'href',
-    'mailto:hello@alomattech.com',
+    'mailto:hello@alomattech.com?subject=Managed%20publishing%20pilot',
   );
 });
 
@@ -35,11 +46,12 @@ test('renders a complete reduced-motion experience', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'reduced');
 });
 
-test('frames Aisha and WordExpert as team experience', async ({ page }) => {
+test('describes managed operation without removing human approval', async ({
+  page,
+}) => {
   await page.goto('/');
 
-  const studio = page.locator('#studio');
-  await expect(studio).toContainText('Aisha');
-  await expect(studio).toContainText('WordExpert');
-  await expect(studio).toContainText("Our team's experience");
+  await expect(page.getByText('Your editorial system, operated with you.')).toBeVisible();
+  await expect(page.locator('main')).toContainText(/human approval/i);
+  await expect(page.locator('main')).not.toContainText(/fully autonomous publishing/i);
 });

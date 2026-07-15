@@ -1,16 +1,16 @@
 ---
-import { capabilities } from '../content/site';
+import { productModules } from '../content/site';
 ---
 
-<section class="capabilities section-frame" id="capabilities" aria-labelledby="capabilities-title">
+<section class="capabilities section-frame" id="product" aria-labelledby="capabilities-title">
   <header class="section-heading">
-    <p>What we build</p>
-    <h2 id="capabilities-title">Intelligence needs a system around it.</h2>
+    <p>The platform</p>
+    <h2 id="capabilities-title">A publishing operation, not another writing prompt.</h2>
   </header>
 
   <div class="capability-list">
     {
-      capabilities.map((capability) => (
+      productModules.map((capability) => (
         <article class="capability">
           <span class="capability-index">{capability.index}</span>
           <h3>{capability.title}</h3>
@@ -18,13 +18,13 @@ import { capabilities } from '../content/site';
           <ul aria-label={`${capability.title} disciplines`}>
             {capability.primitives.map((primitive) => <li>{primitive}</li>)}
           </ul>
-          <a class="capability-link" href={`/${['agent-systems', 'multilingual-ai', 'full-stack-ai-products'][Number(capability.index) - 1]}`}>
-            Explore {capability.title.toLowerCase()} <span aria-hidden="true">↗</span>
-          </a>
         </article>
       ))
     }
   </div>
+  <a class="platform-link" href="/platform">
+    Explore the complete platform <span aria-hidden="true">↗</span>
+  </a>
 </section>
 
 <style>
@@ -72,12 +72,11 @@ import { capabilities } from '../content/site';
     overflow: hidden;
   }
 
-  .capability-link {
-    grid-column: 2;
+  .platform-link {
     display: inline-flex;
     gap: 0.5rem;
     width: fit-content;
-    margin-top: 1.25rem;
+    margin-top: 2rem;
     padding-bottom: 0.2rem;
     border-bottom: 1px solid var(--signal);
     font-size: 0.75rem;

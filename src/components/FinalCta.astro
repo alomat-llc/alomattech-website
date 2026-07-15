@@ -1,12 +1,31 @@
 ---
-import { site } from '../content/site';
+import { managedOffer, site } from '../content/site';
+
+const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 ---
 
+<section class="managed-saas" aria-labelledby="managed-title">
+  <header>
+    <p>Managed SaaS</p>
+    <h2 id="managed-title">Your editorial system, operated with you.</h2>
+    <p>We configure and operate the agent workflow. Your editors keep authority over what moves forward.</p>
+  </header>
+  <div class="managed-grid">
+    {managedOffer.map((item) => (
+      <article>
+        <p>{item.label}</p>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
 <section class="final-cta" aria-labelledby="cta-title">
-  <p>Have a signal worth following?</p>
-  <h2 id="cta-title">Let's build the system around it.</h2>
-  <a href={`mailto:${site.email}`}>
-    <span>Start a conversation</span>
+  <p>Start with one publishing workflow.</p>
+  <h2 id="cta-title">See what your managed editorial operation could become.</h2>
+  <a href={pilotHref}>
+    <span>Request a managed pilot</span>
     <svg viewBox="0 0 120 44" aria-hidden="true">
       <path d="M0 22h115M96 3l19 19-19 19"></path>
     </svg>
@@ -18,6 +37,76 @@ import { site } from '../content/site';
 </section>
 
 <style>
+  .managed-saas {
+    padding: var(--section-space) var(--gutter);
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  .managed-saas > header {
+    display: grid;
+    grid-template-columns: 0.4fr 1.15fr 0.65fr;
+    gap: clamp(1.5rem, 4vw, 5rem);
+    align-items: end;
+    margin-bottom: clamp(4rem, 8vw, 8rem);
+  }
+
+  .managed-saas > header > p:first-child,
+  .managed-grid article > p:first-child {
+    color: var(--signal);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .managed-saas > header > p:first-child,
+  .managed-saas > header > p:last-child {
+    margin: 0;
+  }
+
+  .managed-saas > header > p:last-child,
+  .managed-grid article > p:last-child {
+    color: #bdbdc2;
+  }
+
+  .managed-saas h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: var(--heading);
+    font-weight: 520;
+    letter-spacing: -0.065em;
+    line-height: 0.93;
+  }
+
+  .managed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid #45454d;
+  }
+
+  .managed-grid article {
+    min-height: 23rem;
+    padding: 1.5rem clamp(1.25rem, 3vw, 3rem) 2rem 0;
+    border-right: 1px solid #45454d;
+  }
+
+  .managed-grid article + article {
+    padding-left: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  .managed-grid article:last-child {
+    border-right: 0;
+  }
+
+  .managed-grid h3 {
+    margin: 3rem 0 1.5rem;
+    font-size: clamp(2.2rem, 4vw, 4.3rem);
+    font-weight: 530;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
   .final-cta {
     padding: var(--section-space) var(--gutter);
     border-top: 1px solid var(--ink);
@@ -80,5 +169,20 @@ import { site } from '../content/site';
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 800px) {
+    .managed-saas > header,
+    .managed-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .managed-grid article,
+    .managed-grid article + article {
+      min-height: auto;
+      padding: 1.5rem 0 3rem;
+      border-right: 0;
+      border-bottom: 1px solid #45454d;
+    }
   }
 </style>

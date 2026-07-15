@@ -24,7 +24,7 @@ test('mobile hero keeps its primary conversion in the first viewport', async ({
 
   const heroCta = page
     .locator('.hero')
-    .getByRole('link', { name: 'Start a conversation' });
+    .getByRole('link', { name: 'Request a managed pilot' });
   const box = await heroCta.boundingBox();
 
   expect(box).not.toBeNull();
@@ -50,7 +50,7 @@ test('reduced motion keeps every approach step at full contrast', async ({
     steps.map((step) => getComputedStyle(step).opacity),
   );
 
-  expect(opacities).toEqual(['1', '1', '1', '1']);
+  expect(opacities).toEqual(['1', '1', '1', '1', '1', '1']);
 });
 
 test('small labels and approach copy meet WCAG AA contrast', async ({ page }) => {

@@ -1,11 +1,11 @@
 ---
-import { approachSteps } from '../content/site';
+import { publishingWorkflow } from '../content/site';
 ---
 
-<section class="approach" id="approach" aria-labelledby="approach-title" data-approach>
+<section class="approach" id="workflow" aria-labelledby="approach-title" data-approach>
   <div class="approach-intro">
-    <p>How we work</p>
-    <h2 id="approach-title">The model is one component. The system is the product.</h2>
+    <p>How it runs</p>
+    <h2 id="approach-title">From source signal to an accountable editorial decision.</h2>
     <div class="approach-signal" aria-hidden="true">
       <span></span>
     </div>
@@ -13,7 +13,7 @@ import { approachSteps } from '../content/site';
 
   <ol class="approach-steps">
     {
-      approachSteps.map((step) => (
+      publishingWorkflow.map((step) => (
         <li data-approach-step>
           <span>{step.index}</span>
           <div>

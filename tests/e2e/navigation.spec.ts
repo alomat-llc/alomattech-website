@@ -22,7 +22,9 @@ test('mobile navigation is keyboard and pointer operable', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Open navigation' });
   await toggle.click();
 
-  await expect(page.getByRole('link', { name: 'Capabilities' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Product' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Workflow' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Deployments' })).toBeVisible();
   const closeToggle = page.getByRole('button', { name: 'Close navigation' });
   await expect(closeToggle).toHaveAttribute('aria-expanded', 'true');
 

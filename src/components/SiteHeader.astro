@@ -1,5 +1,7 @@
 ---
 import { navigation, site } from '../content/site';
+
+const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 ---
 
 <header class="site-header" data-site-header>
@@ -32,7 +34,7 @@ import { navigation, site } from '../content/site';
         ))
       }
     </div>
-    <a class="header-cta" href={`mailto:${site.email}`}>Start a conversation</a>
+    <a class="header-cta" href={pilotHref}>Request a managed pilot</a>
   </nav>
 </header>
 
