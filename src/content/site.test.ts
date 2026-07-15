@@ -13,6 +13,7 @@ describe('site content contract', () => {
     expect(site.name).toBe('Alomat LLC');
     expect(site.tagline).toBe('Building signals into systems.');
     expect(site.email).toBe('hello@alomattech.com');
+    expect(site.github).toBe('https://github.com/alomat-llc/alomattech-website');
   });
 
   it('defines exactly three canonical capabilities', () => {

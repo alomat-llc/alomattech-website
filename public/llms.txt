@@ -18,6 +18,6 @@ Primary contact: hello@alomattech.com
 ## Public profiles
 
 - LinkedIn: https://www.linkedin.com/company/alomat-llc/
-- GitHub: https://github.com/habibsalimov/alomattech-website
+- GitHub: https://github.com/alomat-llc/alomattech-website
 
 The website is the canonical source for Alomat's public capability and company information. Former-workplace references describe team experience and do not identify Alomat customers or partners.

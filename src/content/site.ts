@@ -51,7 +51,7 @@ export const site = {
   email: 'hello@alomattech.com',
   founderEmail: 'habib@alomattech.com',
   linkedin: 'https://www.linkedin.com/company/alomat-llc/',
-  github: 'https://github.com/habibsalimov/alomattech-website',
+  github: 'https://github.com/alomat-llc/alomattech-website',
   markets: ['United States', 'Global'],
 } as const;
 
