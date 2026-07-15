@@ -85,6 +85,26 @@ Pre-deployment verification completed with:
 - `npm run test:e2e` — 68/68 desktop and mobile tests passed against the
   production preview
 
+## Production deployment
+
+The verified static output from website commit
+`c7c44c639c4f188fd15770eef8bebfdc49438607` was released to the existing
+Cloudflare Pages project `alomattech` as a `main` production deployment.
+
+- Deployment ID: `bf7e79e6-e1bd-4813-a133-02a60a6d28a3`
+- Immutable deployment URL: `https://bf7e79e6.alomattech.pages.dev`
+- Canonical production URL: `https://alomattech.com`
+
+The Pages project currently has no Git connection, so the release used a
+direct Wrangler upload of the already verified `dist` output. No DNS records,
+mail records, or AWS resources were changed.
+
+Post-deployment verification confirmed the new production copy and anonymous
+claim boundary on `/`, `/platform`, `/about`, and `/faq`. It also confirmed the
+platform route in `llms.txt` and `sitemap-0.xml`. The production homepage and
+platform page were visually inspected in the in-app browser after Cloudflare
+edge propagation completed.
+
 ## External profile narrative
 
 LinkedIn uses the tagline:
@@ -99,3 +119,11 @@ GitHub uses the organization description:
 
 Both profiles link to `https://alomattech.com` and maintain the same anonymous,
 factual production boundary as the website.
+
+The public LinkedIn company page also exposes the aligned product specialties:
+Agentic publishing, Source intelligence, Editorial memory, Human-in-the-loop
+AI, Content operations, and Workflow evaluation.
+
+The GitHub organization profile was published in `alomat-llc/.github` at commit
+`55dd37f`. The website repository description, homepage, and topic labels were
+updated to match the managed agentic publishing SaaS narrative.
