@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2256" height="382" viewBox="0 0 2256 382">
+  <rect width="2256" height="382" fill="#F2F2F0"/>
+
+  <g transform="translate(92 64)">
+    <text x="0" y="126" fill="#111118" font-family="Arial, Helvetica, sans-serif"
+          font-size="142" font-weight="800" letter-spacing="-9">.alomat</text>
+    <text x="8" y="193" fill="#111118" font-family="Arial, Helvetica, sans-serif"
+          font-size="31" font-weight="700" letter-spacing="11">ALOMAT LLC</text>
+    <circle cx="9" cy="246" r="7" fill="#EF654E"/>
+    <line x1="30" y1="246" x2="600" y2="246" stroke="#111118" stroke-width="3"/>
+    <text x="624" y="255" fill="#70706E" font-family="Arial, Helvetica, sans-serif"
+          font-size="22" font-weight="600" letter-spacing="5">BUILDING SIGNALS INTO SYSTEMS</text>
+  </g>
+
+  <g transform="translate(1435 73)">
+    <circle cx="0" cy="10" r="7" fill="#EF654E"/>
+    <text x="28" y="20" fill="#111118" font-family="Arial, Helvetica, sans-serif"
+          font-size="29" font-weight="700" letter-spacing="3">FULL-STACK AI PRODUCTS</text>
+    <circle cx="0" cy="88" r="7" fill="#EF654E"/>
+    <text x="28" y="98" fill="#111118" font-family="Arial, Helvetica, sans-serif"
+          font-size="29" font-weight="700" letter-spacing="3">AGENT SYSTEMS</text>
+    <circle cx="0" cy="166" r="7" fill="#EF654E"/>
+    <text x="28" y="176" fill="#111118" font-family="Arial, Helvetica, sans-serif"
+          font-size="29" font-weight="700" letter-spacing="3">LANGUAGE TECHNOLOGIES</text>
+    <line x1="0" y1="230" x2="710" y2="230" stroke="#D6D6D2" stroke-width="3"/>
+    <text x="0" y="270" fill="#70706E" font-family="Arial, Helvetica, sans-serif"
+          font-size="20" font-weight="600" letter-spacing="4">AGENTS · CONTEXT · ORCHESTRATION · CLOUD</text>
+  </g>
+</svg>
