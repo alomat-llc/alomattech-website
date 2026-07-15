@@ -3,7 +3,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { faqItems, site } from '../content/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const description = 'Direct answers about Alomat LLC, AI agent systems, multilingual AI, full-stack AI product engineering, delivery, markets, and contact.';
+const description = 'Direct answers about the Alomat managed agentic publishing platform, editorial memory, human review, sources, formats, production use, global delivery, and managed pilots.';
 const faqData = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -17,13 +17,13 @@ const faqData = {
 };
 ---
 
-<BaseLayout title="AI Engineering FAQ — Alomat LLC" description={description} pathname="/faq" structuredData={[faqData]}>
+<BaseLayout title="Agentic Publishing Platform FAQ — Alomat LLC" description={description} pathname="/faq" structuredData={[faqData]}>
   <article class="editorial-page faq-page">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'FAQ' }]} />
     <header class="editorial-hero">
-      <p>Answers / 01–07</p>
-      <h1>Questions about working with Alomat.</h1>
-      <p class="direct-answer">These concise answers explain what Alomat builds, how the studio approaches AI engineering, which markets it serves, and how a product team can begin a conversation.</p>
+      <p>Answers / 01–08</p>
+      <h1>Questions about the Alomat publishing platform.</h1>
+      <p class="direct-answer">These answers explain how the managed platform handles sources, editorial memory, specialist agents, human approval, production boundaries, and a first pilot.</p>
     </header>
     <div class="faq-list">
       {faqItems.map((item, index) => <section data-faq-item><span>0{index + 1}</span><div><h2>{item.question}</h2><p>{item.answer}</p></div></section>)}

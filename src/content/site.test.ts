@@ -129,6 +129,27 @@ describe('site content contract', () => {
     }
   });
 
+  it('answers managed publishing buyer questions', () => {
+    const questions = faqItems.map(({ question }) => question);
+    expect(questions).toEqual(
+      expect.arrayContaining([
+        'What does the Alomat publishing platform do?',
+        'What does managed SaaS mean at Alomat?',
+        'Does a human approve content before delivery?',
+        'How does editorial memory work?',
+        'How does a managed pilot begin?',
+      ]),
+    );
+  });
+
+  it('positions technical pages as platform foundations', () => {
+    const copy = JSON.stringify(servicePages);
+    expect(copy).toMatch(/publishing platform/i);
+    expect(copy).not.toMatch(
+      /general software agency|custom software for any industry/i,
+    );
+  });
+
   it('keeps search content inside the verified claim boundary', () => {
     const copy = JSON.stringify({ servicePages, faqItems, site });
     expect(copy).not.toMatch(

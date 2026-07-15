@@ -3,7 +3,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { experienceNotes, site } from '../content/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const description = 'Learn how Alomat LLC approaches AI agent systems, multilingual technology, and full-stack AI product engineering for US and global teams.';
+const description = 'Learn how Alomat LLC builds and operates a managed agentic publishing platform around source intelligence, editorial memory, specialist agents, human approval, and dependable product engineering.';
 const aboutData = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
@@ -15,19 +15,20 @@ const aboutData = {
 };
 ---
 
-<BaseLayout title="About Alomat LLC — Intelligent Systems Studio" description={description} pathname="/about" structuredData={[aboutData]}>
+<BaseLayout title="About Alomat LLC — Agentic Publishing Platform" description={description} pathname="/about" structuredData={[aboutData]}>
   <article class="editorial-page about-page">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
     <header class="editorial-hero">
       <p>Company / Alomat LLC</p>
-      <h1>About Alomat: building signals into systems.</h1>
-      <p class="direct-answer">Alomat LLC is an intelligent systems studio that builds AI agent systems, multilingual language technologies, and full-stack AI products for product teams serving the United States and global markets.</p>
+      <h1>About Alomat: publishing operations built around editorial judgment.</h1>
+      <p class="direct-answer">Alomat LLC builds and operates a managed agentic publishing platform for global digital publishers, combining source intelligence, editorial memory, specialist agents, and accountable human approval.</p>
     </header>
     <section class="editorial-section" aria-labelledby="principles-title">
-      <h2 id="principles-title">How we think about intelligent products</h2>
+      <h2 id="principles-title">How we think about publishing systems</h2>
       <div class="prose-block">
-        <p>Models are components inside a larger operating system. Useful products also need clear interfaces, dependable software, context, tools, evaluations, observability, and accountable human decisions.</p>
-        <p>Alomat starts with the work a system must understand and perform. We then define where probabilistic models help, where deterministic software should lead, and how the complete product can be observed and improved.</p>
+        <p>Models are components inside a larger publishing operation. Useful products also need approved sources, dependable software, editorial context, tools, evaluations, observability, and accountable human decisions.</p>
+        <p>Alomat starts with the editorial work a system must understand and perform. We then define where probabilistic models help, where deterministic software should lead, and how the complete workflow can be observed and improved.</p>
+        <p>The operating patterns behind Alomat are already used with an active digital publisher. The customer remains private; the product evidence is a live workflow with source monitoring, archive-backed context, specialist stages, and human approval.</p>
       </div>
     </section>
     <section class="editorial-section" aria-labelledby="experience-title">

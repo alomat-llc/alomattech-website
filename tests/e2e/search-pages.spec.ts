@@ -6,7 +6,7 @@ const publicPages = [
   { path: '/multilingual-ai', title: /Multilingual AI and Language Technology/, h1: /Multilingual AI that listens/ },
   { path: '/full-stack-ai-products', title: /Full-Stack AI Product Engineering/, h1: /Full-stack AI products/ },
   { path: '/about', title: /About Alomat LLC/, h1: /About Alomat/ },
-  { path: '/faq', title: /AI Engineering FAQ/, h1: /Questions about working with Alomat/ },
+  { path: '/faq', title: /Agentic Publishing Platform FAQ/, h1: /Questions about the Alomat publishing platform/ },
 ] as const;
 
 for (const entry of publicPages) {
@@ -70,6 +70,20 @@ test('service pages connect visible content to Service and BreadcrumbList data',
   expect(entities.find((entity) => entity['@type'] === 'Service').provider['@id']).toBe(
     'https://alomattech.com/#organization',
   );
+  await expect(page.getByRole('link', { name: 'See the publishing platform' })).toHaveAttribute(
+    'href',
+    '/platform',
+  );
+});
+
+test('about presents Alomat as a production-backed product company', async ({ page }) => {
+  await page.goto('/about');
+
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'About Alomat: publishing operations built around editorial judgment.',
+  );
+  await expect(page.locator('main')).toContainText(/managed agentic publishing platform/i);
+  await expect(page.locator('main')).toContainText(/active digital publisher/i);
 });
 
 test('FAQ schema mirrors every visible question and answer', async ({ page }) => {

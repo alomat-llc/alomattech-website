@@ -6,6 +6,7 @@ import Breadcrumbs from './Breadcrumbs.astro';
 
 interface Props { readonly service: ServicePageRecord }
 const { service } = Astro.props;
+const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 const pathname = `/${service.slug}`;
 const serviceData = {
   '@context': 'https://schema.org',
@@ -44,8 +45,14 @@ const related = service.relatedSlugs.map((slug) => servicePages.find((item) => i
     </section>
 
     <section class="editorial-section" aria-labelledby="deliverables-title">
-      <h2 id="deliverables-title">What Alomat can build</h2>
+      <h2 id="deliverables-title">How this supports the platform</h2>
       <ul class="deliverable-grid">{service.deliverables.map((deliverable) => <li>{deliverable}</li>)}</ul>
+    </section>
+
+    <section class="platform-bridge" aria-labelledby="platform-bridge-title">
+      <p>One product / Connected foundations</p>
+      <h2 id="platform-bridge-title">This capability operates inside the Alomat publishing platform.</h2>
+      <a href="/platform">See the publishing platform</a>
     </section>
 
     <section class="editorial-section" aria-labelledby="process-title">
@@ -59,9 +66,59 @@ const related = service.relatedSlugs.map((slug) => servicePages.find((item) => i
     </section>
 
     <section class="page-cta" aria-labelledby="service-cta-title">
-      <p>Start with the operational question.</p>
-      <h2 id="service-cta-title">Build a system your team can use and improve.</h2>
-      <a href={`mailto:${site.email}`}>Start a conversation</a>
+      <p>Start with one publishing workflow.</p>
+      <h2 id="service-cta-title">Put this foundation to work inside a managed editorial operation.</h2>
+      <a href={pilotHref}>Request a managed pilot</a>
     </section>
   </article>
 </BaseLayout>
+
+<style>
+  .platform-bridge {
+    display: grid;
+    grid-template-columns: 0.45fr 1fr auto;
+    gap: clamp(1.5rem, 4vw, 5rem);
+    align-items: end;
+    padding: clamp(3rem, 6vw, 6rem) 0;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .platform-bridge > p {
+    margin: 0;
+    color: var(--signal-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .platform-bridge h2 {
+    max-width: 15ch;
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 4.5rem);
+    font-weight: 550;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .platform-bridge a {
+    display: inline-block;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--ink);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .platform-bridge {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .platform-bridge a {
+      width: fit-content;
+    }
+  }
+</style>
