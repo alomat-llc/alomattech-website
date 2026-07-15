@@ -233,7 +233,6 @@ svg {
   }
 
   .nav-toggle {
-    display: grid;
     grid-column: 2;
     justify-self: end;
     width: 44px;
@@ -244,6 +243,10 @@ svg {
     place-content: center;
     gap: 0.4rem;
     cursor: pointer;
+  }
+
+  html[data-js="enabled"] .nav-toggle {
+    display: grid;
   }
 
   .nav-toggle span {
@@ -272,15 +275,19 @@ svg {
     padding: 2rem var(--gutter) 2.5rem;
     border-bottom: 1px solid var(--ink);
     background: var(--canvas);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-0.75rem);
+    opacity: 1;
     transition:
       opacity 180ms var(--ease-out),
       transform 180ms var(--ease-out);
   }
 
-  .site-header[data-open="true"] .primary-navigation {
+  html[data-js="enabled"] .primary-navigation {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.75rem);
+  }
+
+  html[data-js="enabled"] .site-header[data-open="true"] .primary-navigation {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);

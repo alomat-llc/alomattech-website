@@ -66,6 +66,7 @@ const organizationData = {
       )
     }
     <script is:inline>
+      document.documentElement.dataset.js = 'enabled';
       document.documentElement.dataset.motion = window.matchMedia(
         '(prefers-reduced-motion: reduce)',
       ).matches
