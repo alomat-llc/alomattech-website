@@ -116,13 +116,16 @@ import { approachSteps } from '../content/site';
     min-height: clamp(16rem, 32vh, 24rem);
     padding: 1.75rem 0 4rem;
     border-top: 1px solid #3b3b42;
-    opacity: 0.48;
-    transition: opacity 400ms var(--ease-out);
+    opacity: 1;
+    transition: transform 400ms var(--ease-out);
   }
 
-  .approach-steps li[data-active='true'],
-  .approach-steps li:hover {
-    opacity: 1;
+  :global(html[data-motion='full']) .approach-steps li {
+    transform: translateX(0);
+  }
+
+  .approach-steps li[data-active='true'] {
+    transform: translateX(0.5rem);
   }
 
   .approach-steps li > span {
