@@ -51,6 +51,7 @@ test('describes managed operation without removing human approval', async ({
 }) => {
   await page.goto('/');
 
+  await expect(page.locator('#managed-saas')).toBeVisible();
   await expect(page.getByText('Your editorial system, operated with you.')).toBeVisible();
   await expect(page.locator('main')).toContainText(/human approval/i);
   await expect(page.locator('main')).not.toContainText(/fully autonomous publishing/i);
