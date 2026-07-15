@@ -38,6 +38,19 @@ test('offers the managed pilot conversion', async ({ page }) => {
   );
 });
 
+test('links the homepage hero to the canonical platform page', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  const platformCta = page
+    .locator('.hero')
+    .getByRole('link', { name: 'Explore the platform' });
+
+  await expect(platformCta).toBeVisible();
+  await expect(platformCta).toHaveAttribute('href', '/platform');
+});
+
 test('renders a complete reduced-motion experience', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');

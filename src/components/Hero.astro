@@ -15,12 +15,15 @@ const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotS
     <h1 class="hero-reveal" id="hero-title">{site.tagline}</h1>
     <div class="hero-intro hero-reveal">
       <p>{site.description}</p>
-      <a class="text-link" href={pilotHref}>
-        <span>Request a managed pilot</span>
-        <svg viewBox="0 0 40 16" aria-hidden="true">
-          <path d="M0 8h37M31 2l6 6-6 6"></path>
-        </svg>
-      </a>
+      <div class="hero-actions">
+        <a class="text-link" href={pilotHref}>
+          <span>Request a managed pilot</span>
+          <svg viewBox="0 0 40 16" aria-hidden="true">
+            <path d="M0 8h37M31 2l6 6-6 6"></path>
+          </svg>
+        </a>
+        <a class="platform-cta" href="/platform">Explore the platform</a>
+      </div>
     </div>
   </div>
 
@@ -158,6 +161,13 @@ const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotS
     font-size: clamp(1rem, 1.4vw, 1.25rem);
   }
 
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.1rem;
+    align-items: center;
+  }
+
   .text-link {
     display: inline-flex;
     gap: 1rem;
@@ -183,6 +193,28 @@ const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotS
   .text-link:hover svg,
   .text-link:focus-visible svg {
     transform: translateX(0.4rem);
+  }
+
+  .platform-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--ink);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition:
+      background 180ms var(--ease-out),
+      color 180ms var(--ease-out);
+  }
+
+  .platform-cta:hover,
+  .platform-cta:focus-visible {
+    background: var(--ink);
+    color: var(--canvas);
   }
 
   .signal-wrap {
@@ -320,6 +352,14 @@ const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotS
     .hero-intro p {
       max-width: 22rem;
       margin-bottom: 1.1rem;
+    }
+
+    .hero-actions {
+      align-items: stretch;
+    }
+
+    .platform-cta {
+      flex: 1 1 100%;
     }
 
     .hero-foot {
