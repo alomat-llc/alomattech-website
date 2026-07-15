@@ -3,6 +3,8 @@ import {
   approachSteps,
   capabilities,
   experienceNotes,
+  faqItems,
+  servicePages,
   site,
 } from './site';
 
@@ -47,6 +49,44 @@ describe('site content contract', () => {
     });
     expect(copy).not.toMatch(
       /registered in new mexico|formation approved|incorporated on/i,
+    );
+  });
+
+  it('defines the three canonical search service pages', () => {
+    expect(servicePages.map(({ slug }) => slug)).toEqual([
+      'agent-systems',
+      'multilingual-ai',
+      'full-stack-ai-products',
+    ]);
+  });
+
+  it('gives every service unique metadata and complete buyer-facing sections', () => {
+    expect(new Set(servicePages.map(({ seoTitle }) => seoTitle)).size).toBe(3);
+    expect(new Set(servicePages.map(({ description }) => description)).size).toBe(3);
+
+    for (const service of servicePages) {
+      expect(service.seoTitle.length).toBeGreaterThan(25);
+      expect(service.description.length).toBeGreaterThan(80);
+      expect(service.definition.length).toBeGreaterThan(80);
+      expect(service.outcomes.length).toBeGreaterThanOrEqual(3);
+      expect(service.deliverables.length).toBeGreaterThanOrEqual(4);
+      expect(service.process.length).toBe(4);
+      expect(service.relatedSlugs.length).toBe(2);
+    }
+  });
+
+  it('publishes direct answers for common buyer and reviewer questions', () => {
+    expect(faqItems.length).toBeGreaterThanOrEqual(6);
+    for (const item of faqItems) {
+      expect(item.question).toMatch(/\?$/);
+      expect(item.answer.length).toBeGreaterThan(70);
+    }
+  });
+
+  it('keeps search content inside the verified claim boundary', () => {
+    const copy = JSON.stringify({ servicePages, faqItems, site });
+    expect(copy).not.toMatch(
+      /our clients|trusted by|award-winning|guaranteed|us-based|headquartered|founded in|employees|five-star/i,
     );
   });
 });
