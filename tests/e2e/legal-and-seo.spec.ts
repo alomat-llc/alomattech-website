@@ -21,11 +21,50 @@ test('publishes crawl and organization trust signals', async ({
 
   const organizationData = await page
     .locator('script[type="application/ld+json"]')
+    .filter({ hasText: 'Organization' })
     .textContent();
   expect(organizationData).toContain('hello@alomattech.com');
   expect((await request.get('/robots.txt')).ok()).toBeTruthy();
   expect((await request.get('/sitemap-index.xml')).ok()).toBeTruthy();
   expect((await request.get('/favicon.svg')).ok()).toBeTruthy();
+});
+
+test('publishes crawl and answer-engine discovery files', async ({ request }) => {
+  const robots = await (await request.get('/robots.txt')).text();
+  expect(robots).toContain('Sitemap: https://alomattech.com/sitemap-index.xml');
+
+  const llmsResponse = await request.get('/llms.txt');
+  expect(llmsResponse.ok()).toBeTruthy();
+  const llms = await llmsResponse.text();
+  expect(llms).toContain('# Alomat LLC');
+  for (const path of ['/agent-systems', '/multilingual-ai', '/full-stack-ai-products', '/about', '/faq']) {
+    expect(llms).toContain(`https://alomattech.com${path}`);
+  }
+
+  const manifestResponse = await request.get('/manifest.webmanifest');
+  expect(manifestResponse.ok()).toBeTruthy();
+  const manifest = await manifestResponse.json();
+  expect(manifest.name).toBe('Alomat LLC');
+  expect(manifest.start_url).toBe('/');
+});
+
+test('generated sitemap contains every canonical public route', async ({ request }) => {
+  const index = await (await request.get('/sitemap-index.xml')).text();
+  expect(index).toContain('https://alomattech.com/sitemap-0.xml');
+  const sitemap = await (await request.get('/sitemap-0.xml')).text();
+  for (const path of [
+    '/',
+    '/agent-systems/',
+    '/multilingual-ai/',
+    '/full-stack-ai-products/',
+    '/about/',
+    '/faq/',
+    '/privacy/',
+    '/terms/',
+  ]) {
+    expect(sitemap).toContain(`<loc>https://alomattech.com${path}</loc>`);
+  }
+  expect(sitemap).not.toContain('/404/');
 });
 
 test('privacy disclosure matches the tracker-free release', async ({ page }) => {

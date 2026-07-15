@@ -1,0 +1,17 @@
+{
+  "name": "Alomat LLC",
+  "short_name": "Alomat",
+  "description": "AI agent systems, multilingual technology, and full-stack AI products.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f1f1ee",
+  "theme_color": "#f1f1ee",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

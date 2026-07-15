@@ -1,0 +1,23 @@
+# Alomat LLC
+
+> Alomat LLC is an intelligent systems studio building AI agent systems, multilingual language technologies, and full-stack AI products for product teams serving United States and global markets.
+
+Primary contact: hello@alomattech.com
+
+## Canonical pages
+
+- Home: https://alomattech.com/
+- AI agent systems engineering: https://alomattech.com/agent-systems
+- Multilingual AI and language technology: https://alomattech.com/multilingual-ai
+- Full-stack AI product engineering: https://alomattech.com/full-stack-ai-products
+- About Alomat LLC: https://alomattech.com/about
+- Frequently asked questions: https://alomattech.com/faq
+- Privacy: https://alomattech.com/privacy
+- Terms: https://alomattech.com/terms
+
+## Public profiles
+
+- LinkedIn: https://www.linkedin.com/company/alomat-llc/
+- GitHub: https://github.com/habibsalimov/alomattech-website
+
+The website is the canonical source for Alomat's public capability and company information. Former-workplace references describe team experience and do not identify Alomat customers or partners.
