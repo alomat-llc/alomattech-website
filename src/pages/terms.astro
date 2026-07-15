@@ -1,0 +1,145 @@
+---
+import { site } from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Terms — Alomat LLC"
+  description="Terms for using the Alomat LLC public website."
+  pathname="/terms"
+>
+  <article class="legal-page">
+    <header>
+      <p>Legal / 02</p>
+      <h1>Terms</h1>
+      <p class="updated">Last updated: July 15, 2026</p>
+    </header>
+
+    <div class="legal-body">
+      <section>
+        <h2>Using this site</h2>
+        <p>
+          These terms apply to your use of the Alomat LLC public website. By using the site, you agree to use it lawfully and not to interfere with its operation, security, or availability.
+        </p>
+      </section>
+
+      <section>
+        <h2>Information, not advice</h2>
+        <p>
+          The site provides general information about our capabilities and perspective. It is not legal, financial, security, or professional advice and does not create a client, partnership, employment, or fiduciary relationship.
+        </p>
+      </section>
+
+      <section>
+        <h2>Intellectual property</h2>
+        <p>
+          The site's original text, visual identity, graphics, and software are owned by Alomat LLC or used with permission. You may link to public pages and quote brief portions with attribution. Other reproduction, modification, or commercial use requires written permission.
+        </p>
+      </section>
+
+      <section>
+        <h2>Third-party links</h2>
+        <p>
+          Links to third-party services are provided for convenience. We do not control those services and are not responsible for their content, security, availability, or practices.
+        </p>
+      </section>
+
+      <section>
+        <h2>Availability and warranties</h2>
+        <p>
+          We may change or discontinue parts of the site without notice. The site is provided on an “as available” basis. To the extent permitted by applicable law, we disclaim warranties not expressly stated here and liability for indirect or consequential loss arising from use of the site.
+        </p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>
+          Questions about these terms may be sent to <a href={`mailto:${site.email}`}>{site.email}</a>.
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding: clamp(9rem, 15vw, 14rem) var(--gutter) var(--section-space);
+  }
+
+  .legal-page > header {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+    gap: 1rem 3rem;
+    padding-bottom: clamp(4rem, 8vw, 8rem);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .legal-page header > p:first-child,
+  .updated {
+    margin: 0;
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .legal-page h1 {
+    margin: 0;
+    font-size: clamp(4.5rem, 13vw, 13rem);
+    font-weight: 700;
+    letter-spacing: -0.08em;
+    line-height: 0.74;
+  }
+
+  .updated {
+    grid-column: 2;
+    color: var(--muted);
+  }
+
+  .legal-body {
+    margin-left: 25%;
+  }
+
+  .legal-body section {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.5fr) 1.5fr;
+    gap: 2rem;
+    padding: 2.25rem 0 4rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .legal-body h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 750;
+  }
+
+  .legal-body p {
+    max-width: 48rem;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .legal-body a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-underline-offset: 0.25em;
+  }
+
+  @media (max-width: 760px) {
+    .legal-page > header,
+    .legal-body section {
+      grid-template-columns: 1fr;
+    }
+
+    .updated {
+      grid-column: 1;
+    }
+
+    .legal-body {
+      margin-left: 0;
+    }
+  }
+</style>

@@ -1,0 +1,145 @@
+---
+import { site } from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy — Alomat LLC"
+  description="How the Alomat LLC website handles information and privacy."
+  pathname="/privacy"
+>
+  <article class="legal-page">
+    <header>
+      <p>Legal / 01</p>
+      <h1>Privacy</h1>
+      <p class="updated">Last updated: July 15, 2026</p>
+    </header>
+
+    <div class="legal-body">
+      <section>
+        <h2>Our approach</h2>
+        <p>
+          This website is designed to share general information about Alomat LLC with minimal data collection. It does not use advertising cookies, behavioral analytics, or cross-site tracking technologies.
+        </p>
+      </section>
+
+      <section>
+        <h2>Information you provide</h2>
+        <p>
+          This website does not collect information through forms. If you choose to contact us using an email link, your message is handled by your email provider and ours. We use the information in that message only to respond, continue the conversation, and maintain necessary business records.
+        </p>
+      </section>
+
+      <section>
+        <h2>Technical information</h2>
+        <p>
+          Our hosting provider may process limited technical information—such as an IP address, browser type, request time, and requested page—to deliver the site, maintain security, and diagnose reliability issues. We do not combine that information with advertising profiles.
+        </p>
+      </section>
+
+      <section>
+        <h2>External services</h2>
+        <p>
+          Links to LinkedIn, GitHub, and email services lead to third parties with their own privacy practices. Review their policies before providing information to them.
+        </p>
+      </section>
+
+      <section>
+        <h2>Retention and choices</h2>
+        <p>
+          We retain direct correspondence only as long as reasonably needed for the conversation, legitimate business records, security, or legal obligations. You may ask about information you have sent us by contacting <a href={`mailto:${site.email}`}>{site.email}</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Changes</h2>
+        <p>
+          We may update this notice as the website and our operations develop. The current revision date appears at the top of this page.
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding: clamp(9rem, 15vw, 14rem) var(--gutter) var(--section-space);
+  }
+
+  .legal-page > header {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+    gap: 1rem 3rem;
+    padding-bottom: clamp(4rem, 8vw, 8rem);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .legal-page header > p:first-child,
+  .updated {
+    margin: 0;
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .legal-page h1 {
+    margin: 0;
+    font-size: clamp(4.5rem, 13vw, 13rem);
+    font-weight: 700;
+    letter-spacing: -0.08em;
+    line-height: 0.74;
+  }
+
+  .updated {
+    grid-column: 2;
+    color: var(--muted);
+  }
+
+  .legal-body {
+    margin-left: 25%;
+  }
+
+  .legal-body section {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.5fr) 1.5fr;
+    gap: 2rem;
+    padding: 2.25rem 0 4rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .legal-body h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 750;
+  }
+
+  .legal-body p {
+    max-width: 48rem;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .legal-body a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-underline-offset: 0.25em;
+  }
+
+  @media (max-width: 760px) {
+    .legal-page > header,
+    .legal-body section {
+      grid-template-columns: 1fr;
+    }
+
+    .updated {
+      grid-column: 1;
+    }
+
+    .legal-body {
+      margin-left: 0;
+    }
+  }
+</style>
