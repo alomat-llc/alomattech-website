@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
-  approachSteps,
   capabilities,
+  deploymentPatterns,
   experienceNotes,
   faqItems,
+  managedOffer,
+  navigation,
+  productModules,
+  publishingWorkflow,
   servicePages,
   site,
 } from './site';
@@ -11,9 +15,59 @@ import {
 describe('site content contract', () => {
   it('publishes the canonical Alomat identity', () => {
     expect(site.name).toBe('Alomat LLC');
-    expect(site.tagline).toBe('Building signals into systems.');
     expect(site.email).toBe('hello@alomattech.com');
     expect(site.github).toBe('https://github.com/alomat-llc/alomattech-website');
+  });
+
+  it('publishes the approved managed SaaS positioning', () => {
+    expect(site.category).toBe('Agentic publishing operations platform');
+    expect(site.tagline).toBe('Turn trusted sources into publish-ready content.');
+    expect(site.description).toMatch(/managed agentic publishing platform/i);
+    expect(navigation.map(({ label }) => label)).toEqual([
+      'Product',
+      'Workflow',
+      'Deployments',
+      'About',
+      'FAQ',
+    ]);
+  });
+
+  it('defines the complete source-to-delivery product loop', () => {
+    expect(productModules.map(({ title }) => title)).toEqual([
+      'Source Intelligence',
+      'Editorial Memory',
+      'Agent Workflow',
+      'Content Packaging',
+      'Human Control',
+      'Operations & Evaluation',
+    ]);
+    expect(publishingWorkflow.map(({ title }) => title)).toEqual([
+      'Monitor',
+      'Verify',
+      'Understand',
+      'Produce',
+      'Review',
+      'Learn',
+    ]);
+  });
+
+  it('uses anonymous factual production evidence', () => {
+    const copy = JSON.stringify({ deploymentPatterns, managedOffer });
+    expect(copy).toMatch(/active digital publisher/i);
+    expect(copy).not.toMatch(/xushnudbek|uzbek|telegram|customer logo/i);
+  });
+
+  it('keeps the SaaS claim boundary intact', () => {
+    const copy = JSON.stringify({
+      site,
+      productModules,
+      publishingWorkflow,
+      deploymentPatterns,
+      managedOffer,
+    });
+    expect(copy).not.toMatch(
+      /guaranteed|accuracy rate|customers served|revenue|funded by|official partner|fully autonomous publishing/i,
+    );
   });
 
   it('defines exactly three canonical capabilities', () => {
@@ -21,15 +75,6 @@ describe('site content contract', () => {
       'Agent systems',
       'Language technologies',
       'Full-stack AI products',
-    ]);
-  });
-
-  it('defines the four-stage engineering approach', () => {
-    expect(approachSteps.map(({ title }) => title)).toEqual([
-      'Understand the signal',
-      'Design the system',
-      'Build the harness',
-      'Observe and improve',
     ]);
   });
 
@@ -45,7 +90,7 @@ describe('site content contract', () => {
     const copy = JSON.stringify({
       site,
       capabilities,
-      approachSteps,
+      publishingWorkflow,
       experienceNotes,
     });
     expect(copy).not.toMatch(

@@ -11,6 +11,26 @@ export interface ApproachStep {
   readonly description: string;
 }
 
+export interface ProductModule {
+  readonly index: string;
+  readonly title: string;
+  readonly statement: string;
+  readonly primitives: readonly string[];
+}
+
+export interface DeploymentPattern {
+  readonly label: string;
+  readonly title: string;
+  readonly description: string;
+  readonly evidence: readonly string[];
+}
+
+export interface ManagedOfferItem {
+  readonly label: string;
+  readonly title: string;
+  readonly description: string;
+}
+
 export interface ExperienceNote {
   readonly label: string;
   readonly title: string;
@@ -44,24 +64,155 @@ export interface FaqItem {
 export const site = {
   name: 'Alomat LLC',
   shortName: '.alomat',
-  tagline: 'Building signals into systems.',
+  category: 'Agentic publishing operations platform',
+  tagline: 'Turn trusted sources into publish-ready content.',
   description:
-    'Alomat builds agent systems, language technologies, and full-stack AI products.',
+    'Alomat is a managed agentic publishing platform for global digital publishers, combining source intelligence, editorial memory, specialist agents, and human approval.',
   url: 'https://alomattech.com',
   email: 'hello@alomattech.com',
   founderEmail: 'habib@alomattech.com',
+  pilotSubject: 'Managed publishing pilot',
   linkedin: 'https://www.linkedin.com/company/alomat-llc/',
   github: 'https://github.com/alomat-llc/alomattech-website',
   markets: ['United States', 'Global'],
 } as const;
 
 export const navigation = [
-  { label: 'Capabilities', href: '/#capabilities' },
-  { label: 'Approach', href: '/#approach' },
-  { label: 'Studio', href: '/#studio' },
+  { label: 'Product', href: '/#product' },
+  { label: 'Workflow', href: '/#workflow' },
+  { label: 'Deployments', href: '/#deployments' },
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/faq' },
 ] as const;
+
+export const productModules = [
+  {
+    index: '01',
+    title: 'Source Intelligence',
+    statement:
+      'Monitor approved sources, accept URLs, extract primary material, group related coverage, and keep source failures visible.',
+    primitives: ['Monitoring', 'Extraction', 'Grouping', 'Source trace'],
+  },
+  {
+    index: '02',
+    title: 'Editorial Memory',
+    statement:
+      'Retrieve archive-backed style, topic context, duplicate signals, and publisher-specific rules before drafting begins.',
+    primitives: ['Archive retrieval', 'Style memory', 'Context', 'Deduplication'],
+  },
+  {
+    index: '03',
+    title: 'Agent Workflow',
+    statement:
+      'Coordinate research, writing, editing, visual, and verification stages as one observable publishing pipeline.',
+    primitives: ['Orchestration', 'Tool use', 'Routing', 'Traceability'],
+  },
+  {
+    index: '04',
+    title: 'Content Packaging',
+    statement:
+      'Prepare short updates, explainers, digests, summaries, and visual direction for the selected publishing surface.',
+    primitives: ['Formats', 'Summaries', 'Visual briefs', 'Channel adaptation'],
+  },
+  {
+    index: '05',
+    title: 'Human Control',
+    statement:
+      'Keep editors in charge through approval queues, source visibility, edit and reject paths, and explicit hard stops.',
+    primitives: ['Approval', 'Escalation', 'Guardrails', 'Accountability'],
+  },
+  {
+    index: '06',
+    title: 'Operations & Evaluation',
+    statement:
+      'Track delivery state, retries, traces, quality gates, and review feedback so the workflow improves safely.',
+    primitives: ['Observability', 'Evaluation', 'Fallbacks', 'Feedback'],
+  },
+] as const satisfies readonly ProductModule[];
+
+export const publishingWorkflow = [
+  {
+    index: '01',
+    title: 'Monitor',
+    description:
+      'Watch approved feeds, sites, channels, and submitted URLs without turning every signal into a story.',
+  },
+  {
+    index: '02',
+    title: 'Verify',
+    description:
+      'Extract primary material, group related coverage, detect duplicates, and preserve source references.',
+  },
+  {
+    index: '03',
+    title: 'Understand',
+    description:
+      'Score relevance, retrieve editorial memory, choose the right format, and apply publisher-specific rules.',
+  },
+  {
+    index: '04',
+    title: 'Produce',
+    description:
+      'Coordinate specialist agents to draft text, summaries, visual direction, and channel-ready packages.',
+  },
+  {
+    index: '05',
+    title: 'Review',
+    description:
+      'Present traceable output to a human editor for approval, editing, rejection, or escalation.',
+  },
+  {
+    index: '06',
+    title: 'Learn',
+    description:
+      'Record decisions and outcomes so evaluations and workflow rules can improve without bypassing people.',
+  },
+] as const satisfies readonly ApproachStep[];
+
+export const deploymentPatterns = [
+  {
+    label: 'Production pattern / 01',
+    title: 'Always-on signal desk',
+    description:
+      'In production with an active digital publisher: the system monitors multiple approved sources, groups related stories, prepares the appropriate format, and waits for owner approval.',
+    evidence: ['Continuous monitoring', 'Story grouping', 'Format routing', 'Owner approval'],
+  },
+  {
+    label: 'Production pattern / 02',
+    title: 'URL-to-content package',
+    description:
+      'An editor submits an approved article URL and receives a concise summary plus visual direction prepared for review and delivery.',
+    evidence: ['Secure URL intake', 'Article extraction', 'Concise summary', 'Visual package'],
+  },
+  {
+    label: 'Production pattern / 03',
+    title: 'Editorial memory system',
+    description:
+      'Historical style and topic context guide specialist research, writing, editing, and verification stages before a human decision.',
+    evidence: ['Archive retrieval', 'Style guidance', 'Specialist agents', 'Quality gates'],
+  },
+] as const satisfies readonly DeploymentPattern[];
+
+export const managedOffer = [
+  {
+    label: 'Managed SaaS / 01',
+    title: 'Configure',
+    description:
+      'We set up approved sources, archive-backed editorial memory, output formats, review roles, and delivery boundaries.',
+  },
+  {
+    label: 'Managed SaaS / 02',
+    title: 'Operate',
+    description:
+      'We run and observe the agent workflow while your editors remain responsible for approval and publication decisions.',
+  },
+  {
+    label: 'Managed SaaS / 03',
+    title: 'Improve',
+    description:
+      'We use review feedback, traces, and evaluation examples to refine the workflow without weakening its controls.',
+  },
+] as const satisfies readonly ManagedOfferItem[];
 
 export const capabilities = [
   {
