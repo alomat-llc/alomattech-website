@@ -1,0 +1,458 @@
+---
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { publisherCaseStudy as study } from '../../content/publisher-case-study';
+import { site } from '../../content/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pathname = '/case-study/publisher-workflow';
+const articleData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${site.url}${pathname}/#article`,
+  headline: study.title,
+  description: study.description,
+  url: `${site.url}${pathname}`,
+  author: { '@id': `${site.url}/#organization` },
+  publisher: { '@id': `${site.url}/#organization` },
+  image: `${site.url}/og/alomat-og.png`,
+  mainEntityOfPage: `${site.url}${pathname}`,
+};
+const breadcrumbData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Publisher Workflow',
+      item: `${site.url}${pathname}`,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Publisher Workflow Case Study — Alomat LLC"
+  description={study.description}
+  pathname={pathname}
+  structuredData={[articleData, breadcrumbData]}
+>
+  <article class="editorial-page case-study">
+    <Breadcrumbs
+      items={[{ label: 'Home', href: '/' }, { label: 'Publisher workflow' }]}
+    />
+
+    <header class="editorial-hero case-hero">
+      <p>{study.eyebrow}</p>
+      <h1>{study.title}</h1>
+      <p class="direct-answer">{study.description}</p>
+    </header>
+
+    <aside class="privacy-note" aria-label="Evidence boundary">
+      <strong>Evidence boundary</strong>
+      <p>{study.privacyNote}</p>
+    </aside>
+
+    <section class="case-section problem" aria-labelledby="problem-title">
+      <header>
+        <p>01 / Operating problem</p>
+        <h2 id="problem-title">
+          Signals were available. The operating path was fragmented.
+        </h2>
+      </header>
+      <ul>
+        {study.problem.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section
+      class="case-section workflow"
+      aria-labelledby="case-workflow-title"
+    >
+      <header>
+        <p>02 / Implemented workflow</p>
+        <h2 id="case-workflow-title">
+          One trace from source to editorial decision.
+        </h2>
+      </header>
+      <ol data-case-workflow>
+        {
+          study.workflow.map((step) => (
+            <li>
+              <span>{step.index}</span>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section
+      class="case-section architecture"
+      aria-labelledby="architecture-title"
+    >
+      <header>
+        <p>03 / Architecture</p>
+        <h2 id="architecture-title">
+          Human authority is part of the system design.
+        </h2>
+      </header>
+      <ol>
+        {
+          study.architecture.map((layer) => (
+            <li
+              class:list={{ control: layer.kind === 'control' }}
+              data-architecture-layer
+              data-architecture-control={
+                layer.kind === 'control' ? '' : undefined
+              }
+            >
+              <span>{layer.index}</span>
+              <div>
+                <h3>{layer.title}</h3>
+                <p>{layer.description}</p>
+                <ul>
+                  {layer.capabilities.map((capability) => <li>{capability}</li>)}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="case-section evidence" aria-labelledby="evidence-title">
+      <header>
+        <p>04 / Production evidence</p>
+        <h2 id="evidence-title">Observable stages from a real workflow.</h2>
+      </header>
+      <div class="evidence-grid" data-evidence-gallery>
+        {
+          study.evidence.map((item) => (
+            <figure>
+              <span>{item.index}</span>
+              <img
+                src={item.src}
+                alt={item.alt}
+                width={item.width}
+                height={item.height}
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>
+                <strong>{item.title}</strong>
+                <p>{item.caption}</p>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="case-section proof" aria-labelledby="proof-title">
+      <header>
+        <p>05 / Verified outcome</p>
+        <h2 id="proof-title">What this deployment proves.</h2>
+      </header>
+      <ul data-case-proof>
+        {study.proof.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section class="control-boundary" aria-labelledby="control-title">
+      <p>Control boundary</p>
+      <h2 id="control-title">{study.controlStatement}</h2>
+      <div>
+        <p>{study.controlDescription}</p>
+        <ul>
+          {study.controls.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="page-cta" aria-labelledby="case-cta-title">
+      <p>Start with one real workflow.</p>
+      <h2 id="case-cta-title">
+        Build the operating path around your editorial judgment.
+      </h2>
+      <div class="case-actions">
+        <a class="primary-action" href={study.primaryCta.href}>
+          {study.primaryCta.label}
+        </a>
+        <a class="secondary-action" href={study.secondaryCta.href}>
+          {study.secondaryCta.label}
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .case-study {
+    overflow: clip;
+  }
+
+  .privacy-note {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.45fr) 1.55fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .privacy-note strong,
+  .case-section header > p,
+  .control-boundary > p {
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .privacy-note p {
+    max-width: 52rem;
+    margin: 0;
+  }
+
+  .case-section {
+    display: grid;
+    grid-template-columns: minmax(14rem, 0.55fr) 1.45fr;
+    gap: 2rem clamp(3rem, 8vw, 10rem);
+    padding: clamp(4rem, 8vw, 8rem) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .case-section header > p {
+    margin: 0 0 1rem;
+  }
+
+  .case-section h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2.3rem, 5vw, 5.5rem);
+    font-weight: 550;
+    letter-spacing: -0.06em;
+    line-height: 0.94;
+  }
+
+  .problem > ul,
+  .proof > ul,
+  .architecture > ol,
+  .workflow > ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .problem > ul li,
+  .proof > ul li {
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .workflow > ol {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+  }
+
+  .workflow > ol > li {
+    min-height: 21rem;
+    padding: 1.25rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .workflow > ol > li:nth-child(3n) {
+    border-right: 0;
+  }
+
+  .workflow span,
+  .architecture > ol > li > span,
+  figure > span {
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  .workflow h3,
+  .architecture h3 {
+    margin: 3rem 0 1rem;
+    font-size: clamp(1.8rem, 3vw, 3.2rem);
+    font-weight: 550;
+    letter-spacing: -0.05em;
+    line-height: 0.96;
+  }
+
+  .workflow p,
+  .architecture p,
+  figcaption p,
+  .control-boundary div > p {
+    color: var(--muted);
+  }
+
+  .architecture > ol {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .architecture > ol > li {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+  }
+
+  .architecture > ol > li.control {
+    border-color: var(--ink);
+    background: var(--signal);
+  }
+
+  .architecture h3 {
+    margin: 0 0 0.75rem;
+  }
+
+  .architecture ul,
+  .control-boundary ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .architecture ul li,
+  .control-boundary li {
+    padding: 0.45rem 0.65rem;
+    border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .evidence {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence header {
+    display: grid;
+    grid-template-columns: minmax(14rem, 0.55fr) 1.45fr;
+    gap: 2rem clamp(3rem, 8vw, 10rem);
+  }
+
+  .evidence-grid {
+    display: grid;
+    gap: clamp(2rem, 6vw, 6rem);
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  figure > span {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  figure img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--ink);
+    background: #fff;
+  }
+
+  figcaption {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.45fr) 1.55fr;
+    gap: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  figcaption p {
+    max-width: 50rem;
+    margin: 0;
+  }
+
+  .control-boundary {
+    display: grid;
+    grid-template-columns: 0.45fr 1fr 0.85fr;
+    gap: clamp(1.5rem, 4vw, 5rem);
+    margin-top: clamp(4rem, 8vw, 8rem);
+    padding: clamp(2rem, 4vw, 4rem);
+    border: 1px solid var(--ink);
+  }
+
+  .control-boundary h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2.25rem, 4.7vw, 5rem);
+    font-weight: 550;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .control-boundary div > p {
+    margin: 0;
+  }
+
+  .case-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .primary-action,
+  .secondary-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--ink);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .primary-action {
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  .secondary-action:hover,
+  .secondary-action:focus-visible {
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  @media (max-width: 900px) {
+    .privacy-note,
+    .case-section,
+    .evidence header,
+    figcaption,
+    .control-boundary {
+      grid-template-columns: 1fr;
+    }
+
+    .workflow > ol {
+      grid-template-columns: 1fr;
+    }
+
+    .workflow > ol > li,
+    .workflow > ol > li:nth-child(3n) {
+      min-height: 17rem;
+      border-right: 0;
+    }
+  }
+</style>
