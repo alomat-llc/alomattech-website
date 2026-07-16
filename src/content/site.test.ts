@@ -17,6 +17,9 @@ describe('site content contract', () => {
     expect(site.name).toBe('Alomat LLC');
     expect(site.email).toBe('hello@alomattech.com');
     expect(site.github).toBe('https://github.com/alomat-llc/alomattech-website');
+    expect(site.referenceGithub).toBe(
+      'https://github.com/alomat-llc/agentic-publishing-reference',
+    );
   });
 
   it('publishes the approved managed SaaS positioning', () => {

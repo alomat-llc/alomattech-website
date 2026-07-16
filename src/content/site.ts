@@ -74,6 +74,8 @@ export const site = {
   pilotSubject: 'Managed publishing pilot',
   linkedin: 'https://www.linkedin.com/company/alomat-llc/',
   github: 'https://github.com/alomat-llc/alomattech-website',
+  referenceGithub:
+    'https://github.com/alomat-llc/agentic-publishing-reference',
   markets: ['United States', 'Global'],
 } as const;
 

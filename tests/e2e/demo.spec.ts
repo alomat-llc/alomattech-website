@@ -45,6 +45,12 @@ test('publishes factual VideoObject data and the human control boundary', async 
   );
   await expect(page.getByText('Agents prepare. Editors decide.')).toBeVisible();
   await expect(
+    page.getByRole('link', { name: 'Open the reference implementation' }),
+  ).toHaveAttribute(
+    'href',
+    'https://github.com/alomat-llc/agentic-publishing-reference',
+  );
+  await expect(
     page.getByRole('link', { name: 'Request a managed pilot' }).last(),
   ).toHaveAttribute('href', '/pilot');
 });

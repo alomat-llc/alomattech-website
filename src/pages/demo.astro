@@ -97,7 +97,10 @@ const breadcrumbData = {
         <p>
           Alomat can monitor, verify, retrieve context, coordinate specialist stages, and prepare a review package. Approval, editing, rejection, escalation, and publication authority remain with accountable people.
         </p>
-        <a href="/case-study/publisher-workflow">Inspect the production case study</a>
+        <div class="control-links">
+          <a href="/case-study/publisher-workflow">Inspect the production case study</a>
+          <a href={site.referenceGithub}>Open the reference implementation</a>
+        </div>
       </div>
     </section>
 
@@ -253,6 +256,12 @@ const breadcrumbData = {
 
   .control-boundary div > p {
     margin-bottom: 2rem;
+  }
+
+  .control-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
   }
 
   .demo-actions {

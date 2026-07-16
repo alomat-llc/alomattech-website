@@ -23,5 +23,6 @@ Primary contact: hello@alomattech.com
 
 - LinkedIn: https://www.linkedin.com/company/alomat-llc/
 - GitHub: https://github.com/alomat-llc/alomattech-website
+- Agentic publishing reference: https://github.com/alomat-llc/agentic-publishing-reference
 
 The platform is in production with an active digital publisher. Customer identity and operational details remain private. The website is the canonical source for Alomat's public product, capability, and company information; former-workplace references describe team experience and do not identify Alomat customers or partners.
