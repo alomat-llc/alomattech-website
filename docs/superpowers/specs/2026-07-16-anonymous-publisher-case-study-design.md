@@ -201,7 +201,8 @@ keyword repetition.
 
 Structured data uses `Article` with Alomat LLC as author and publisher. The
 article does not claim a named customer, rating, award, or quantified result.
-Breadcrumb structured data represents Home → Case Study → Publisher Workflow.
+Breadcrumb structured data represents Home → Publisher Workflow. It must not
+invent a `/case-study` index route that does not exist.
 
 The page must appear in the generated sitemap, be linked from the platform's
 production-evidence section and at least one homepage deployment surface, and
