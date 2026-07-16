@@ -10,7 +10,7 @@ Replace every pilot `mailto:` link with a real `/pilot` application experience. 
 2. The page explains that the pilot starts with one real publishing workflow and keeps human approval explicit.
 3. The visitor provides publisher/company type, expected volume, source types, delivery channels, human-review model, and contact details.
 4. Cloudflare Turnstile proves the request is human. A hidden honeypot and bounded request parser reject obvious automation and oversized payloads.
-5. A dedicated Worker validates the request and uses Cloudflare Email Sending to deliver a transactional application notice to the fixed, verified destination `hello@alomattech.com`.
+5. A dedicated Worker validates the request and uses the Resend API to deliver a transactional application notice to the fixed destination `hello@alomattech.com`.
 6. The page shows an inline success state and preserves a useful error state without exposing infrastructure details.
 
 ## Architecture
@@ -19,10 +19,10 @@ Replace every pilot `mailto:` link with a real `/pilot` application experience. 
 - Client enhancement: progressive form submission to `/api/pilot`
 - Edge endpoint: dedicated Cloudflare Worker routed only to `alomattech.com/api/pilot`
 - Abuse control: strict origin, JSON/content-size bounds, honeypot, elapsed-time check, Turnstile server verification
-- Delivery: restricted `send_email` binding; sender `pilot@notify.alomattech.com`; fixed destination `hello@alomattech.com`; applicant address used only as `replyTo`
+- Delivery: Resend API with a Worker secret; sender `pilot@notify.alomattech.com`; fixed destination `hello@alomattech.com`; applicant address used only as `replyTo`; request ID used as the idempotency key
 - Observability: structured logs containing request ID and outcome, never the application body
 
-Using a dedicated Worker avoids changing the existing static Pages deployment and keeps the dynamic surface limited to a single endpoint. Cloudflare Email Sending can deliver to a verified destination on the free plan; the sending subdomain is isolated from Zoho's existing inbound MX records.
+Using a dedicated Worker avoids changing the existing static Pages deployment and keeps the dynamic surface limited to a single endpoint. Resend's free tier supports this low-volume intake without a paid Cloudflare Workers Email Sending subscription. The dedicated sending subdomain is isolated from Zoho's existing inbound MX records.
 
 ## Data contract
 
@@ -59,4 +59,3 @@ No form submission is stored in a database. The email is the system of record fo
 - Browser tests for semantic fields, accessibility, mobile layout, progressive submission states, and removal of `mailto:` pilot links
 - Worker dry run and generated binding types
 - Production smoke test with a controlled application sent to the verified company inbox
-

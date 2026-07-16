@@ -25,7 +25,7 @@
 ## Task 4: Configure Cloudflare services
 
 - Verify `hello@alomattech.com` as the allowed destination.
-- Onboard `notify.alomattech.com` for Email Sending without replacing Zoho MX records.
+- Onboard `notify.alomattech.com` with Resend without replacing Zoho MX records.
 - Create a Turnstile widget for `alomattech.com` and attach its secret to the Worker.
 - Deploy the Worker and static site.
 
@@ -34,4 +34,3 @@
 - Submit one controlled test application through the live form.
 - Confirm the success UI, Worker response, email delivery, sender authentication, and reply-to behavior.
 - Run full regression and live URL checks.
-

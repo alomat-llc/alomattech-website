@@ -1,5 +1,6 @@
 import { handlePilotRequest } from '../src/workers/pilot-handler';
 import { buildPilotEmail } from '../src/workers/pilot-email';
+import { sendWithResend } from '../src/workers/resend';
 import { verifyTurnstile } from '../src/workers/turnstile';
 
 export default {
@@ -11,7 +12,11 @@ export default {
       verifyTurnstile: (input) =>
         verifyTurnstile(input, env.TURNSTILE_SECRET),
       sendApplication: async (application, requestId) => {
-        await env.PILOT_EMAIL.send(buildPilotEmail(application, requestId));
+        await sendWithResend(
+          buildPilotEmail(application, requestId),
+          requestId,
+          env.RESEND_API_KEY,
+        );
       },
       log: (entry) => console.log(JSON.stringify(entry)),
     });

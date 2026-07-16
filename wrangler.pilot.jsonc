@@ -10,13 +10,6 @@
       "zone_name": "alomattech.com"
     }
   ],
-  "send_email": [
-    {
-      "name": "PILOT_EMAIL",
-      "destination_address": "hello@alomattech.com",
-      "allowed_sender_addresses": ["pilot@notify.alomattech.com"]
-    }
-  ],
   "observability": {
     "enabled": true,
     "logs": {
