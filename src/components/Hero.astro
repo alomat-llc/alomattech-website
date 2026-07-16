@@ -22,6 +22,7 @@ import { site } from '../content/site';
           </svg>
         </a>
         <a class="platform-cta" href="/platform">Explore the platform</a>
+        <a class="demo-cta" href="/demo">Watch the 60-second product demo</a>
       </div>
     </div>
   </div>
@@ -214,6 +215,19 @@ import { site } from '../content/site';
   .platform-cta:focus-visible {
     background: var(--ink);
     color: var(--canvas);
+  }
+
+  .demo-cta {
+    width: 100%;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-decoration-thickness: 2px;
+    text-transform: uppercase;
+    text-underline-offset: 0.35rem;
   }
 
   .signal-wrap {

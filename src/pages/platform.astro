@@ -59,7 +59,10 @@ const breadcrumbData = {
         <p>
           The operating patterns behind Alomat are already used with an active digital publisher. The customer remains private; the product evidence is concrete: live sources, archive-backed context, specialist stages, and human approval before delivery.
         </p>
-        <a href="/case-study/publisher-workflow">Read the production case study</a>
+        <div class="proof-actions">
+          <a href="/case-study/publisher-workflow">Read the production case study</a>
+          <a href="/demo">Watch the 60-second product demo</a>
+        </div>
       </div>
     </section>
 
@@ -204,9 +207,14 @@ const breadcrumbData = {
     margin: 0;
   }
 
-  .platform-proof > div > a {
-    display: inline-block;
+  .proof-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
     margin-top: 2rem;
+  }
+
+  .proof-actions a {
     color: var(--ink);
     font-size: 0.76rem;
     font-weight: 850;

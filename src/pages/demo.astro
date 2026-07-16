@@ -1,0 +1,297 @@
+---
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { productDemo as demo } from '../content/product-demo';
+import { site } from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pathname = '/demo';
+const videoPath = '/demo/alomat-agentic-publishing-demo.mp4';
+const posterPath = '/demo/alomat-agentic-publishing-demo-poster.jpg';
+const videoData = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  '@id': `${site.url}${pathname}/#video`,
+  name: demo.title,
+  description: demo.description,
+  thumbnailUrl: `${site.url}${posterPath}`,
+  uploadDate: '2026-07-16',
+  duration: 'PT1M',
+  contentUrl: `${site.url}${videoPath}`,
+  embedUrl: `${site.url}${pathname}`,
+  publisher: { '@id': `${site.url}/#organization` },
+};
+const breadcrumbData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Product demo', item: `${site.url}${pathname}` },
+  ],
+};
+---
+
+<BaseLayout
+  title="Agentic Publishing Product Demo — Alomat LLC"
+  description={demo.description}
+  pathname={pathname}
+  image={posterPath}
+  includeOrganizationData
+  structuredData={[videoData, breadcrumbData]}
+>
+  <article class="editorial-page demo-page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Product demo' }]} />
+
+    <header class="editorial-hero demo-hero">
+      <p>{demo.eyebrow}</p>
+      <h1>See the publishing workflow move from signal to decision.</h1>
+      <p class="direct-answer">{demo.description}</p>
+    </header>
+
+    <section class="video-section" aria-labelledby="video-title">
+      <h2 id="video-title" class="visually-hidden">Alomat product walkthrough</h2>
+      <video
+        data-product-demo
+        src={videoPath}
+        poster={posterPath}
+        controls
+        preload="metadata"
+        playsinline
+        aria-label="Alomat agentic publishing workflow product walkthrough"
+      >
+        Your browser does not support embedded video. <a href={videoPath}>Open the MP4 demo</a>.
+      </video>
+      <div class="video-meta">
+        <p>00:60 / Caption-led / No customer data</p>
+        <a href={videoPath}>Open video directly</a>
+      </div>
+    </section>
+
+    <aside class="privacy-note" aria-label="Demonstration boundary">
+      <strong>Demonstration boundary</strong>
+      <p>{demo.privacyNote}</p>
+    </aside>
+
+    <section class="transcript" aria-labelledby="transcript-title">
+      <header>
+        <p>Walkthrough transcript</p>
+        <h2 id="transcript-title">Eight moments. One accountable workflow.</h2>
+      </header>
+      <ol data-demo-transcript>
+        {demo.scenes.map((scene) => (
+          <li>
+            <span>{scene.index}</span>
+            <div>
+              <p>{scene.label}</p>
+              <h3>{scene.title}</h3>
+              <p>{scene.statement}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="control-boundary" aria-labelledby="demo-control-title">
+      <p>Control boundary</p>
+      <h2 id="demo-control-title">{demo.controlStatement}</h2>
+      <div>
+        <p>
+          Alomat can monitor, verify, retrieve context, coordinate specialist stages, and prepare a review package. Approval, editing, rejection, escalation, and publication authority remain with accountable people.
+        </p>
+        <a href="/case-study/publisher-workflow">Inspect the production case study</a>
+      </div>
+    </section>
+
+    <section class="page-cta" aria-labelledby="demo-cta-title">
+      <p>Start with one real workflow.</p>
+      <h2 id="demo-cta-title">Make the next demonstration use your sources and rules.</h2>
+      <div class="demo-actions">
+        <a class="primary-action" href="/pilot">Request a managed pilot</a>
+        <a class="secondary-action" href="/platform">Explore the platform</a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .demo-page {
+    overflow: clip;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .video-section {
+    margin-top: clamp(3rem, 6vw, 6rem);
+  }
+
+  .video-section video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+  }
+
+  .video-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .video-meta p {
+    margin: 0;
+  }
+
+  .video-meta a,
+  .control-boundary a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3rem;
+  }
+
+  .privacy-note,
+  .transcript,
+  .control-boundary {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.55fr) 1.45fr;
+    gap: 2rem clamp(3rem, 8vw, 10rem);
+    padding: clamp(4rem, 8vw, 8rem) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .privacy-note {
+    padding-block: 2rem;
+    color: var(--muted);
+  }
+
+  .privacy-note strong,
+  .transcript header > p,
+  .control-boundary > p {
+    color: var(--signal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .privacy-note p,
+  .transcript header > p,
+  .control-boundary > p {
+    margin: 0;
+  }
+
+  .transcript h2,
+  .control-boundary h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2.3rem, 5vw, 5.5rem);
+    font-weight: 550;
+    letter-spacing: -0.06em;
+    line-height: 0.94;
+  }
+
+  .transcript > ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .transcript li {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .transcript li > span,
+  .transcript li div > p:first-child {
+    color: var(--signal-dark);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .transcript li p,
+  .control-boundary div > p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .transcript li h3 {
+    margin: 0.3rem 0 0.6rem;
+    font-size: clamp(1.45rem, 2.5vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .control-boundary {
+    grid-template-columns: 0.45fr 1fr 0.85fr;
+    margin-top: clamp(4rem, 8vw, 8rem);
+    padding: clamp(2rem, 4vw, 4rem);
+    border: 1px solid var(--ink);
+  }
+
+  .control-boundary div > p {
+    margin-bottom: 2rem;
+  }
+
+  .demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .primary-action,
+  .secondary-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--ink);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .primary-action {
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  @media (max-width: 800px) {
+    .privacy-note,
+    .transcript,
+    .control-boundary {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .video-meta {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

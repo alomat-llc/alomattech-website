@@ -13,6 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "video:render": "remotion render video/index.ts PublishingDemo public/demo/alomat-agentic-publishing-demo.mp4 --codec h264 --crf 20 --pixel-format yuv420p",
+    "video:poster": "remotion still video/index.ts PublishingDemo public/demo/alomat-agentic-publishing-demo-poster.jpg --frame 1290 --image-format jpeg --jpeg-quality 92",
     "types:worker": "npx wrangler@4.111.0 types workers/worker-configuration.d.ts --config wrangler.pilot.jsonc"
   },
   "dependencies": {
@@ -22,7 +24,14 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@playwright/test": "^1.61.1",
+    "@remotion/cli": "^4.0.490",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.490",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "zod": "^4.3.6"
   }
 }

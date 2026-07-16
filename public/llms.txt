@@ -9,6 +9,7 @@ Primary contact: hello@alomattech.com
 - Home: https://alomattech.com/
 - Agentic publishing platform: https://alomattech.com/platform
 - Managed publishing pilot: https://alomattech.com/pilot
+- 60-second anonymous product demo: https://alomattech.com/demo
 - Anonymous publisher workflow case study: https://alomattech.com/case-study/publisher-workflow
 - AI agent systems engineering: https://alomattech.com/agent-systems
 - Multilingual AI and language technology: https://alomattech.com/multilingual-ai
