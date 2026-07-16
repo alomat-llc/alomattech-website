@@ -1,4 +1,27 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function fillRequiredPilotFields(page: Page) {
+  await page.getByLabel('Company or publication name').fill('Example Publishing');
+  await page.getByLabel('Publisher or company type').selectOption('digital-publisher');
+  await page.getByLabel('Expected monthly content volume').selectOption('101-500');
+  await page.getByLabel('Human review model').selectOption('editor-approves');
+  await page.getByLabel('Contact name').fill('Ada Editor');
+  await page.getByLabel('Work email').fill('ada@example.com');
+  await page.getByLabel('Current workflow').fill(
+    'Our team monitors approved sources and requires an editor to approve every publish-ready package.',
+  );
+}
+
+async function addTestTurnstileToken(page: Page) {
+  await page.evaluate(() => {
+    const form = document.querySelector<HTMLFormElement>('[data-pilot-form]');
+    const token = document.createElement('input');
+    token.type = 'hidden';
+    token.name = 'cf-turnstile-response';
+    token.value = 'test-turnstile-token';
+    form?.append(token);
+  });
+}
 
 test('publishes a canonical, buyer-facing managed pilot application', async ({
   page,
@@ -57,29 +80,17 @@ test('submits inline and shows a durable success state', async ({ page }) => {
   });
   await page.goto('/pilot');
 
-  await page.getByLabel('Company or publication name').fill('Example Publishing');
-  await page.getByLabel('Publisher or company type').selectOption('digital-publisher');
-  await page.getByLabel('Expected monthly content volume').selectOption('101-500');
+  await fillRequiredPilotFields(page);
   await page.getByLabel('RSS or Atom feeds').check();
   await page.getByLabel('Approved websites').check();
   await page.getByLabel('Website or CMS').check();
   await page.getByLabel('Newsletter').check();
-  await page.getByLabel('Human review model').selectOption('editor-approves');
-  await page.getByLabel('Contact name').fill('Ada Editor');
-  await page.getByLabel('Work email').fill('ada@example.com');
-  await page.getByLabel('Current workflow').fill(
-    'Our team monitors approved sources and requires an editor to approve every publish-ready package.',
-  );
   await page.evaluate(() => {
     const form = document.querySelector<HTMLFormElement>('[data-pilot-form]');
     const startedAt = form?.querySelector<HTMLInputElement>('[name="startedAt"]');
     if (startedAt) startedAt.value = String(Date.now() - 5_000);
-    const token = document.createElement('input');
-    token.type = 'hidden';
-    token.name = 'cf-turnstile-response';
-    token.value = 'test-turnstile-token';
-    form?.append(token);
   });
+  await addTestTurnstileToken(page);
 
   await page.getByRole('button', { name: 'Submit pilot application' }).click();
 
@@ -87,6 +98,60 @@ test('submits inline and shows a durable success state', async ({ page }) => {
     'Your workflow is now in our review queue.',
   );
   await expect(page.locator('[data-submit-button]')).toBeDisabled();
+});
+
+test('shows and focuses accessible errors for missing checkbox groups', async ({
+  page,
+}) => {
+  let requests = 0;
+  await page.route('**/api/pilot', async (route) => {
+    requests += 1;
+    await route.abort();
+  });
+  await page.goto('/pilot');
+  await fillRequiredPilotFields(page);
+  await addTestTurnstileToken(page);
+
+  await page.getByRole('button', { name: 'Submit pilot application' }).click();
+
+  const sourceGroup = page.getByRole('group', { name: 'Source types' });
+  await expect(page.locator('[data-field-error="sourceTypes"]')).toContainText(
+    'Choose at least one source type.',
+  );
+  await expect(page.locator('[data-field-error="deliveryChannels"]')).toContainText(
+    'Choose at least one delivery channel.',
+  );
+  await expect(sourceGroup).toHaveAttribute('aria-invalid', 'true');
+  await expect(sourceGroup).toBeFocused();
+  expect(requests).toBe(0);
+});
+
+test('renders server field errors on the matching control', async ({ page }) => {
+  await page.route('**/api/pilot', async (route) => {
+    await route.fulfill({
+      status: 400,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        ok: false,
+        error: 'invalid_application',
+        fields: { contactEmail: 'Enter a valid business email.' },
+      }),
+    });
+  });
+  await page.goto('/pilot');
+  await fillRequiredPilotFields(page);
+  await page.getByLabel('RSS or Atom feeds').check();
+  await page.getByLabel('Website or CMS').check();
+  await addTestTurnstileToken(page);
+
+  await page.getByRole('button', { name: 'Submit pilot application' }).click();
+
+  await expect(page.locator('[data-field-error="contactEmail"]')).toContainText(
+    'Enter a valid business email.',
+  );
+  await expect(page.getByLabel('Work email')).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.getByLabel('Work email')).toBeFocused();
+  await expect(page.locator('[data-submit-button]')).toBeEnabled();
 });
 
 test('all managed pilot conversion links use the application route', async ({

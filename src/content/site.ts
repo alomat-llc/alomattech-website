@@ -73,7 +73,7 @@ export const site = {
   founderEmail: 'habib@alomattech.com',
   pilotSubject: 'Managed publishing pilot',
   linkedin: 'https://www.linkedin.com/company/alomat-llc/',
-  github: 'https://github.com/alomat-llc/alomattech-website',
+  github: 'https://github.com/alomat-llc',
   referenceGithub:
     'https://github.com/alomat-llc/agentic-publishing-reference',
   markets: ['United States', 'Global'],

@@ -10,6 +10,23 @@
       "zone_name": "alomattech.com"
     }
   ],
+  "ratelimits": [
+    {
+      "name": "PILOT_EMAIL_RATE_LIMITER",
+      "namespace_id": "910001",
+      "simple": { "limit": 2, "period": 60 }
+    },
+    {
+      "name": "PILOT_IP_RATE_LIMITER",
+      "namespace_id": "910002",
+      "simple": { "limit": 8, "period": 60 }
+    },
+    {
+      "name": "PILOT_DUPLICATE_RATE_LIMITER",
+      "namespace_id": "910003",
+      "simple": { "limit": 1, "period": 60 }
+    }
+  ],
   "observability": {
     "enabled": true,
     "logs": {

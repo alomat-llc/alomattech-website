@@ -37,12 +37,36 @@ function request(
   });
 }
 
+function formRequest(payload: typeof validPayload = validPayload) {
+  const form = new URLSearchParams();
+  for (const [key, value] of Object.entries(payload)) {
+    if (Array.isArray(value)) {
+      for (const item of value) form.append(key, item);
+    } else {
+      form.set(key, String(value));
+    }
+  }
+  form.delete('turnstileToken');
+  form.set('cf-turnstile-response', payload.turnstileToken);
+
+  return new Request('https://alomattech.com/api/pilot', {
+    method: 'POST',
+    headers: {
+      Origin: 'https://alomattech.com',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'CF-Connecting-IP': '203.0.113.20',
+    },
+    body: form,
+  });
+}
+
 function dependencies(): PilotHandlerDependencies {
   return {
     allowedOrigins: ['https://alomattech.com'],
     now: () => now,
     createRequestId: () => 'pilot_01JTEST',
     verifyTurnstile: vi.fn(async () => true),
+    allowSubmission: vi.fn(async () => true),
     sendApplication: vi.fn(async () => undefined),
     log: vi.fn(),
   };
@@ -71,7 +95,27 @@ describe('handlePilotRequest', () => {
       }),
       'pilot_01JTEST',
     );
+    expect(deps.allowSubmission).toHaveBeenCalledWith({
+      application: expect.objectContaining({ contactEmail: 'ada@example.com' }),
+      remoteIp: '203.0.113.20',
+      requestId: 'pilot_01JTEST',
+    });
     expect(response.headers.get('Cache-Control')).toBe('no-store');
+  });
+
+  it('accepts a browser-native form-encoded application', async () => {
+    const deps = dependencies();
+    const response = await handlePilotRequest(formRequest(), deps);
+
+    expect(response.status).toBe(202);
+    expect(deps.sendApplication).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sourceTypes: ['rss', 'websites'],
+        deliveryChannels: ['web', 'newsletter'],
+        turnstileToken: 'verified-turnstile-token',
+      }),
+      'pilot_01JTEST',
+    );
   });
 
   it('rejects methods, origins, media types, and declared oversized bodies', async () => {
@@ -82,6 +126,7 @@ describe('handlePilotRequest', () => {
     expect((await handlePilotRequest(request(validPayload, { contentType: 'text/plain' }), deps)).status).toBe(415);
     expect((await handlePilotRequest(request(validPayload, { contentLength: '32769' }), deps)).status).toBe(413);
     expect(deps.verifyTurnstile).not.toHaveBeenCalled();
+    expect(deps.allowSubmission).not.toHaveBeenCalled();
     expect(deps.sendApplication).not.toHaveBeenCalled();
   });
 
@@ -107,6 +152,7 @@ describe('handlePilotRequest', () => {
       fields: { contactEmail: 'Enter a valid contact email.' },
     });
     expect(deps.verifyTurnstile).not.toHaveBeenCalled();
+    expect(deps.allowSubmission).not.toHaveBeenCalled();
     expect(deps.sendApplication).not.toHaveBeenCalled();
   });
 
@@ -119,6 +165,7 @@ describe('handlePilotRequest', () => {
 
     expect(response.status).toBe(202);
     expect(deps.verifyTurnstile).not.toHaveBeenCalled();
+    expect(deps.allowSubmission).not.toHaveBeenCalled();
     expect(deps.sendApplication).not.toHaveBeenCalled();
   });
 
@@ -133,7 +180,49 @@ describe('handlePilotRequest', () => {
       ok: false,
       error: 'verification_failed',
     });
+    expect(deps.allowSubmission).not.toHaveBeenCalled();
     expect(deps.sendApplication).not.toHaveBeenCalled();
+  });
+
+  it('rate limits a verified application before email delivery', async () => {
+    const deps = dependencies();
+    vi.mocked(deps.allowSubmission).mockResolvedValue(false);
+
+    const response = await handlePilotRequest(request(), deps);
+
+    expect(response.status).toBe(429);
+    expect(response.headers.get('Retry-After')).toBe('60');
+    await expect(response.json()).resolves.toEqual({
+      ok: false,
+      error: 'rate_limited',
+      requestId: 'pilot_01JTEST',
+    });
+    expect(deps.sendApplication).not.toHaveBeenCalled();
+    expect(deps.log).toHaveBeenCalledWith({
+      event: 'pilot_submission_rejected',
+      requestId: 'pilot_01JTEST',
+      reason: 'rate_limited',
+    });
+  });
+
+  it('fails closed when the rate limit service is unavailable', async () => {
+    const deps = dependencies();
+    vi.mocked(deps.allowSubmission).mockRejectedValue(new Error('binding unavailable'));
+
+    const response = await handlePilotRequest(request(), deps);
+
+    expect(response.status).toBe(503);
+    await expect(response.json()).resolves.toEqual({
+      ok: false,
+      error: 'temporarily_unavailable',
+      requestId: 'pilot_01JTEST',
+    });
+    expect(deps.sendApplication).not.toHaveBeenCalled();
+    expect(deps.log).toHaveBeenCalledWith({
+      event: 'pilot_submission_failed',
+      requestId: 'pilot_01JTEST',
+      reason: 'rate_limit_service',
+    });
   });
 
   it('fails closed with a generic response when email delivery fails', async () => {

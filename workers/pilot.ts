@@ -1,5 +1,6 @@
 import { handlePilotRequest } from '../src/workers/pilot-handler';
 import { buildPilotEmail } from '../src/workers/pilot-email';
+import { allowPilotSubmission } from '../src/workers/pilot-rate-limit';
 import { sendWithResend } from '../src/workers/resend';
 import { verifyTurnstile } from '../src/workers/turnstile';
 
@@ -11,6 +12,15 @@ export default {
       createRequestId: () => `pilot_${crypto.randomUUID()}`,
       verifyTurnstile: (input) =>
         verifyTurnstile(input, env.TURNSTILE_SECRET),
+      allowSubmission: ({ application, remoteIp }) =>
+        allowPilotSubmission(
+          { application, remoteIp },
+          {
+            email: env.PILOT_EMAIL_RATE_LIMITER,
+            ip: env.PILOT_IP_RATE_LIMITER,
+            duplicate: env.PILOT_DUPLICATE_RATE_LIMITER,
+          },
+        ),
       sendApplication: async (application, requestId) => {
         await sendWithResend(
           buildPilotEmail(application, requestId),

@@ -11,6 +11,12 @@ export interface TurnstileVerificationInput {
   requestId: string;
 }
 
+export interface SubmissionAllowanceInput {
+  application: PilotIntake;
+  remoteIp?: string;
+  requestId: string;
+}
+
 export interface PilotLogEntry {
   event:
     | 'pilot_submission_accepted'
@@ -25,6 +31,7 @@ export interface PilotHandlerDependencies {
   now: () => number;
   createRequestId: () => string;
   verifyTurnstile: (input: TurnstileVerificationInput) => Promise<boolean>;
+  allowSubmission: (input: SubmissionAllowanceInput) => Promise<boolean>;
   sendApplication: (
     application: PilotIntake,
     requestId: string,
@@ -44,7 +51,7 @@ function json(body: unknown, status: number, extraHeaders?: HeadersInit) {
   });
 }
 
-async function readBoundedJson(request: Request): Promise<unknown> {
+async function readBoundedText(request: Request): Promise<string> {
   if (!request.body) throw new Error('empty_body');
   const reader = request.body.getReader();
   const chunks: Uint8Array[] = [];
@@ -68,7 +75,31 @@ async function readBoundedJson(request: Request): Promise<unknown> {
     offset += chunk.byteLength;
   }
 
-  return JSON.parse(new TextDecoder().decode(bytes));
+  return new TextDecoder().decode(bytes);
+}
+
+function formPayload(body: string): Record<string, unknown> {
+  const form = new URLSearchParams(body);
+  const rawStartedAt = form.get('startedAt');
+  const startedAt = rawStartedAt ? Number(rawStartedAt) : undefined;
+
+  return {
+    companyName: form.get('companyName'),
+    publisherType: form.get('publisherType'),
+    monthlyVolume: form.get('monthlyVolume'),
+    sourceTypes: form.getAll('sourceTypes'),
+    deliveryChannels: form.getAll('deliveryChannels'),
+    humanReview: form.get('humanReview'),
+    contactName: form.get('contactName'),
+    contactEmail: form.get('contactEmail'),
+    website: form.get('website'),
+    workflowSummary: form.get('workflowSummary'),
+    otherContext: form.get('otherContext'),
+    turnstileToken:
+      form.get('cf-turnstile-response') ?? form.get('turnstileToken'),
+    startedAt: Number.isFinite(startedAt) ? startedAt : undefined,
+    faxNumber: form.get('faxNumber'),
+  };
 }
 
 export async function handlePilotRequest(
@@ -89,7 +120,10 @@ export async function handlePilotRequest(
   }
 
   const contentType = request.headers.get('Content-Type')?.split(';', 1)[0];
-  if (contentType !== 'application/json') {
+  if (
+    contentType !== 'application/json' &&
+    contentType !== 'application/x-www-form-urlencoded'
+  ) {
     return json({ ok: false, error: 'unsupported_media_type' }, 415);
   }
 
@@ -100,7 +134,9 @@ export async function handlePilotRequest(
 
   let payload: unknown;
   try {
-    payload = await readBoundedJson(request);
+    const body = await readBoundedText(request);
+    payload =
+      contentType === 'application/json' ? JSON.parse(body) : formPayload(body);
   } catch (error) {
     return error instanceof RangeError
       ? json({ ok: false, error: 'body_too_large' }, 413)
@@ -154,6 +190,39 @@ export async function handlePilotRequest(
       reason: 'turnstile',
     });
     return json({ ok: false, error: 'verification_failed' }, 403);
+  }
+
+  const allowanceInput: SubmissionAllowanceInput = {
+    application: validation.value,
+    remoteIp: request.headers.get('CF-Connecting-IP') ?? undefined,
+    requestId,
+  };
+  let allowed = false;
+  try {
+    allowed = await dependencies.allowSubmission(allowanceInput);
+  } catch {
+    dependencies.log({
+      event: 'pilot_submission_failed',
+      requestId,
+      reason: 'rate_limit_service',
+    });
+    return json(
+      { ok: false, error: 'temporarily_unavailable', requestId },
+      503,
+    );
+  }
+
+  if (!allowed) {
+    dependencies.log({
+      event: 'pilot_submission_rejected',
+      requestId,
+      reason: 'rate_limited',
+    });
+    return json(
+      { ok: false, error: 'rate_limited', requestId },
+      429,
+      { 'Retry-After': '60' },
+    );
   }
 
   try {

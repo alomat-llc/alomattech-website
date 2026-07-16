@@ -99,7 +99,7 @@ describe('validatePilotIntake', () => {
     }
   });
 
-  it('rejects the honeypot and implausible submission timing', () => {
+  it('rejects the honeypot without discarding legitimate fast or resumed forms', () => {
     const honeypot = validatePilotIntake(
       { ...validPayload, faxNumber: '555-0100' },
       now,
@@ -112,10 +112,17 @@ describe('validatePilotIntake', () => {
       { ...validPayload, startedAt: now - 7_200_001 },
       now,
     );
+    const withoutTiming = validatePilotIntake(
+      { ...validPayload, startedAt: undefined },
+      now,
+    );
 
     expect(honeypot).toEqual({ ok: false, abuse: true });
-    expect(tooFast).toEqual({ ok: false, abuse: true });
-    expect(expired).toEqual({ ok: false, abuse: true });
+    expect(tooFast.ok).toBe(true);
+    expect(expired.ok).toBe(true);
+    expect(withoutTiming.ok).toBe(true);
+    if (expired.ok) expect(expired.value.startedAt).toBeUndefined();
+    if (withoutTiming.ok) expect(withoutTiming.value.startedAt).toBeUndefined();
   });
 
   it('rejects non-object and excessively long input', () => {

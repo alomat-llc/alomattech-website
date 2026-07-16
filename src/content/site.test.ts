@@ -16,7 +16,7 @@ describe('site content contract', () => {
   it('publishes the canonical Alomat identity', () => {
     expect(site.name).toBe('Alomat LLC');
     expect(site.email).toBe('hello@alomattech.com');
-    expect(site.github).toBe('https://github.com/alomat-llc/alomattech-website');
+    expect(site.github).toBe('https://github.com/alomat-llc');
     expect(site.referenceGithub).toBe(
       'https://github.com/alomat-llc/agentic-publishing-reference',
     );

@@ -56,6 +56,7 @@ const breadcrumbData = {
         <div class="field span-two">
           <label for="company-name">Company or publication name</label>
           <input id="company-name" name="companyName" type="text" minlength="2" maxlength="120" autocomplete="organization" required />
+          <p class="field-error" id="pilot-error-companyName" data-field-error="companyName" hidden></p>
         </div>
 
         <div class="field">
@@ -68,6 +69,7 @@ const breadcrumbData = {
             <option value="brand-media">Brand or company media</option>
             <option value="other">Other content operation</option>
           </select>
+          <p class="field-error" id="pilot-error-publisherType" data-field-error="publisherType" hidden></p>
         </div>
 
         <div class="field">
@@ -79,9 +81,10 @@ const breadcrumbData = {
             <option value="101-500">101–500 packages</option>
             <option value="over-500">More than 500 packages</option>
           </select>
+          <p class="field-error" id="pilot-error-monthlyVolume" data-field-error="monthlyVolume" hidden></p>
         </div>
 
-        <fieldset>
+        <fieldset data-field-group="sourceTypes" tabindex="-1">
           <legend>Source types</legend>
           <p>Select every source boundary that applies.</p>
           <div class="choice-grid">
@@ -92,9 +95,10 @@ const breadcrumbData = {
             <label><input type="checkbox" name="sourceTypes" value="submitted-urls" />Editor-submitted URLs</label>
             <label><input type="checkbox" name="sourceTypes" value="other" />Other approved sources</label>
           </div>
+          <p class="field-error" id="pilot-error-sourceTypes" data-field-error="sourceTypes" hidden></p>
         </fieldset>
 
-        <fieldset>
+        <fieldset data-field-group="deliveryChannels" tabindex="-1">
           <legend>Delivery channels</legend>
           <p>Select the surfaces that need review-ready packages.</p>
           <div class="choice-grid">
@@ -105,6 +109,7 @@ const breadcrumbData = {
             <label><input type="checkbox" name="deliveryChannels" value="mobile" />Mobile application</label>
             <label><input type="checkbox" name="deliveryChannels" value="other" />Other delivery surface</label>
           </div>
+          <p class="field-error" id="pilot-error-deliveryChannels" data-field-error="deliveryChannels" hidden></p>
         </fieldset>
 
         <div class="field span-two">
@@ -115,42 +120,52 @@ const breadcrumbData = {
             <option value="editor-reviews-exceptions">An editor reviews exceptions and escalations</option>
             <option value="needs-design">We need to design the review boundary</option>
           </select>
+          <p class="field-error" id="pilot-error-humanReview" data-field-error="humanReview" hidden></p>
         </div>
 
         <div class="field">
           <label for="contact-name">Contact name</label>
           <input id="contact-name" name="contactName" type="text" minlength="2" maxlength="100" autocomplete="name" required />
+          <p class="field-error" id="pilot-error-contactName" data-field-error="contactName" hidden></p>
         </div>
 
         <div class="field">
           <label for="contact-email">Work email</label>
           <input id="contact-email" name="contactEmail" type="email" maxlength="254" autocomplete="email" required />
+          <p class="field-error" id="pilot-error-contactEmail" data-field-error="contactEmail" hidden></p>
         </div>
 
         <div class="field span-two">
           <label for="website">Website <span>Optional</span></label>
           <input id="website" name="website" type="url" maxlength="500" inputmode="url" autocomplete="url" placeholder="https://" />
+          <p class="field-error" id="pilot-error-website" data-field-error="website" hidden></p>
         </div>
 
         <div class="field span-two">
           <label for="workflow-summary">Current workflow</label>
           <textarea id="workflow-summary" name="workflowSummary" minlength="30" maxlength="2000" rows="7" required placeholder="What do you monitor, what does the team prepare, and where does a human decision happen?"></textarea>
+          <p class="field-error" id="pilot-error-workflowSummary" data-field-error="workflowSummary" hidden></p>
         </div>
 
         <div class="field span-two">
           <label for="other-context">Additional context <span>Optional</span></label>
           <textarea id="other-context" name="otherContext" maxlength="1000" rows="4" placeholder="Constraints, systems, or the first desk you would want to test."></textarea>
+          <p class="field-error" id="pilot-error-otherContext" data-field-error="otherContext" hidden></p>
         </div>
 
-        <div class="verification span-two">
+        <div class="verification span-two" data-field-group="turnstileToken" tabindex="-1">
           <div class="cf-turnstile" data-turnstile data-sitekey={turnstileSiteKey} data-action="managed-pilot" data-theme="light"></div>
-          <p>By submitting, you ask Alomat LLC to review this workflow for a possible managed pilot. Submission does not guarantee acceptance.</p>
+          <div>
+            <p>By submitting, you ask Alomat LLC to review this workflow for a possible managed pilot. Submission does not guarantee acceptance.</p>
+            <p class="field-error" id="pilot-error-turnstileToken" data-field-error="turnstileToken" hidden></p>
+          </div>
         </div>
 
         <div class="submit-row span-two">
           <button type="submit" data-submit-button>Submit pilot application</button>
           <p role="status" aria-live="polite" data-form-status>We use these details only to assess and respond to this application.</p>
         </div>
+        <noscript class="span-two"><p class="noscript-notice">JavaScript is required for secure verification. If it is unavailable, contact hello@alomattech.com.</p></noscript>
       </form>
     </section>
   </article>
@@ -162,6 +177,54 @@ const breadcrumbData = {
     const status = form?.querySelector<HTMLElement>('[data-form-status]');
     const startedAt = form?.querySelector<HTMLInputElement>('[name="startedAt"]');
     if (startedAt) startedAt.value = String(Date.now());
+
+    const fieldTarget = (name: string) =>
+      form?.querySelector<HTMLElement>(`[data-field-group="${name}"]`) ??
+      form?.querySelector<HTMLElement>(`[name="${name}"]`) ??
+      null;
+
+    const clearFieldErrors = () => {
+      if (!form) return;
+      for (const error of form.querySelectorAll<HTMLElement>('[data-field-error]')) {
+        error.hidden = true;
+        error.textContent = '';
+      }
+      for (const target of form.querySelectorAll<HTMLElement>('[aria-invalid="true"]')) {
+        target.removeAttribute('aria-invalid');
+        if (target.getAttribute('aria-describedby')?.startsWith('pilot-error-')) {
+          target.removeAttribute('aria-describedby');
+        }
+      }
+    };
+
+    const showFieldErrors = (fields: Record<string, string>) => {
+      if (!form) return false;
+      let firstTarget: HTMLElement | null = null;
+      for (const [name, message] of Object.entries(fields)) {
+        const error = [...form.querySelectorAll<HTMLElement>('[data-field-error]')]
+          .find((candidate) => candidate.dataset.fieldError === name);
+        const target = fieldTarget(name);
+        if (!error || !target) continue;
+        error.textContent = message;
+        error.hidden = false;
+        target.setAttribute('aria-invalid', 'true');
+        target.setAttribute('aria-describedby', error.id);
+        firstTarget ??= target;
+      }
+      firstTarget?.focus();
+      return firstTarget !== null;
+    };
+
+    const resetAfterFailure = (message: string, resetVerification = true) => {
+      if (!submitButton || !status) return;
+      submitButton.disabled = false;
+      submitButton.textContent = 'Submit pilot application';
+      status.textContent = message;
+      if (resetVerification) {
+        const turnstile = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
+        turnstile?.reset();
+      }
+    };
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -185,6 +248,23 @@ const breadcrumbData = {
         faxNumber: formData.get('faxNumber'),
       };
 
+      clearFieldErrors();
+      const localErrors: Record<string, string> = {};
+      if (payload.sourceTypes.length === 0) {
+        localErrors.sourceTypes = 'Choose at least one source type.';
+      }
+      if (payload.deliveryChannels.length === 0) {
+        localErrors.deliveryChannels = 'Choose at least one delivery channel.';
+      }
+      if (!payload.turnstileToken) {
+        localErrors.turnstileToken = 'Complete the verification step.';
+      }
+      if (Object.keys(localErrors).length > 0) {
+        showFieldErrors(localErrors);
+        status.textContent = 'Review the highlighted fields before submitting.';
+        return;
+      }
+
       submitButton.disabled = true;
       submitButton.textContent = 'Submitting…';
       status.textContent = 'Sending your workflow securely…';
@@ -195,24 +275,37 @@ const breadcrumbData = {
           body: JSON.stringify(payload),
         });
         const result: unknown = await response.json().catch(() => null);
-        if (
-          !response.ok ||
-          typeof result !== 'object' ||
-          result === null ||
-          !('ok' in result) ||
-          result.ok !== true
-        ) {
-          throw new Error('submission_failed');
+        const resultObject =
+          typeof result === 'object' && result !== null
+            ? (result as { ok?: unknown; error?: unknown; fields?: unknown })
+            : null;
+        if (!response.ok || resultObject?.ok !== true) {
+          if (
+            resultObject?.fields &&
+            typeof resultObject.fields === 'object' &&
+            !Array.isArray(resultObject.fields)
+          ) {
+            showFieldErrors(resultObject.fields as Record<string, string>);
+            resetAfterFailure('Review the highlighted fields, then submit again.');
+            return;
+          }
+          if (resultObject?.error === 'rate_limited') {
+            resetAfterFailure('Too many recent attempts. Wait one minute, then try again.');
+            return;
+          }
+          if (resultObject?.error === 'verification_failed') {
+            showFieldErrors({ turnstileToken: 'Verification expired. Complete it again.' });
+            resetAfterFailure('Complete the verification step again, then submit.');
+            return;
+          }
+          resetAfterFailure('We could not submit the application. Check the fields and verification, then try again.');
+          return;
         }
         submitButton.textContent = 'Application submitted';
         status.textContent = 'Your workflow is now in our review queue. We will reply using the contact email you provided.';
         form.dataset.submitted = 'true';
       } catch {
-        submitButton.disabled = false;
-        submitButton.textContent = 'Submit pilot application';
-        status.textContent = 'We could not submit the application. Check the fields and verification, then try again.';
-        const turnstile = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
-        turnstile?.reset();
+        resetAfterFailure('The network request failed. Check your connection, then try again.');
       }
     });
   </script>
@@ -237,18 +330,23 @@ const breadcrumbData = {
   .field, fieldset, .verification, .submit-row { min-width: 0; }
   .span-two, fieldset { grid-column: 1 / -1; }
   .field { display: grid; gap: .65rem; }
+  .field-error { margin: .55rem 0 0; color: #8b251d; font-size: .82rem; font-weight: 750; letter-spacing: 0; text-transform: none; }
+  .field-error[hidden] { display: none; }
   label, legend { font-size: .76rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   label span { color: var(--muted); font-weight: 650; }
   input, select, textarea { width: 100%; min-height: 3.4rem; padding: .85rem .9rem; border: 1px solid var(--line); border-radius: 0; background: #fff; color: var(--ink); font: inherit; }
   textarea { min-height: 9rem; resize: vertical; }
   input:focus-visible, select:focus-visible, textarea:focus-visible { border-color: var(--ink); outline: 3px solid color-mix(in srgb, var(--signal) 45%, transparent); outline-offset: 2px; }
+  [aria-invalid='true'] { border-color: #8b251d; }
+  fieldset:focus-visible, .verification:focus-visible { outline: 3px solid color-mix(in srgb, var(--signal) 45%, transparent); outline-offset: 2px; }
   fieldset { margin: 0; padding: 1.5rem; border: 1px solid var(--line); }
   fieldset > p { margin: .4rem 0 1.2rem; color: var(--muted); }
   .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
   .choice-grid label { display: flex; gap: .65rem; align-items: center; min-height: 3.2rem; padding: .7rem; border: 1px solid var(--line); background: #fff; letter-spacing: .03em; text-transform: none; }
   .choice-grid input { flex: 0 0 auto; width: 1rem; min-height: 1rem; padding: 0; accent-color: var(--signal-dark); }
   .verification { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; padding: 1.5rem; border: 1px solid var(--line); }
-  .verification > p, .submit-row > p { margin: 0; color: var(--muted); font-size: .86rem; }
+  .verification > div > p:first-child, .submit-row > p { margin: 0; color: var(--muted); font-size: .86rem; }
+  .noscript-notice { margin: 0; padding: 1rem; border: 1px solid var(--line); color: var(--muted); }
   .submit-row { display: grid; grid-template-columns: minmax(15rem, .65fr) 1fr; gap: 1.5rem; align-items: center; }
   button[type='submit'] { min-height: 3.7rem; padding: 1rem 1.25rem; border: 1px solid var(--ink); background: var(--ink); color: var(--canvas); font: inherit; font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
   button[type='submit']:disabled { cursor: wait; opacity: .72; }

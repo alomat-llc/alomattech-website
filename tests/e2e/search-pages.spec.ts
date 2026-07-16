@@ -40,9 +40,14 @@ test('home publishes stable Organization and WebSite entities', async ({ page })
   expect(entities.map((entity) => entity['@type'])).toEqual(
     expect.arrayContaining(['Organization', 'WebSite']),
   );
-  expect(entities.find((entity) => entity['@type'] === 'Organization')['@id']).toBe(
+  const organization = entities.find((entity) => entity['@type'] === 'Organization');
+  expect(organization['@id']).toBe(
     'https://alomattech.com/#organization',
   );
+  expect(organization.sameAs).toEqual([
+    'https://www.linkedin.com/company/alomat-llc/',
+    'https://github.com/alomat-llc',
+  ]);
 });
 
 test('platform page publishes visible SoftwareApplication data', async ({ page }) => {

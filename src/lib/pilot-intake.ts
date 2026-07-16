@@ -52,7 +52,7 @@ export interface PilotIntake {
   workflowSummary: string;
   otherContext?: string;
   turnstileToken: string;
-  startedAt: number;
+  startedAt?: number;
   faxNumber?: undefined;
 }
 
@@ -125,14 +125,13 @@ export function validatePilotIntake(
     return { ok: false, abuse: true };
   }
 
-  if (
-    typeof input.startedAt !== 'number' ||
-    !Number.isFinite(input.startedAt) ||
-    now - input.startedAt < 2_500 ||
-    now - input.startedAt > 7_200_000
-  ) {
-    return { ok: false, abuse: true };
-  }
+  const startedAt =
+    typeof input.startedAt === 'number' &&
+    Number.isFinite(input.startedAt) &&
+    input.startedAt <= now + 300_000 &&
+    now - input.startedAt <= 7_200_000
+      ? input.startedAt
+      : undefined;
 
   const companyName = cleanString(input.companyName, 2, 120);
   const publisherType = cleanChoice(input.publisherType, publisherTypes);
@@ -187,7 +186,7 @@ export function validatePilotIntake(
       workflowSummary: workflowSummary!,
       otherContext,
       turnstileToken: turnstileToken!,
-      startedAt: input.startedAt,
+      startedAt,
       faxNumber: undefined,
     },
   };
