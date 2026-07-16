@@ -41,6 +41,14 @@ describe('anonymous publisher case-study content contract', () => {
     }
   });
 
+  it('labels evidence as sanitized traces from a real workflow run', () => {
+    for (const item of publisherCaseStudy.evidence) {
+      expect(item.alt).toMatch(/sanitized trace/i);
+      expect(item.caption).toMatch(/sanitized trace/i);
+      expect(item.caption).toMatch(/real (?:pipeline|workflow) run/i);
+    }
+  });
+
   it('contains only anonymous and non-quantified public claims', () => {
     const copy = JSON.stringify(publisherCaseStudy);
     expect(copy).not.toMatch(
