@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 const publicPages = [
+  { path: '/pilot', title: /Managed Publishing Pilot/, h1: /Start with one real publishing workflow/ },
   { path: '/case-study/publisher-workflow', title: /Publisher Workflow Case Study/, h1: /From fragmented sources to a controlled publishing workflow/ },
   { path: '/platform', title: /Agentic Publishing Platform/, h1: /One operating layer for modern publishing/ },
   { path: '/agent-systems', title: /AI Agent Systems Engineering/, h1: /AI agent systems built/ },

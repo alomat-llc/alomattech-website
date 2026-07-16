@@ -57,7 +57,9 @@ describe('validatePilotIntake', () => {
     );
 
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.errors).toHaveProperty(field);
+    if (!result.ok && 'errors' in result) {
+      expect(result.errors).toHaveProperty(field);
+    }
   });
 
   it('rejects unknown list choices and oversized lists', () => {
@@ -92,7 +94,9 @@ describe('validatePilotIntake', () => {
     );
 
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.errors).toHaveProperty('website');
+    if (!result.ok && 'errors' in result) {
+      expect(result.errors).toHaveProperty('website');
+    }
   });
 
   it('rejects the honeypot and implausible submission timing', () => {

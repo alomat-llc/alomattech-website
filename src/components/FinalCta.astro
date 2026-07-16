@@ -1,7 +1,6 @@
 ---
 import { managedOffer, site } from '../content/site';
 
-const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 ---
 
 <section class="managed-saas" id="managed-saas" aria-labelledby="managed-title">
@@ -24,7 +23,7 @@ const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotS
 <section class="final-cta" aria-labelledby="cta-title">
   <p>Start with one publishing workflow.</p>
   <h2 id="cta-title">See what your managed editorial operation could become.</h2>
-  <a href={pilotHref}>
+  <a href="/pilot">
     <span>Request a managed pilot</span>
     <svg viewBox="0 0 120 44" aria-hidden="true">
       <path d="M0 22h115M96 3l19 19-19 19"></path>

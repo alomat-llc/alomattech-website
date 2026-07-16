@@ -10,7 +10,6 @@ import {
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const description = 'Explore Alomat, a managed agentic publishing platform that connects source intelligence, editorial memory, specialist agents, human approval, and observable delivery for global digital publishers.';
-const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 const productData = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
@@ -153,7 +152,7 @@ const breadcrumbData = {
     <section class="page-cta" aria-labelledby="platform-cta-title">
       <p>Start with one real workflow.</p>
       <h2 id="platform-cta-title">Build a managed publishing operation around your editorial judgment.</h2>
-      <a href={pilotHref}>Request a managed pilot</a>
+      <a href="/pilot">Request a managed pilot</a>
     </section>
   </article>
 </BaseLayout>

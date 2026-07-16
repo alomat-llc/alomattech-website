@@ -1,0 +1,250 @@
+---
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../content/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const description = 'Apply for an Alomat managed publishing pilot by describing one real source-to-review workflow, its volume, channels, and human approval model.';
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA';
+const breadcrumbData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Managed Pilot', item: `${site.url}/pilot` },
+  ],
+};
+---
+
+<BaseLayout title="Managed Publishing Pilot — Alomat LLC" description={description} pathname="/pilot" structuredData={[breadcrumbData]}>
+  <article class="pilot-page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Managed Pilot' }]} />
+
+    <header class="pilot-hero">
+      <p>Pilot intake</p>
+      <h1>Start with one real publishing workflow.</h1>
+      <div>
+        <p>Tell us how trusted sources currently become reviewed content. We use the application to identify one bounded workflow that can be configured, operated, and evaluated with your team.</p>
+        <p class="control-line">The agents prepare. Editors decide.</p>
+      </div>
+    </header>
+
+    <section class="fit-boundary" aria-labelledby="fit-title">
+      <p>What we evaluate</p>
+      <h2 id="fit-title">A clear operational fit, not a generic automation request.</h2>
+      <ul>
+        <li>Approved source boundaries</li>
+        <li>Repeatable editorial volume</li>
+        <li>Defined delivery surfaces</li>
+        <li>Accountable human review</li>
+      </ul>
+    </section>
+
+    <section class="application" aria-labelledby="pilot-form-title">
+      <header>
+        <p>Application</p>
+        <h2 id="pilot-form-title">Describe the workflow your team wants to operate.</h2>
+        <p>Submit operational context only. Do not include passwords, API keys, confidential source material, or personal data belonging to your audience.</p>
+      </header>
+
+      <form action="/api/pilot" method="post" aria-label="Managed pilot application" data-pilot-form>
+        <input type="hidden" name="startedAt" value="" />
+        <div class="honeypot" aria-hidden="true">
+          <label for="fax-number">Fax number</label>
+          <input id="fax-number" name="faxNumber" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="field span-two">
+          <label for="company-name">Company or publication name</label>
+          <input id="company-name" name="companyName" type="text" minlength="2" maxlength="120" autocomplete="organization" required />
+        </div>
+
+        <div class="field">
+          <label for="publisher-type">Publisher or company type</label>
+          <select id="publisher-type" name="publisherType" required>
+            <option value="">Choose one</option>
+            <option value="digital-publisher">Digital publisher</option>
+            <option value="newsroom">Newsroom or editorial desk</option>
+            <option value="newsletter">Newsletter business</option>
+            <option value="brand-media">Brand or company media</option>
+            <option value="other">Other content operation</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="monthly-volume">Expected monthly content volume</label>
+          <select id="monthly-volume" name="monthlyVolume" required>
+            <option value="">Choose one</option>
+            <option value="under-25">Fewer than 25 packages</option>
+            <option value="25-100">25–100 packages</option>
+            <option value="101-500">101–500 packages</option>
+            <option value="over-500">More than 500 packages</option>
+          </select>
+        </div>
+
+        <fieldset>
+          <legend>Source types</legend>
+          <p>Select every source boundary that applies.</p>
+          <div class="choice-grid">
+            <label><input type="checkbox" name="sourceTypes" value="rss" />RSS or Atom feeds</label>
+            <label><input type="checkbox" name="sourceTypes" value="websites" />Approved websites</label>
+            <label><input type="checkbox" name="sourceTypes" value="social" />Approved social sources</label>
+            <label><input type="checkbox" name="sourceTypes" value="first-party" />First-party material</label>
+            <label><input type="checkbox" name="sourceTypes" value="submitted-urls" />Editor-submitted URLs</label>
+            <label><input type="checkbox" name="sourceTypes" value="other" />Other approved sources</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Delivery channels</legend>
+          <p>Select the surfaces that need review-ready packages.</p>
+          <div class="choice-grid">
+            <label><input type="checkbox" name="deliveryChannels" value="web" />Website or CMS</label>
+            <label><input type="checkbox" name="deliveryChannels" value="social" />Social publishing</label>
+            <label><input type="checkbox" name="deliveryChannels" value="newsletter" />Newsletter</label>
+            <label><input type="checkbox" name="deliveryChannels" value="messaging" />Messaging channels</label>
+            <label><input type="checkbox" name="deliveryChannels" value="mobile" />Mobile application</label>
+            <label><input type="checkbox" name="deliveryChannels" value="other" />Other delivery surface</label>
+          </div>
+        </fieldset>
+
+        <div class="field span-two">
+          <label for="human-review">Human review model</label>
+          <select id="human-review" name="humanReview" required>
+            <option value="">Choose one</option>
+            <option value="editor-approves">An editor approves every package</option>
+            <option value="editor-reviews-exceptions">An editor reviews exceptions and escalations</option>
+            <option value="needs-design">We need to design the review boundary</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="contact-name">Contact name</label>
+          <input id="contact-name" name="contactName" type="text" minlength="2" maxlength="100" autocomplete="name" required />
+        </div>
+
+        <div class="field">
+          <label for="contact-email">Work email</label>
+          <input id="contact-email" name="contactEmail" type="email" maxlength="254" autocomplete="email" required />
+        </div>
+
+        <div class="field span-two">
+          <label for="website">Website <span>Optional</span></label>
+          <input id="website" name="website" type="url" maxlength="500" inputmode="url" autocomplete="url" placeholder="https://" />
+        </div>
+
+        <div class="field span-two">
+          <label for="workflow-summary">Current workflow</label>
+          <textarea id="workflow-summary" name="workflowSummary" minlength="30" maxlength="2000" rows="7" required placeholder="What do you monitor, what does the team prepare, and where does a human decision happen?"></textarea>
+        </div>
+
+        <div class="field span-two">
+          <label for="other-context">Additional context <span>Optional</span></label>
+          <textarea id="other-context" name="otherContext" maxlength="1000" rows="4" placeholder="Constraints, systems, or the first desk you would want to test."></textarea>
+        </div>
+
+        <div class="verification span-two">
+          <div class="cf-turnstile" data-turnstile data-sitekey={turnstileSiteKey} data-theme="light"></div>
+          <p>By submitting, you ask Alomat LLC to review this workflow for a possible managed pilot. Submission does not guarantee acceptance.</p>
+        </div>
+
+        <div class="submit-row span-two">
+          <button type="submit" data-submit-button>Submit pilot application</button>
+          <p role="status" aria-live="polite" data-form-status>We use these details only to assess and respond to this application.</p>
+        </div>
+      </form>
+    </section>
+  </article>
+
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    const form = document.querySelector<HTMLFormElement>('[data-pilot-form]');
+    const submitButton = form?.querySelector<HTMLButtonElement>('[data-submit-button]');
+    const status = form?.querySelector<HTMLElement>('[data-form-status]');
+    const startedAt = form?.querySelector<HTMLInputElement>('[name="startedAt"]');
+    if (startedAt) startedAt.value = String(Date.now());
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!submitButton || !status) return;
+      const formData = new FormData(form);
+      const tokens = formData.getAll('cf-turnstile-response');
+      const payload = {
+        companyName: formData.get('companyName'),
+        publisherType: formData.get('publisherType'),
+        monthlyVolume: formData.get('monthlyVolume'),
+        sourceTypes: formData.getAll('sourceTypes'),
+        deliveryChannels: formData.getAll('deliveryChannels'),
+        humanReview: formData.get('humanReview'),
+        contactName: formData.get('contactName'),
+        contactEmail: formData.get('contactEmail'),
+        website: formData.get('website'),
+        workflowSummary: formData.get('workflowSummary'),
+        otherContext: formData.get('otherContext'),
+        turnstileToken: tokens.at(-1) ?? '',
+        startedAt: Number(formData.get('startedAt')),
+        faxNumber: formData.get('faxNumber'),
+      };
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting…';
+      status.textContent = 'Sending your workflow securely…';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json().catch(() => null);
+        if (!response.ok || !result?.ok) throw new Error('submission_failed');
+        submitButton.textContent = 'Application submitted';
+        status.textContent = 'Your workflow is now in our review queue. We will reply using the contact email you provided.';
+        form.dataset.submitted = 'true';
+      } catch {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit pilot application';
+        status.textContent = 'We could not submit the application. Check the fields and verification, then try again.';
+        const turnstile = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
+        turnstile?.reset();
+      }
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .pilot-page { padding: 7.5rem var(--gutter) var(--section-space); }
+  .pilot-hero, .fit-boundary { display: grid; grid-template-columns: .42fr 1.08fr .7fr; gap: clamp(1.5rem, 4vw, 5rem); padding: clamp(4rem, 8vw, 8rem) 0; border-bottom: 1px solid var(--ink); }
+  .pilot-hero { align-items: end; }
+  .pilot-hero > p, .fit-boundary > p, .application > header > p:first-child { align-self: start; margin: 0; color: var(--signal-dark); font-size: .7rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+  .pilot-hero h1 { max-width: 11ch; margin: 0; font-size: clamp(3.5rem, 8vw, 8.8rem); font-weight: 520; letter-spacing: -.075em; line-height: .86; }
+  .pilot-hero > div > p:first-child { margin: 0; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.25rem); }
+  .control-line { margin: 2rem 0 0; font-weight: 800; }
+  .fit-boundary h2, .application h2 { max-width: 13ch; margin: 0; font-size: clamp(2.3rem, 4.8vw, 5.4rem); font-weight: 540; letter-spacing: -.06em; line-height: .94; }
+  .fit-boundary ul { margin: 0; padding: 0; list-style: none; }
+  .fit-boundary li { padding: .8rem 0; border-top: 1px solid var(--line); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .application { display: grid; grid-template-columns: .42fr 1.78fr; gap: clamp(2rem, 6vw, 8rem); padding-top: var(--section-space); }
+  .application > header { position: sticky; top: 7rem; align-self: start; }
+  .application > header h2 { margin-top: 1.5rem; }
+  .application > header > p:last-child { max-width: 31rem; margin: 2rem 0 0; color: var(--muted); }
+  form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; min-width: 0; }
+  .field, fieldset, .verification, .submit-row { min-width: 0; }
+  .span-two, fieldset { grid-column: 1 / -1; }
+  .field { display: grid; gap: .65rem; }
+  label, legend { font-size: .76rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  label span { color: var(--muted); font-weight: 650; }
+  input, select, textarea { width: 100%; min-height: 3.4rem; padding: .85rem .9rem; border: 1px solid var(--line); border-radius: 0; background: #fff; color: var(--ink); font: inherit; }
+  textarea { min-height: 9rem; resize: vertical; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible { border-color: var(--ink); outline: 3px solid color-mix(in srgb, var(--signal) 45%, transparent); outline-offset: 2px; }
+  fieldset { margin: 0; padding: 1.5rem; border: 1px solid var(--line); }
+  fieldset > p { margin: .4rem 0 1.2rem; color: var(--muted); }
+  .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+  .choice-grid label { display: flex; gap: .65rem; align-items: center; min-height: 3.2rem; padding: .7rem; border: 1px solid var(--line); background: #fff; letter-spacing: .03em; text-transform: none; }
+  .choice-grid input { flex: 0 0 auto; width: 1rem; min-height: 1rem; padding: 0; accent-color: var(--signal-dark); }
+  .verification { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; padding: 1.5rem; border: 1px solid var(--line); }
+  .verification > p, .submit-row > p { margin: 0; color: var(--muted); font-size: .86rem; }
+  .submit-row { display: grid; grid-template-columns: minmax(15rem, .65fr) 1fr; gap: 1.5rem; align-items: center; }
+  button[type='submit'] { min-height: 3.7rem; padding: 1rem 1.25rem; border: 1px solid var(--ink); background: var(--ink); color: var(--canvas); font: inherit; font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+  button[type='submit']:disabled { cursor: wait; opacity: .72; }
+  .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  @media (max-width: 900px) { .pilot-hero, .fit-boundary, .application { grid-template-columns: 1fr; } .application > header { position: static; } }
+  @media (max-width: 640px) { .pilot-page { padding-top: 6.5rem; } form, .choice-grid, .verification, .submit-row { grid-template-columns: 1fr; } .field, .span-two, fieldset { grid-column: 1; } fieldset, .verification { padding: 1rem; } }
+</style>

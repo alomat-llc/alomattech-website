@@ -39,7 +39,7 @@ test('offers the managed pilot conversion', async ({ page }) => {
     .first();
   await expect(pilot).toHaveAttribute(
     'href',
-    'mailto:hello@alomattech.com?subject=Managed%20publishing%20pilot',
+    '/pilot',
   );
 });
 

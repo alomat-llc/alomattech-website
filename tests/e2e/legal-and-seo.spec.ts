@@ -40,7 +40,7 @@ test('publishes crawl and answer-engine discovery files', async ({ request }) =>
   expect(llmsResponse.ok()).toBeTruthy();
   const llms = await llmsResponse.text();
   expect(llms).toContain('# Alomat LLC');
-  for (const path of ['/platform', '/case-study/publisher-workflow', '/agent-systems', '/multilingual-ai', '/full-stack-ai-products', '/about', '/faq']) {
+  for (const path of ['/platform', '/pilot', '/case-study/publisher-workflow', '/agent-systems', '/multilingual-ai', '/full-stack-ai-products', '/about', '/faq']) {
     expect(llms).toContain(`https://alomattech.com${path}`);
   }
 
@@ -57,6 +57,7 @@ test('generated sitemap contains every canonical public route', async ({ request
   const sitemap = await (await request.get('/sitemap-0.xml')).text();
   for (const path of [
     '/',
+    '/pilot/',
     '/case-study/publisher-workflow/',
     '/platform/',
     '/agent-systems/',
@@ -72,9 +73,10 @@ test('generated sitemap contains every canonical public route', async ({ request
   expect(sitemap).not.toContain('/404/');
 });
 
-test('privacy disclosure matches the tracker-free release', async ({ page }) => {
+test('privacy disclosure explains the pilot form without claiming hidden tracking', async ({ page }) => {
   await page.goto('/privacy');
 
   await expect(page.getByText(/does not use advertising cookies/i)).toBeVisible();
-  await expect(page.getByText(/does not collect information through forms/i)).toBeVisible();
+  await expect(page.locator('main')).toContainText(/managed pilot application/i);
+  await expect(page.locator('main')).toContainText(/cloudflare turnstile/i);
 });

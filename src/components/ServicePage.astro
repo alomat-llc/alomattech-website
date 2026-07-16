@@ -6,7 +6,6 @@ import Breadcrumbs from './Breadcrumbs.astro';
 
 interface Props { readonly service: ServicePageRecord }
 const { service } = Astro.props;
-const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 const pathname = `/${service.slug}`;
 const serviceData = {
   '@context': 'https://schema.org',
@@ -68,7 +67,7 @@ const related = service.relatedSlugs.map((slug) => servicePages.find((item) => i
     <section class="page-cta" aria-labelledby="service-cta-title">
       <p>Start with one publishing workflow.</p>
       <h2 id="service-cta-title">Put this foundation to work inside a managed editorial operation.</h2>
-      <a href={pilotHref}>Request a managed pilot</a>
+      <a href="/pilot">Request a managed pilot</a>
     </section>
   </article>
 </BaseLayout>

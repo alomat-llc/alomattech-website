@@ -1,7 +1,6 @@
 ---
 import { site } from '../content/site';
 
-const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotSubject)}`;
 ---
 
 <section class="hero" aria-labelledby="hero-title">
@@ -16,7 +15,7 @@ const pilotHref = `mailto:${site.email}?subject=${encodeURIComponent(site.pilotS
     <div class="hero-intro hero-reveal">
       <p>{site.description}</p>
       <div class="hero-actions">
-        <a class="text-link" href={pilotHref}>
+        <a class="text-link" href="/pilot">
           <span>Request a managed pilot</span>
           <svg viewBox="0 0 40 16" aria-hidden="true">
             <path d="M0 8h37M31 2l6 6-6 6"></path>
