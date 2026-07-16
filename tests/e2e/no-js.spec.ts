@@ -7,9 +7,15 @@ test('mobile navigation remains fully usable without JavaScript', async ({ page 
   await page.goto('/');
 
   await expect(page.getByRole('button', { name: 'Open navigation' })).toBeHidden();
-  await expect(page.getByRole('link', { name: 'Product' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Workflow' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Deployments' })).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Product', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Workflow', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Deployments', exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByRole('navigation', { name: 'Primary' }).getByRole('link', {
       name: 'Request a managed pilot',
