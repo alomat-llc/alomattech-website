@@ -14,7 +14,7 @@ const email: PilotEmail = {
 
 describe('sendWithResend', () => {
   it('sends the rendered application through Resend with an idempotency key', async () => {
-    const fetcher = vi.fn(async () =>
+    const fetcher = vi.fn(async (_input: string | URL | Request, _init?: RequestInit) =>
       new Response(JSON.stringify({ id: 'email_01JTEST' }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
@@ -25,6 +25,7 @@ describe('sendWithResend', () => {
 
     expect(fetcher).toHaveBeenCalledTimes(1);
     const [url, init] = fetcher.mock.calls[0]!;
+    if (!init) throw new Error('Expected Resend request options');
     expect(url).toBe('https://api.resend.com/emails');
     expect(init).toMatchObject({
       method: 'POST',
@@ -46,7 +47,7 @@ describe('sendWithResend', () => {
   });
 
   it('fails closed when Resend rejects the request', async () => {
-    const fetcher = vi.fn(async () =>
+    const fetcher = vi.fn(async (_input: string | URL | Request, _init?: RequestInit) =>
       new Response(JSON.stringify({ message: 'rejected' }), { status: 422 }),
     );
 
