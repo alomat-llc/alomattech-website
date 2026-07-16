@@ -56,9 +56,12 @@ const breadcrumbData = {
     <section class="platform-proof" aria-labelledby="platform-proof-title">
       <p>Production boundary</p>
       <h2 id="platform-proof-title">Built from a live publisher workflow.</h2>
-      <p>
-        The operating patterns behind Alomat are already used with an active digital publisher. The customer remains private; the product evidence is concrete: live sources, archive-backed context, specialist stages, and human approval before delivery.
-      </p>
+      <div>
+        <p>
+          The operating patterns behind Alomat are already used with an active digital publisher. The customer remains private; the product evidence is concrete: live sources, archive-backed context, specialist stages, and human approval before delivery.
+        </p>
+        <a href="/case-study/publisher-workflow">Read the production case study</a>
+      </div>
     </section>
 
     <section class="editorial-section" aria-labelledby="modules-title">
@@ -197,9 +200,21 @@ const breadcrumbData = {
     line-height: 0.92;
   }
 
-  .platform-proof > p:last-child,
+  .platform-proof > div > p,
   .control-boundary > div > p {
     margin: 0;
+  }
+
+  .platform-proof > div > a {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--ink);
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-decoration-thickness: 2px;
+    text-transform: uppercase;
+    text-underline-offset: 0.35rem;
   }
 
   .editorial-section > div:first-child h2 {

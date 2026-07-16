@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 const publicPages = [
+  { path: '/case-study/publisher-workflow', title: /Publisher Workflow Case Study/, h1: /From fragmented sources to a controlled publishing workflow/ },
   { path: '/platform', title: /Agentic Publishing Platform/, h1: /One operating layer for modern publishing/ },
   { path: '/agent-systems', title: /AI Agent Systems Engineering/, h1: /AI agent systems built/ },
   { path: '/multilingual-ai', title: /Multilingual AI and Language Technology/, h1: /Multilingual AI that listens/ },
@@ -53,6 +54,15 @@ test('platform page publishes visible SoftwareApplication data', async ({ page }
   expect(product?.applicationCategory).toBe('BusinessApplication');
   expect(product).not.toHaveProperty('aggregateRating');
   expect(product).not.toHaveProperty('offers');
+});
+
+test('platform page links its production proof to the case study', async ({ page }) => {
+  await page.goto('/platform');
+  await expect(
+    page
+      .locator('.platform-proof')
+      .getByRole('link', { name: 'Read the production case study' }),
+  ).toHaveAttribute('href', '/case-study/publisher-workflow');
 });
 
 test('service pages connect visible content to Service and BreadcrumbList data', async ({ page }) => {

@@ -12,6 +12,7 @@ import { deploymentPatterns } from '../content/site';
       <li>Specialist agent workflow</li>
       <li>Human approval before delivery</li>
     </ul>
+    <a href="/case-study/publisher-workflow">Read the production case study</a>
   </aside>
 
   <div id="deployments" class="deployments">
@@ -89,6 +90,18 @@ import { deploymentPatterns } from '../content/site';
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .production-proof > a {
+    grid-column: 2 / -1;
+    width: fit-content;
+    color: var(--ink);
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-decoration-thickness: 2px;
+    text-transform: uppercase;
+    text-underline-offset: 0.35rem;
   }
 
   .studio-heading {
@@ -184,6 +197,10 @@ import { deploymentPatterns } from '../content/site';
   @media (max-width: 900px) {
     .production-proof {
       grid-template-columns: 1fr;
+    }
+
+    .production-proof > a {
+      grid-column: auto;
     }
 
     .studio-heading {

@@ -91,6 +91,17 @@ test('exposes pilot and platform conversion paths', async ({ page }) => {
   ).toHaveAttribute('href', '/platform');
 });
 
+test('is discoverable from the homepage and platform proof sections', async ({
+  page,
+}) => {
+  for (const path of ['/', '/platform']) {
+    await page.goto(path);
+    await expect(
+      page.getByRole('link', { name: 'Read the production case study' }),
+    ).toHaveAttribute('href', '/case-study/publisher-workflow');
+  }
+});
+
 for (const width of [375, 768, 1440]) {
   test(`has no horizontal overflow at ${width}px`, async ({ page }) => {
     await page.setViewportSize({

@@ -11,6 +11,11 @@ test('communicates the publishing SaaS promise and production boundary', async (
   await expect(page.locator('[data-production-proof]')).toContainText(
     'In production with an active digital publisher.',
   );
+  await expect(
+    page
+      .locator('[data-production-proof]')
+      .getByRole('link', { name: 'Read the production case study' }),
+  ).toHaveAttribute('href', '/case-study/publisher-workflow');
   await expect(page.locator('#product').getByRole('article')).toHaveCount(6);
   await expect(
     page.locator('#workflow').locator('[data-approach-step]'),
