@@ -1,0 +1,15 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "workers/**/*.ts",
+    "workers/**/*.d.ts",
+    "src/lib/pilot-intake.ts",
+    "src/workers/pilot-handler.ts",
+    "src/workers/pilot-email.ts",
+    "src/workers/turnstile.ts"
+  ],
+  "exclude": ["**/*.test.ts"]
+}

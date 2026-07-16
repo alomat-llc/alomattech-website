@@ -143,7 +143,7 @@ const breadcrumbData = {
         </div>
 
         <div class="verification span-two">
-          <div class="cf-turnstile" data-turnstile data-sitekey={turnstileSiteKey} data-theme="light"></div>
+          <div class="cf-turnstile" data-turnstile data-sitekey={turnstileSiteKey} data-action="managed-pilot" data-theme="light"></div>
           <p>By submitting, you ask Alomat LLC to review this workflow for a possible managed pilot. Submission does not guarantee acceptance.</p>
         </div>
 
@@ -194,8 +194,16 @@ const breadcrumbData = {
           headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
-        const result = await response.json().catch(() => null);
-        if (!response.ok || !result?.ok) throw new Error('submission_failed');
+        const result: unknown = await response.json().catch(() => null);
+        if (
+          !response.ok ||
+          typeof result !== 'object' ||
+          result === null ||
+          !('ok' in result) ||
+          result.ok !== true
+        ) {
+          throw new Error('submission_failed');
+        }
         submitButton.textContent = 'Application submitted';
         status.textContent = 'Your workflow is now in our review queue. We will reply using the contact email you provided.';
         form.dataset.submitted = 'true';

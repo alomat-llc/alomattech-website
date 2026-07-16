@@ -8,9 +8,12 @@
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "check:worker": "npx wrangler@4.111.0 deploy --config wrangler.pilot.jsonc --dry-run",
+    "check:worker-types": "tsc --noEmit --project tsconfig.worker.json",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "types:worker": "npx wrangler@4.111.0 types workers/worker-configuration.d.ts --config wrangler.pilot.jsonc"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
