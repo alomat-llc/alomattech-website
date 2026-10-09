@@ -1,6 +1,6 @@
 # Alomat LLC
 
-> Alomat LLC builds and operates a managed agentic publishing platform for global digital publishers. The platform connects source intelligence, editorial memory, specialist agents, human approval, and publish-ready delivery.
+> Alomat LLC builds and operates a managed agentic publishing platform for content creators and digital publishers. The platform connects source intelligence, editorial memory, specialist agents, human approval, and publish-ready delivery.
 
 Primary contact: hello@alomattech.com
 
@@ -11,9 +11,9 @@ Primary contact: hello@alomattech.com
 - Managed publishing pilot: https://alomattech.com/pilot
 - 60-second anonymous product demo: https://alomattech.com/demo
 - Anonymous publisher workflow case study: https://alomattech.com/case-study/publisher-workflow
-- AI agent systems engineering: https://alomattech.com/agent-systems
-- Multilingual AI and language technology: https://alomattech.com/multilingual-ai
-- Full-stack AI product engineering: https://alomattech.com/full-stack-ai-products
+- Agent workflow layer: https://alomattech.com/agent-systems
+- Multilingual publishing intelligence: https://alomattech.com/multilingual-ai
+- Publishing product infrastructure: https://alomattech.com/full-stack-ai-products
 - About Alomat LLC: https://alomattech.com/about
 - Frequently asked questions: https://alomattech.com/faq
 - Privacy: https://alomattech.com/privacy

@@ -9,7 +9,7 @@ import {
 } from '../content/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const description = 'Explore Alomat, a managed agentic publishing platform that connects source intelligence, editorial memory, specialist agents, human approval, and observable delivery for global digital publishers.';
+const description = 'Explore Alomat, a managed agentic publishing platform that connects source intelligence, editorial memory, specialist agents, human approval, and observable delivery for content creators and digital publishers.';
 const productData = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
@@ -21,7 +21,7 @@ const productData = {
   provider: { '@id': `${site.url}/#organization` },
   audience: {
     '@type': 'BusinessAudience',
-    audienceType: 'Digital publishers and editorial teams',
+    audienceType: 'Content creators, digital publishers, and editorial teams',
   },
   featureList: productModules.map((module) => module.title),
 };
@@ -124,7 +124,7 @@ const breadcrumbData = {
     <section class="editorial-section" aria-labelledby="managed-title">
       <div>
         <p class="section-index">04 / Managed SaaS</p>
-        <h2 id="managed-title">Configured and operated with your team</h2>
+        <h2 id="managed-title">One platform, configured for your workflow</h2>
       </div>
       <div class="managed-list">
         {managedOffer.map((item) => (

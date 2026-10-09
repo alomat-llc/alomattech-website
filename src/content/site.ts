@@ -67,7 +67,7 @@ export const site = {
   category: 'Agentic publishing operations platform',
   tagline: 'Turn trusted sources into publish-ready content.',
   description:
-    'Alomat is a managed agentic publishing platform for global digital publishers, combining source intelligence, editorial memory, specialist agents, and human approval.',
+    'Alomat is a managed agentic publishing platform for content creators and digital publishers, combining source intelligence, editorial memory, specialist agents, and human approval.',
   url: 'https://alomattech.com',
   email: 'hello@alomattech.com',
   founderEmail: 'habib@alomattech.com',
@@ -200,19 +200,19 @@ export const managedOffer = [
     label: 'Managed SaaS / 01',
     title: 'Configure',
     description:
-      'We set up approved sources, archive-backed editorial memory, output formats, review roles, and delivery boundaries.',
+      'Onboarding connects your approved sources, archive-backed editorial memory, output formats, review roles, and delivery boundaries to the platform.',
   },
   {
     label: 'Managed SaaS / 02',
     title: 'Operate',
     description:
-      'We run and observe the agent workflow while your editors remain responsible for approval and publication decisions.',
+      'The platform runs and observes the agent workflow while your editors remain responsible for approval and publication decisions.',
   },
   {
     label: 'Managed SaaS / 03',
     title: 'Improve',
     description:
-      'We use review feedback, traces, and evaluation examples to refine the workflow without weakening its controls.',
+      'Review feedback, traces, and evaluation examples refine the workflow over time without weakening its controls.',
   },
 ] as const satisfies readonly ManagedOfferItem[];
 
@@ -293,7 +293,7 @@ export const servicePages = [
     slug: 'agent-systems',
     eyebrow: 'Capability / 01',
     title: 'AI agent systems built for dependable work.',
-    seoTitle: 'AI Agent Systems Engineering — Alomat LLC',
+    seoTitle: 'Agent Workflow Layer — Alomat Publishing Platform',
     description:
       'Agent systems form the controlled workflow layer of the Alomat publishing platform, coordinating source verification, editorial context, production, human review, and evaluation.',
     definition:
@@ -322,7 +322,7 @@ export const servicePages = [
     slug: 'multilingual-ai',
     eyebrow: 'Capability / 02',
     title: 'Multilingual AI that listens, retrieves, translates, and responds.',
-    seoTitle: 'Multilingual AI and Language Technology — Alomat LLC',
+    seoTitle: 'Multilingual Publishing Intelligence — Alomat Publishing Platform',
     description:
       'Multilingual retrieval, translation, and language-aware evaluation help the Alomat publishing platform work across global source and editorial contexts.',
     definition:
@@ -351,7 +351,7 @@ export const servicePages = [
     slug: 'full-stack-ai-products',
     eyebrow: 'Capability / 03',
     title: 'Full-stack AI products from operational question to production.',
-    seoTitle: 'Full-Stack AI Product Engineering — Alomat LLC',
+    seoTitle: 'Publishing Product Infrastructure — Alomat Publishing Platform',
     description:
       'The Alomat publishing platform connects agent workflows to durable application software, data, review interfaces, cloud delivery, and observable operations.',
     definition:
@@ -385,7 +385,7 @@ export const faqItems = [
   },
   {
     question: 'What does managed SaaS mean at Alomat?',
-    answer: 'Alomat configures and operates the publishing workflow as recurring software: sources, editorial memory, agent stages, review boundaries, delivery state, evaluation, and operational improvement are managed with the customer.',
+    answer: 'Alomat is one platform delivered as recurring software, not a custom development project. Onboarding configures sources, editorial memory, agent stages, review boundaries, and delivery state for each customer, and Alomat operates and improves the workflow with them.',
   },
   {
     question: 'Does a human approve content before delivery?',
@@ -409,6 +409,6 @@ export const faqItems = [
   },
   {
     question: 'Which markets does Alomat serve?',
-    answer: 'Alomat is designed for global digital publishers and remote editorial teams. Public materials do not claim an office, customer footprint, language specialization, or geographic presence that has not been verified.',
+    answer: 'Alomat is designed for content creators, digital publishers, and remote editorial teams. Public materials do not claim an office, customer footprint, language specialization, or geographic presence that has not been verified.',
   },
 ] as const satisfies readonly FaqItem[];

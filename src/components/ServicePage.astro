@@ -39,7 +39,7 @@ const related = service.relatedSlugs.map((slug) => servicePages.find((item) => i
     </header>
 
     <section class="editorial-section" aria-labelledby="outcomes-title">
-      <h2 id="outcomes-title">What this work enables</h2>
+      <h2 id="outcomes-title">What this layer enables</h2>
       <ul class="statement-list">{service.outcomes.map((outcome) => <li>{outcome}</li>)}</ul>
     </section>
 
@@ -55,7 +55,7 @@ const related = service.relatedSlugs.map((slug) => servicePages.find((item) => i
     </section>
 
     <section class="editorial-section" aria-labelledby="process-title">
-      <h2 id="process-title">How delivery works</h2>
+      <h2 id="process-title">How onboarding works</h2>
       <ol class="process-list">{service.process.map((step, index) => <li><span>0{index + 1}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>)}</ol>
     </section>
 
