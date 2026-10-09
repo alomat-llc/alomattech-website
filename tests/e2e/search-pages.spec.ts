@@ -5,9 +5,9 @@ const publicPages = [
   { path: '/case-study/publisher-workflow', title: /Publisher Workflow Case Study/, h1: /From fragmented sources to a controlled publishing workflow/ },
   { path: '/demo', title: /Product Demo/, h1: /See the publishing workflow move from signal to decision/ },
   { path: '/platform', title: /Agentic Publishing Platform/, h1: /One operating layer for modern publishing/ },
-  { path: '/agent-systems', title: /AI Agent Systems Engineering/, h1: /AI agent systems built/ },
-  { path: '/multilingual-ai', title: /Multilingual AI and Language Technology/, h1: /Multilingual AI that listens/ },
-  { path: '/full-stack-ai-products', title: /Full-Stack AI Product Engineering/, h1: /Full-stack AI products/ },
+  { path: '/agent-systems', title: /Agent Workflow Layer/, h1: /AI agent systems built/ },
+  { path: '/multilingual-ai', title: /Multilingual Publishing Intelligence/, h1: /Multilingual AI that listens/ },
+  { path: '/full-stack-ai-products', title: /Publishing Product Infrastructure/, h1: /Full-stack AI products/ },
   { path: '/about', title: /About Alomat LLC/, h1: /About Alomat/ },
   { path: '/faq', title: /Agentic Publishing Platform FAQ/, h1: /Questions about the Alomat publishing platform/ },
 ] as const;

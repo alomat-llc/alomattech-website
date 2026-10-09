@@ -21,7 +21,7 @@ const aboutData = {
     <header class="editorial-hero">
       <p>Company / Alomat LLC</p>
       <h1>About Alomat: publishing operations built around editorial judgment.</h1>
-      <p class="direct-answer">Alomat LLC builds and operates a managed agentic publishing platform for global digital publishers, combining source intelligence, editorial memory, specialist agents, and accountable human approval.</p>
+      <p class="direct-answer">Alomat LLC builds and operates a managed agentic publishing platform for content creators and digital publishers, combining source intelligence, editorial memory, specialist agents, and accountable human approval.</p>
     </header>
     <section class="editorial-section" aria-labelledby="principles-title">
       <h2 id="principles-title">How we think about publishing systems</h2>
@@ -32,8 +32,15 @@ const aboutData = {
       </div>
     </section>
     <section class="editorial-section" aria-labelledby="experience-title">
-      <h2 id="experience-title">Experience that informs the studio</h2>
+      <h2 id="experience-title">Experience behind the platform</h2>
       <div class="experience-grid">{experienceNotes.map((note) => <article><p>{note.label}</p><h3>{note.title}</h3><p>{note.description}</p></article>)}</div>
+    </section>
+    <section class="editorial-section" aria-labelledby="team-title">
+      <h2 id="team-title">Team</h2>
+      <dl class="identity-list">
+        <div><dt>Habib Salim</dt><dd>Founder</dd></div>
+        <div><dt>Tulkin Yusupov</dt><dd>CTO</dd></div>
+      </dl>
     </section>
     <section class="editorial-section" aria-labelledby="identity-title">
       <h2 id="identity-title">Public company identity</h2>
