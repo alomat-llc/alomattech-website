@@ -13,7 +13,7 @@ The official public website for Alomat LLC, a managed agentic publishing platfor
 
 - `/platform` — product model, operating boundary, and deployment patterns
 - `/case-study/publisher-workflow` — anonymized production workflow case study
-- `/demo` — narrated agentic publishing workflow demo
+- `/demo` — caption-led walkthrough of one representative example story
 - `/pilot` — managed pilot application
 - `/about` and `/faq` — company context and buyer questions
 
