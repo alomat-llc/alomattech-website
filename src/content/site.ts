@@ -281,12 +281,6 @@ export const team: readonly TeamMember[] = [
     bio: 'Habib founded Alomat LLC and leads product and agent engineering: the publishing workflow, agent orchestration, context engineering, and the editor-facing product surfaces.',
     linkedin: 'https://www.linkedin.com/in/habibsalimov/',
   },
-  {
-    name: 'Tulkin Yusupov',
-    role: 'CTO',
-    bio: 'Tulkin is the CTO of Alomat LLC and leads platform engineering: infrastructure, deployments, reliability, and the security of customer workflows.',
-    linkedin: 'https://www.linkedin.com/in/tulkinyusupov/',
-  },
 ];
 
 export const developmentStage = {
