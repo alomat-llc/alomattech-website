@@ -128,3 +128,15 @@ test('unknown routes return a useful noindex 404 page', async ({ page }) => {
     'noindex, nofollow',
   );
 });
+
+test('about shows stage, product screens and founders with LinkedIn', async ({ page }) => {
+  await page.goto('/about');
+  const main = page.locator('main');
+  await expect(main).toContainText(/Current stage: Managed pilot/);
+  await expect(page.locator('.about-screens img')).toHaveCount(3);
+  const members = page.locator('[data-team-member]');
+  await expect(members).toHaveCount(2);
+  await expect(members.nth(0)).toContainText('Founder, Alomat LLC');
+  await expect(page.getByRole('link', { name: 'Habib Salim on LinkedIn' })).toHaveAttribute('href', 'https://www.linkedin.com/in/habibsalimov/');
+  await expect(page.getByRole('link', { name: 'Tulkin Yusupov on LinkedIn' })).toHaveAttribute('href', 'https://www.linkedin.com/in/tulkinyusupov/');
+});
