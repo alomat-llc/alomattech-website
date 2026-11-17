@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { experienceNotes, site } from '../content/site';
+import { publisherCaseStudy } from '../content/publisher-case-study';
+import { developmentStage, experienceNotes, site, team } from '../content/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const description = 'Learn how Alomat LLC builds and operates a managed agentic publishing platform around source intelligence, editorial memory, specialist agents, human approval, and dependable product engineering.';
@@ -13,9 +14,19 @@ const aboutData = {
   url: `${site.url}/about`,
   mainEntity: { '@id': `${site.url}/#organization` },
 };
+const peopleData = team.map((member) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: member.name,
+  jobTitle: member.role,
+  description: member.bio,
+  sameAs: [member.linkedin],
+  worksFor: { '@id': `${site.url}/#organization` },
+}));
+const screenshots = publisherCaseStudy.evidence;
 ---
 
-<BaseLayout title="About Alomat LLC — Agentic Publishing Platform" description={description} pathname="/about" structuredData={[aboutData]}>
+<BaseLayout title="About Alomat LLC — Agentic Publishing Platform" description={description} pathname="/about" structuredData={[aboutData, ...peopleData]}>
   <article class="editorial-page about-page">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
     <header class="editorial-hero">
@@ -35,12 +46,41 @@ const aboutData = {
       <h2 id="experience-title">Experience behind the platform</h2>
       <div class="experience-grid">{experienceNotes.map((note) => <article><p>{note.label}</p><h3>{note.title}</h3><p>{note.description}</p></article>)}</div>
     </section>
+    <section class="editorial-section" aria-labelledby="stage-title">
+      <h2 id="stage-title">Current stage: {developmentStage.label}</h2>
+      <div class="prose-block">
+        <p>{developmentStage.summary}</p>
+        <ul>{developmentStage.points.map((point) => <li>{point}</li>)}</ul>
+      </div>
+    </section>
+    <section class="editorial-section" aria-labelledby="product-title">
+      <h2 id="product-title">The product in use</h2>
+      <div>
+      <div class="prose-block">
+        <p>Screens from the live publisher workflow. The full walkthrough is in the <a href="/demo">product demo</a> and the <a href="/case-study/publisher-workflow">case study</a>.</p>
+      </div>
+      <div class="about-screens">
+        {screenshots.map((item) => (
+          <figure>
+            <img src={item.src} alt={item.alt} width={item.width} height={item.height} decoding="async" />
+            <figcaption><strong>{item.title}</strong> {item.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+      </div>
+    </section>
     <section class="editorial-section" aria-labelledby="team-title">
-      <h2 id="team-title">Team</h2>
-      <dl class="identity-list">
-        <div><dt>Habib Salim</dt><dd>Founder</dd></div>
-        <div><dt>Tulkin Yusupov</dt><dd>CTO</dd></div>
-      </dl>
+      <h2 id="team-title">Founding team</h2>
+      <div class="team-grid">
+        {team.map((member) => (
+          <article data-team-member>
+            <p>{member.role}, {site.name}</p>
+            <h3>{member.name}</h3>
+            <p>{member.bio}</p>
+            <a href={member.linkedin} rel="noopener" target="_blank">{member.name} on LinkedIn</a>
+          </article>
+        ))}
+      </div>
     </section>
     <section class="editorial-section" aria-labelledby="identity-title">
       <h2 id="identity-title">Public company identity</h2>
@@ -54,3 +94,17 @@ const aboutData = {
     </section>
   </article>
 </BaseLayout>
+
+<style>
+  .about-screens { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: 1.5rem; }
+  .about-screens figure { margin: 0; }
+  .about-screens img { width: 100%; height: auto; border: 1px solid var(--ink); background: #fff; }
+  .about-screens figcaption { padding-top: 0.75rem; color: var(--muted); }
+  .about-screens figcaption strong { display: block; }
+  .about-screens figcaption strong { color: var(--ink); }
+  .team-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .team-grid article { border-top: 1px solid var(--line); padding-top: 1.5rem; }
+  .team-grid article > p:first-child { color: var(--muted); margin: 0; }
+  .team-grid h3 { margin: 0.5rem 0; }
+  .team-grid a { font-weight: 650; }
+</style>

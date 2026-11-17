@@ -267,6 +267,38 @@ export const approachSteps = [
   },
 ] as const satisfies readonly ApproachStep[];
 
+export interface TeamMember {
+  readonly name: string;
+  readonly role: string;
+  readonly bio: string;
+  readonly linkedin: string;
+}
+
+export const team: readonly TeamMember[] = [
+  {
+    name: 'Habib Salim',
+    role: 'Founder',
+    bio: 'Habib founded Alomat LLC and leads product and agent engineering: the publishing workflow, agent orchestration, context engineering, and the editor-facing product surfaces.',
+    linkedin: 'https://www.linkedin.com/in/habibsalimov/',
+  },
+  {
+    name: 'Tulkin Yusupov',
+    role: 'CTO',
+    bio: 'Tulkin is the CTO of Alomat LLC and leads platform engineering: infrastructure, deployments, reliability, and the security of customer workflows.',
+    linkedin: 'https://www.linkedin.com/in/tulkinyusupov/',
+  },
+];
+
+export const developmentStage = {
+  label: 'Managed pilot',
+  summary:
+    'Alomat is in the managed pilot stage. The platform runs a live production workflow with one active digital publisher, and we onboard new publishers one at a time as managed pilots.',
+  points: [
+    'Live: source monitoring, archive-backed editorial memory, specialist agent stages, human approval, and delivery to publishing channels.',
+    'In progress: self-serve onboarding and billing for new publishers.',
+  ],
+} as const;
+
 export const experienceNotes = [
   {
     label: 'Voice systems',
