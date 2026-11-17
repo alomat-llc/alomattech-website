@@ -1,165 +1,91 @@
-export type DemoVisual =
-  | 'sources'
-  | 'monitor'
-  | 'verify'
-  | 'memory'
-  | 'agents'
-  | 'package'
-  | 'review'
-  | 'pilot';
-
 export interface ProductDemoScene {
   readonly index: string;
+  readonly label: string;
   readonly title: string;
   readonly statement: string;
-  readonly label: string;
-  readonly durationSeconds: number;
-  readonly visual: DemoVisual;
 }
 
-export interface DemoRow {
-  readonly name: string;
-  readonly note: string;
-  readonly muted?: boolean;
-}
-
+/**
+ * The product demo is a screen recording of the real Alomat panel (News feed),
+ * made on 17 November 2026 with the founder's own account and real public
+ * news sources. Each scene statement is the video's narration, word for word.
+ */
 export const productDemo = {
-  title: 'Alomat agentic publishing workflow',
+  title: 'Alomat News feed product demo',
   description:
-    'A representative product walkthrough that follows one example story from approved sources to a draft in the publisher’s own voice and a human approval decision.',
-  eyebrow: '60-second product walkthrough',
-  durationSeconds: 60,
-  privacyNote:
-    'This is a representative product walkthrough based on an implemented publishing workflow. The story, sources, and screens are illustrative examples. Customer identity, source names, private interfaces, and operational data are intentionally excluded.',
-  controlStatement: 'Agents prepare. Editors decide.',
-  exampleNote: 'Representative example. Not customer data.',
+    'A two-minute recording of the real Alomat panel: sources, interests, delivery to Telegram, the archive and plans, shown with a working account and real news sources.',
+  eyebrow: 'Two-minute product recording',
+  durationSeconds: 125,
+  durationIso: 'PT2M5S',
+  durationLabel: '02:05',
+  recordedOn: '2026-11-17',
+  recordingNote:
+    'Recorded on 17 November 2026 in the Alomat panel with the founder’s own account and real public news sources (UzA, Gazeta.uz and the Kun.uz Telegram channel). Nothing on screen is mocked up. The source checked in the “Add a source” step and the interests picked on screen were not saved.',
+  scopeNote:
+    'The video shows the News feed, the part of Alomat that runs today. The Channel editor, which drafts posts in a channel owner’s voice for approval, is in development and is not shown.',
   scenes: [
     {
       index: '00',
-      title: 'One story, several sources.',
+      label: 'Opening',
+      title: 'Only the news you need.',
       statement:
-        'The same update reaches a publisher as a press release, a news article, and a link someone sends in.',
-      label: 'The starting point',
-      durationSeconds: 6,
-      visual: 'sources',
+        'Uzbek news is spread across dozens of websites, feeds and Telegram channels. Alomat reads the sources you choose and sends you only the news you need, straight to Telegram.',
     },
     {
       index: '01',
-      title: 'Only approved sources count.',
+      label: 'Home',
+      title: 'Delivery at a glance.',
       statement:
-        'Alomat watches the sources and intake paths the publisher has approved, and ignores everything else.',
-      label: 'Source intelligence',
-      durationSeconds: 8,
-      visual: 'monitor',
+        'This is the Alomat panel, recorded with a real account and real sources. The home screen shows that delivery is running, how many news items were sent today against the daily limit of the plan, and the latest news with a link to the original.',
     },
     {
       index: '02',
-      title: 'Grouped and traced before drafting.',
+      label: 'Sources',
+      title: 'Websites, feeds and channels.',
       statement:
-        'Related coverage becomes one story group, duplicates are merged, and references stay attached.',
-      label: 'Verification',
-      durationSeconds: 8,
-      visual: 'verify',
+        'On the Sources page you follow websites, RSS feeds and public Telegram channels. This account follows three: UzA, Gazeta.uz and the Kun.uz Telegram channel.',
     },
     {
       index: '03',
-      title: 'Your voice, remembered.',
+      label: 'Add a source',
+      title: 'Checked before it is added.',
       statement:
-        'Style notes and earlier posts from the archive tell the workflow how this publisher writes.',
-      label: 'Editorial memory',
-      durationSeconds: 8,
-      visual: 'memory',
+        'To add one, type its address and press Check. Alomat reads the source first and shows its latest posts. This site writes in Russian, and Alomat still summarises its news in Uzbek.',
     },
     {
       index: '04',
-      title: 'Drafted in visible stages.',
+      label: 'Interests',
+      title: 'Topics and keywords.',
       statement:
-        'Research, writing, editing, and verification run as separate, observable stages rather than one opaque prompt.',
-      label: 'Agent workflow',
-      durationSeconds: 8,
-      visual: 'agents',
+        'On the Interests page you choose topics and keywords. Wanted words bring news in, unwanted words keep it out. If nothing is chosen, every news item from your sources is sent.',
     },
     {
       index: '05',
-      title: 'One package to review.',
+      label: 'Delivery',
+      title: 'Where and when.',
       statement:
-        'The draft arrives with its summary, visual brief, and references in a single review package.',
-      label: 'Content packaging',
-      durationSeconds: 8,
-      visual: 'package',
+        'Delivery decides where and when. News goes to your private chat, or to a group or channel where you add the bot. Each item can be sent as soon as it is ready, or collected into digests. Quiet hours hold messages overnight.',
     },
     {
       index: '06',
-      title: 'The decision stays human.',
+      label: 'Archive',
+      title: 'Every item, summarised.',
       statement:
-        'An editor can approve, edit, reject, or escalate. Nothing is delivered before that decision.',
-      label: 'Human control',
-      durationSeconds: 8,
-      visual: 'review',
+        'Every item is cleaned, checked for duplicates, given a topic and summarised in Uzbek. The archive keeps all of it, with search and filters by topic and source.',
     },
     {
       index: '07',
-      title: 'Start with one real workflow.',
+      label: 'Telegram',
+      title: 'Delivered to the chat.',
       statement:
-        'A pilot connects your own approved sources, editorial rules, and review roles to the platform.',
-      label: 'Managed pilot',
-      durationSeconds: 6,
-      visual: 'pilot',
+        'In Telegram, each item arrives as a short headline and summary with a link to the source. Two buttons let you save it or mark it as not relevant.',
+    },
+    {
+      index: '08',
+      label: 'Plans',
+      title: 'Start with a trial.',
+      statement:
+        'A new account starts with a fourteen day trial, without a card. Paid plans add more sources and more news items per day.',
     },
   ] as const satisfies readonly ProductDemoScene[],
-  example: {
-    incoming: [
-      { name: 'Press release', note: 'Council approves Harbor Street bike lanes' },
-      { name: 'News site', note: 'Harbor Street to get protected bike lanes' },
-      { name: 'Submitted link', note: 'Bike lanes vote passes' },
-    ],
-    sources: [
-      { name: 'City press office', note: 'Approved · live' },
-      { name: 'Regional daily', note: 'Approved · live' },
-      { name: 'Submitted links', note: 'Approved · checked on arrival' },
-      { name: 'Unlisted blog', note: 'Not approved · ignored', muted: true },
-    ],
-    storyGroup: {
-      title: 'Harbor Street bike lanes',
-      rows: [
-        { name: 'Press release', note: 'Primary source' },
-        { name: 'Regional daily', note: 'Related coverage' },
-        { name: 'Submitted link', note: 'Duplicate · merged', muted: true },
-      ],
-      footer: 'References stay attached to the story',
-    },
-    memory: {
-      heading: 'Style notes from the archive',
-      notes: [
-        'Short sentences.',
-        'Lead with what changes for readers.',
-        'Plain words, no jargon.',
-      ],
-      earlierLabel: 'Earlier post on this topic',
-      earlierPost: 'Road works on Harbor Street start in spring.',
-    },
-    stages: [
-      { name: 'Research', note: 'Reads the primary source' },
-      { name: 'Write', note: 'Drafts in the stored style' },
-      { name: 'Edit', note: 'Tightens wording and length' },
-      { name: 'Verify', note: 'Checks each claim against the sources' },
-    ],
-    draft: {
-      headline: 'Harbor Street is getting protected bike lanes',
-      body: 'The council voted yes last night. Work starts in spring. Here is what changes if you drive, ride, or walk there.',
-      extras: [
-        { name: 'Summary', note: 'One line for the channel preview' },
-        { name: 'Visual brief', note: 'Street map with the new lanes' },
-        { name: 'References', note: 'Press release, regional daily' },
-      ],
-    },
-    review: {
-      actions: ['Approve', 'Edit', 'Reject', 'Escalate'],
-      waiting: 'Waiting for the editor · nothing is delivered yet',
-      approved: 'Approved by the editor · sent to delivery',
-    },
-    pilot: {
-      link: 'alomattech.com/pilot',
-    },
-  },
 } as const;

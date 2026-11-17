@@ -1,22 +1,415 @@
 ---
-import Approach from '../components/Approach.astro';
-import Capabilities from '../components/Capabilities.astro';
-import FinalCta from '../components/FinalCta.astro';
-import Hero from '../components/Hero.astro';
-import Studio from '../components/Studio.astro';
-import { site } from '../content/site';
+import { productDemo } from '../content/product-demo';
+import { feedSample, productScreens, site, stage, steps, team } from '../content/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const videoSrc = '/demo/alomat-news-feed-demo.mp4';
+const posterSrc = '/demo/alomat-news-feed-demo-poster.jpg';
+
+const videoData = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: productDemo.title,
+  description: productDemo.description,
+  thumbnailUrl: new URL(posterSrc, site.url).toString(),
+  contentUrl: new URL(videoSrc, site.url).toString(),
+  uploadDate: productDemo.recordedOn,
+  duration: productDemo.durationIso,
+};
+const softwareData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Alomat',
+  applicationCategory: 'NewsApplication',
+  operatingSystem: 'Web, Telegram',
+  url: site.url,
+  description: site.description,
+  publisher: { '@id': `${site.url}/#organization` },
+};
+const peopleData = team.map((member) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: member.name,
+  jobTitle: member.role,
+  description: member.bio,
+  sameAs: [member.linkedin],
+  worksFor: { '@id': `${site.url}/#organization` },
+}));
 ---
 
 <BaseLayout
-  title="Agentic Publishing Operations Platform — Alomat LLC"
+  title={site.title}
   description={site.description}
   pathname="/"
   includeOrganizationData
+  structuredData={[softwareData, videoData, ...peopleData]}
 >
-  <Hero />
-  <Capabilities />
-  <Approach />
-  <Studio />
-  <FinalCta />
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <div>
+      <h1 id="hero-title">Uzbek news, picked for you and sent to Telegram.</h1>
+      <p class="lead">
+        Choose the websites, feeds and Telegram channels you trust. Alomat reads them, writes a short summary in Uzbek and sends you only the news that matters to you.
+      </p>
+      <div class="actions">
+        <a class="btn" href={site.appUrl}>Open the app</a>
+        <a class="btn btn-line" href="#demo">Watch the demo</a>
+      </div>
+      <p class="note">Sign in with Google or Telegram · 14-day trial, no card</p>
+    </div>
+    <div class="shot">
+      <img
+        src="/screens/home.jpg"
+        alt="Alomat panel home: delivery running, 47 of 50 news items sent today, latest news from UzA"
+        width="1600"
+        height="900"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="feed-title">
+    <div class="wrap">
+      <h2 id="feed-title">This morning in the founder’s feed.</h2>
+      <p class="lead">Real items from UzA on 17 November 2026, as they appear in the panel.</p>
+      <ul class="feed">
+        {
+          feedSample.map((item) => (
+            <li lang="uz">
+              <small>{item.source} · {item.date}</small>
+              <span>{item.headline}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section id="product" class="section" aria-labelledby="product-title">
+    <div class="wrap">
+      <h2 id="product-title">The panel, screen by screen.</h2>
+      <p class="lead">Taken with a working account and real public sources. Nothing here is a mock-up.</p>
+      <div class="rows">
+        {
+          productScreens.map((screen) => (
+            <article class="row" id={screen.id}>
+              <div class="shot">
+                <img src={screen.src} alt={screen.alt} width="1600" height="900" loading="lazy" decoding="async" />
+              </div>
+              <div>
+                <h3>{screen.title}</h3>
+                <p>{screen.description}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <ol class="steps" aria-label="How Alomat works">
+        {
+          steps.map((step, index) => (
+            <li>
+              <span aria-hidden="true">{index + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section id="demo" class="band" aria-labelledby="demo-title">
+    <div class="wrap">
+      <h2 id="demo-title">Watch it work · {Math.round(productDemo.durationSeconds / 60)} minutes</h2>
+      <p class="lead">A narrated recording of the real panel, with captions.</p>
+      <video controls preload="none" playsinline poster={posterSrc} width="1920" height="1080">
+        <source src={videoSrc} type="video/mp4" />
+        <a href={videoSrc}>Download the product demo video</a>
+      </video>
+    </div>
+  </section>
+
+  <section id="stage" class="section" aria-labelledby="stage-title">
+    <div class="wrap">
+      <h2 id="stage-title">Where we are: {stage.label.toLowerCase()}.</h2>
+      <p class="lead">{stage.summary}</p>
+      <div class="stage">
+        {
+          stage.products.map((product) => (
+            <article>
+              <span class:list={['tag', { dev: !product.live }]}>{product.status}</span>
+              <h3>{product.title}</h3>
+              <p>{product.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section join-section" aria-labelledby="join-title">
+    <div class="wrap">
+      <div class="join">
+        <div>
+          <h2 id="join-title">Try Alomat now.</h2>
+          <p class="lead">No password. Your account opens the first time you sign in.</p>
+          <p class="actions"><a class="btn" href={site.appUrl}>Open the app</a></p>
+        </div>
+        <div class="shot">
+          <img
+            src="/screens/signin.jpg"
+            alt="Alomat sign-in card with Google and Telegram buttons"
+            width="1200"
+            height="857"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="company" class="band" aria-labelledby="company-title">
+    <div class="wrap company">
+      <h2 id="company-title">Made by Alomat LLC.</h2>
+      <div>
+        {
+          team.map((member) => (
+            <article data-team-member>
+              <h3>{member.name}, {member.role}</h3>
+              <p>{member.bio}</p>
+              <p>
+                <a href={member.linkedin} target="_blank" rel="noopener">{member.name.split(' ')[0]} on LinkedIn</a> ·{' '}
+                <a href={site.linkedin} target="_blank" rel="noopener">Alomat LLC on LinkedIn</a>
+              </p>
+            </article>
+          ))
+        }
+        <p>
+          <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={`mailto:${site.founderEmail}`}>{site.founderEmail}</a>
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 56px;
+    align-items: center;
+    padding-top: 48px;
+    padding-bottom: 88px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 32px 0 0;
+  }
+
+  .note {
+    margin: 16px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .section,
+  .band {
+    padding-block: 88px;
+  }
+
+  .band {
+    background: var(--tint);
+  }
+
+  .feed {
+    list-style: none;
+    margin: 32px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+    max-width: 560px;
+  }
+
+  .feed li {
+    background: var(--raised);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+  }
+
+  .feed small {
+    display: block;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .feed span {
+    display: block;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .rows {
+    display: grid;
+    gap: 72px;
+    margin-top: 56px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .row:nth-child(even) .shot {
+    order: 2;
+  }
+
+  .row p {
+    margin: 8px 0 0;
+    color: var(--muted);
+  }
+
+  .steps {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 72px 0 0;
+  }
+
+  .steps li {
+    background: var(--raised);
+    border-radius: var(--radius-md);
+    padding: 24px;
+  }
+
+  .steps span {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--anor-soft);
+    color: var(--anor);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .steps h3 {
+    font-size: 19px;
+  }
+
+  .steps p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  video {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    margin-top: 40px;
+    background: #000;
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 36px;
+  }
+
+  .stage article {
+    background: var(--raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+
+  .stage p {
+    margin: 8px 0 0;
+    color: var(--muted);
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--success-soft);
+    color: var(--success);
+    margin-bottom: 12px;
+  }
+
+  .tag.dev {
+    background: var(--tint);
+    color: var(--muted);
+  }
+
+  .join-section {
+    padding-top: 0;
+  }
+
+  .join {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    background: var(--raised);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+  }
+
+  .company {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 48px;
+  }
+
+  .company p {
+    color: var(--muted);
+    margin: 12px 0 0;
+  }
+
+  @media (max-width: 900px) {
+    .hero,
+    .row,
+    .stage,
+    .join,
+    .company {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      gap: 40px;
+      padding-top: 24px;
+    }
+
+    .row {
+      gap: 20px;
+    }
+
+    .row:nth-child(even) .shot {
+      order: 0;
+    }
+
+    .steps {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .join {
+      padding: 28px;
+    }
+
+    .section,
+    .band {
+      padding-block: 64px;
+    }
+  }
+</style>
