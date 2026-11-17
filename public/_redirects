@@ -1,0 +1,18 @@
+# The site is one page since 2026-11-17. Old pages point at the matching section.
+/platform                        /#product   301
+/platform/                       /#product   301
+/demo                            /#demo      301
+/demo/                           /#demo      301
+/about                           /#company   301
+/about/                          /#company   301
+/pilot                           /#company   301
+/pilot/                          /#company   301
+/faq                             /           301
+/faq/                            /           301
+/agent-systems                   /           301
+/agent-systems/                  /           301
+/multilingual-ai                 /           301
+/multilingual-ai/                /           301
+/full-stack-ai-products          /           301
+/full-stack-ai-products/         /           301
+/case-study/*                    /           301

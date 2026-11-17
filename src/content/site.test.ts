@@ -1,162 +1,47 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import {
-  capabilities,
-  deploymentPatterns,
-  experienceNotes,
-  faqItems,
-  managedOffer,
-  navigation,
-  productModules,
-  publishingWorkflow,
-  servicePages,
-  site,
-} from './site';
+import { feedSample, navigation, productScreens, site, stage, team } from './site';
 
-describe('site content contract', () => {
-  it('publishes the canonical Alomat identity', () => {
-    expect(site.name).toBe('Alomat LLC');
-    expect(site.email).toBe('hello@alomattech.com');
-    expect(site.github).toBe('https://github.com/alomat-llc');
-    expect(site.referenceGithub).toBe(
-      'https://github.com/alomat-llc/agentic-publishing-reference',
-    );
+const publicDir = join(process.cwd(), 'public');
+
+describe('one-page site content', () => {
+  it('sends visitors to the real app sign-in page', () => {
+    expect(site.appUrl).toBe('https://app-staging.alomattech.com/sign-in');
   });
 
-  it('publishes the approved managed SaaS positioning', () => {
-    expect(site.category).toBe('Agentic publishing operations platform');
-    expect(site.tagline).toBe('Turn trusted sources into publish-ready content.');
-    expect(site.description).toMatch(/managed agentic publishing platform/i);
-    expect(navigation.map(({ label }) => label)).toEqual([
-      'Product',
-      'Workflow',
-      'Deployments',
-      'About',
-      'FAQ',
-    ]);
-  });
-
-  it('defines the complete source-to-delivery product loop', () => {
-    expect(productModules.map(({ title }) => title)).toEqual([
-      'Source Intelligence',
-      'Editorial Memory',
-      'Agent Workflow',
-      'Content Packaging',
-      'Human Control',
-      'Operations & Evaluation',
-    ]);
-    expect(publishingWorkflow.map(({ title }) => title)).toEqual([
-      'Monitor',
-      'Verify',
-      'Understand',
-      'Produce',
-      'Review',
-      'Learn',
-    ]);
-  });
-
-  it('uses anonymous factual production evidence', () => {
-    const copy = JSON.stringify({ deploymentPatterns, managedOffer });
-    expect(copy).toMatch(/active digital publisher/i);
-    expect(copy).not.toMatch(/xushnudbek|uzbek|telegram|customer logo/i);
-  });
-
-  it('keeps the SaaS claim boundary intact', () => {
-    const copy = JSON.stringify({
-      site,
-      productModules,
-      publishingWorkflow,
-      deploymentPatterns,
-      managedOffer,
-    });
-    expect(copy).not.toMatch(
-      /guaranteed|accuracy rate|customers served|revenue|funded by|official partner|fully autonomous publishing/i,
-    );
-  });
-
-  it('defines exactly three canonical capabilities', () => {
-    expect(capabilities.map(({ title }) => title)).toEqual([
-      'Agent systems',
-      'Language technologies',
-      'Full-stack AI products',
-    ]);
-  });
-
-  it('describes experience without presenting former workplaces as clients', () => {
-    const copy = JSON.stringify(experienceNotes).toLowerCase();
-    expect(copy).toContain('aisha');
-    expect(copy).toContain('wordexpert');
-    expect(copy).not.toContain('our client');
-    expect(copy).not.toContain('partnered with');
-  });
-
-  it('does not publish unverified formation claims', () => {
-    const copy = JSON.stringify({
-      site,
-      capabilities,
-      publishingWorkflow,
-      experienceNotes,
-    });
-    expect(copy).not.toMatch(
-      /registered in new mexico|formation approved|incorporated on/i,
-    );
-  });
-
-  it('defines the three canonical search service pages', () => {
-    expect(servicePages.map(({ slug }) => slug)).toEqual([
-      'agent-systems',
-      'multilingual-ai',
-      'full-stack-ai-products',
-    ]);
-  });
-
-  it('gives every service unique metadata and complete buyer-facing sections', () => {
-    expect(new Set(servicePages.map(({ seoTitle }) => seoTitle)).size).toBe(3);
-    expect(new Set(servicePages.map(({ description }) => description)).size).toBe(3);
-
-    for (const service of servicePages) {
-      expect(service.seoTitle.length).toBeGreaterThan(25);
-      expect(service.description.length).toBeGreaterThan(80);
-      expect(service.definition.length).toBeGreaterThan(80);
-      expect(service.outcomes.length).toBeGreaterThanOrEqual(3);
-      expect(service.deliverables.length).toBeGreaterThanOrEqual(4);
-      expect(service.process.length).toBe(4);
-      expect(service.relatedSlugs.length).toBe(2);
+  it('links navigation to sections of the home page only', () => {
+    for (const item of navigation) {
+      expect(item.href).toMatch(/^\/#[a-z]+$/);
     }
   });
 
-  it('publishes direct answers for common buyer and reviewer questions', () => {
-    expect(faqItems.length).toBeGreaterThanOrEqual(6);
-    for (const item of faqItems) {
-      expect(item.question).toMatch(/\?$/);
-      expect(item.answer.length).toBeGreaterThan(70);
+  it('uses screenshots that exist in public/', () => {
+    for (const screen of productScreens) {
+      expect(existsSync(join(publicDir, screen.src))).toBe(true);
+      expect(screen.alt.length).toBeGreaterThan(10);
     }
+    expect(existsSync(join(publicDir, 'screens/home.jpg'))).toBe(true);
+    expect(existsSync(join(publicDir, 'screens/signin.jpg'))).toBe(true);
   });
 
-  it('answers managed publishing buyer questions', () => {
-    const questions = faqItems.map(({ question }) => question);
-    expect(questions).toEqual(
-      expect.arrayContaining([
-        'What does the Alomat publishing platform do?',
-        'What does managed SaaS mean at Alomat?',
-        'Does a human approve content before delivery?',
-        'How does editorial memory work?',
-        'How does a managed pilot begin?',
-      ]),
-    );
+  it('states the development stage and what is not built yet', () => {
+    expect(stage.label).toBe('Early access');
+    expect(stage.products.map((p) => [p.title, p.live])).toEqual([
+      ['News feed', true],
+      ['Channel editor', false],
+    ]);
   });
 
-  it('positions technical pages as platform foundations', () => {
-    const copy = JSON.stringify(servicePages);
-    expect(copy).toMatch(/publishing platform/i);
-    expect(copy).not.toMatch(
-      /general software agency|custom software for any industry/i,
-    );
+  it('names the founder with a personal LinkedIn link', () => {
+    expect(team).toHaveLength(1);
+    expect(team[0].name).toBe('Habib Salim');
+    expect(team[0].linkedin).toMatch(/^https:\/\/www\.linkedin\.com\/in\//);
   });
 
-  it('keeps search content inside the verified claim boundary', () => {
-    const copy = JSON.stringify({ servicePages, faqItems, site });
-    expect(copy).not.toMatch(
-      /our clients|trusted by|award-winning|guaranteed|us-based|headquartered|founded in|employees|five-star/i,
-    );
+  it('keeps customer identity and unsupported claims out', () => {
+    const copy = JSON.stringify({ site, feedSample, productScreens, stage, team });
+    expect(copy).not.toMatch(/xushnudbek|customer name|investor|funded/i);
+    expect(copy).not.toMatch(/\b\d+(?:\.\d+)?%|guaranteed|trusted by/i);
   });
 });

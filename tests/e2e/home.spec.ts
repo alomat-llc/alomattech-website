@@ -1,76 +1,88 @@
 import { expect, test } from '@playwright/test';
 
-test('communicates the publishing SaaS promise and production boundary', async ({
-  page,
-}) => {
+const APP_URL = 'https://app-staging.alomattech.com/sign-in';
+
+test('shows the product, demo, stage and founder on one page', async ({ page }) => {
   await page.goto('/');
 
+  await expect(page).toHaveTitle(/Alomat/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Turn trusted sources into publish-ready content.',
+    'Uzbek news, picked for you and sent to Telegram.',
   );
-  await expect(page.locator('[data-production-proof]')).toContainText(
-    'In production with an active digital publisher.',
-  );
+  for (const id of ['product', 'demo', 'stage', 'company']) {
+    await expect(page.locator(`#${id}`)).toHaveCount(1);
+  }
+  await expect(page.locator('#product .row')).toHaveCount(4);
+  await expect(page.locator('#stage')).toContainText('early access');
+  await expect(page.locator('#stage')).toContainText('Channel editor');
+  await expect(page.locator('#company')).toContainText('Habib Salim, Founder');
   await expect(
-    page
-      .locator('[data-production-proof]')
-      .getByRole('link', { name: 'Read the production case study' }),
-  ).toHaveAttribute('href', '/case-study/publisher-workflow');
-  await expect(page.locator('#product').getByRole('article')).toHaveCount(6);
+    page.locator('#company').getByRole('link', { name: 'Habib on LinkedIn' }),
+  ).toHaveAttribute('href', 'https://www.linkedin.com/in/habibsalimov/');
+});
+
+test('every "Open the app" link goes to the real sign-in page', async ({ page }) => {
+  await page.goto('/');
+
+  const links = page.getByRole('link', { name: 'Open the app' });
+  expect(await links.count()).toBeGreaterThanOrEqual(2);
+  const hrefs = await links.evaluateAll((els) => els.map((el) => el.getAttribute('href')));
+  for (const href of hrefs) {
+    expect(href).toBe(APP_URL);
+  }
   await expect(
-    page.locator('#workflow').locator('[data-approach-step]'),
-  ).toHaveCount(6);
+    page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Sign in' }),
+  ).toHaveAttribute('href', APP_URL);
 });
 
-test('presents three anonymous deployment patterns', async ({ page }) => {
+test('loads every image, the demo video and the self-hosted fonts', async ({ page, request }) => {
   await page.goto('/');
 
-  const deployments = page.locator('#deployments');
-  await expect(deployments.getByRole('article')).toHaveCount(3);
-  await expect(deployments).toContainText('Always-on signal desk');
-  await expect(deployments).not.toContainText(/Xushnudbek|Uzbek|Telegram/i);
+  const sources = await page
+    .locator('main img')
+    .evaluateAll((imgs) => imgs.map((img) => img.getAttribute('src') ?? ''));
+  expect(sources).toHaveLength(6);
+  for (const src of sources) {
+    expect((await request.get(src)).ok(), src).toBeTruthy();
+  }
+  const videoSrc = (await page.locator('#demo video source').getAttribute('src')) ?? '';
+  const video = await request.get(videoSrc);
+  expect(video.ok()).toBeTruthy();
+  expect(video.headers()['content-type']).toContain('video/mp4');
+
+  await page.evaluate(async () => {
+    await document.fonts.load('800 40px Nunito');
+    await document.fonts.load('400 17px Onest');
+  });
+  expect(await page.evaluate(() => document.fonts.check('800 40px Nunito'))).toBe(true);
+  expect(await page.evaluate(() => document.fonts.check('400 17px Onest'))).toBe(true);
 });
 
-test('offers the managed pilot conversion', async ({ page }) => {
-  await page.goto('/');
+for (const width of [375, 768, 1440]) {
+  test(`has no horizontal overflow at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBe(0);
+  });
+}
 
-  const pilot = page
-    .getByRole('link', { name: 'Request a managed pilot' })
-    .first();
-  await expect(pilot).toHaveAttribute(
-    'href',
-    '/pilot',
+test('keeps the primary action in the first mobile viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  const box = await page.locator('.hero').getByRole('link', { name: 'Open the app' }).boundingBox();
+  expect(box).not.toBeNull();
+  expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(812);
+});
+
+test('publishes organization, product, video and founder structured data', async ({ page }) => {
+  await page.goto('/');
+  const types = await page
+    .locator('script[type="application/ld+json"]')
+    .evaluateAll((scripts) => scripts.map((s) => JSON.parse(s.textContent ?? '{}')['@type']));
+  expect(types).toEqual(
+    expect.arrayContaining(['Organization', 'WebSite', 'SoftwareApplication', 'VideoObject', 'Person']),
   );
-});
-
-test('links the homepage hero to the canonical platform page', async ({
-  page,
-}) => {
-  await page.goto('/');
-
-  const platformCta = page
-    .locator('.hero')
-    .getByRole('link', { name: 'Explore the platform' });
-
-  await expect(platformCta).toBeVisible();
-  await expect(platformCta).toHaveAttribute('href', '/platform');
-});
-
-test('renders a complete reduced-motion experience', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
-
-  await expect(page.locator('[data-signal-field]')).toBeVisible();
-  await expect(page.locator('html')).toHaveAttribute('data-motion', 'reduced');
-});
-
-test('describes managed operation without removing human approval', async ({
-  page,
-}) => {
-  await page.goto('/');
-
-  await expect(page.locator('#managed-saas')).toBeVisible();
-  await expect(page.getByText('One platform, configured for your editorial workflow.')).toBeVisible();
-  await expect(page.locator('main')).toContainText(/human approval/i);
-  await expect(page.locator('main')).not.toContainText(/fully autonomous publishing/i);
 });
