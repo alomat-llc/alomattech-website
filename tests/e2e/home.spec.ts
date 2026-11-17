@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const APP_URL = 'https://app-staging.alomattech.com/sign-in';
+const APP_URL = 'https://app-staging.alomattech.com/sign-in?lang=en';
 
 test('shows the product, demo, stage and founder on one page', async ({ page }) => {
   await page.goto('/');
@@ -85,4 +85,54 @@ test('publishes organization, product, video and founder structured data', async
   expect(types).toEqual(
     expect.arrayContaining(['Organization', 'WebSite', 'SoftwareApplication', 'VideoObject', 'Person']),
   );
+});
+
+test('Uzbek home page has the same sections in Uzbek', async ({ page }) => {
+  await page.goto('/uz/');
+
+  await expect(page.locator('html')).toHaveAttribute('lang', 'uz-Latn');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Sizga kerakli yangiliklar o‘zbek tilida, Telegramda.',
+  );
+  for (const id of ['product', 'demo', 'stage', 'company']) {
+    await expect(page.locator(`#${id}`)).toHaveCount(1);
+  }
+  await expect(page.locator('#product .row')).toHaveCount(4);
+  await expect(page.locator('#product')).toContainText('Manbalar');
+  await expect(page.locator('#company')).toContainText('Habib Salim, asoschi');
+  const hrefs = await page
+    .getByRole('link', { name: 'Ilovani ochish' })
+    .evaluateAll((els) => els.map((el) => el.getAttribute('href')));
+  expect(hrefs.length).toBeGreaterThanOrEqual(2);
+  for (const href of hrefs) {
+    expect(href).toBe('https://app-staging.alomattech.com/sign-in?lang=uz');
+  }
+});
+
+test('each language links to the other and declares hreflang alternates', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('link', { name: 'O‘zbekcha' })).toHaveAttribute('href', '/uz/');
+  const alternates = await page
+    .locator('link[rel="alternate"][hreflang]')
+    .evaluateAll((els) => els.map((el) => `${el.getAttribute('hreflang')} ${el.getAttribute('href')}`));
+  expect(alternates).toEqual(
+    expect.arrayContaining([
+      'en https://alomattech.com/',
+      'uz-Latn https://alomattech.com/uz/',
+      'x-default https://alomattech.com/',
+    ]),
+  );
+
+  await page.goto('/uz/');
+  await expect(page.getByRole('link', { name: 'English' })).toHaveAttribute('href', '/');
+});
+
+test('the language switch stays visible on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  await expect(page.getByRole('link', { name: 'O‘zbekcha' })).toBeVisible();
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBe(0);
 });

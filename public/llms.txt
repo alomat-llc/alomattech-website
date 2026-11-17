@@ -8,6 +8,7 @@ Founder: Habib Salim (habib@alomattech.com, https://www.linkedin.com/in/habibsal
 ## Pages
 
 - Home (product, demo, stage, company): https://alomattech.com/
+- Home in Uzbek: https://alomattech.com/uz/
 - App sign-in: https://app-staging.alomattech.com/sign-in
 - Privacy: https://alomattech.com/privacy
 - Terms: https://alomattech.com/terms
