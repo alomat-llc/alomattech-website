@@ -1,7 +1,7 @@
 ---
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { site } from '../content/site';
+import { copy, homePath, languages, site, type Lang } from '../content/site';
 import '../styles/global.css';
 
 interface Props {
@@ -12,6 +12,9 @@ interface Props {
   includeOrganizationData?: boolean;
   structuredData?: Record<string, unknown>[];
   noindex?: boolean;
+  lang?: Lang;
+  /** Set on the home page so search engines link the language versions. */
+  alternates?: boolean;
 }
 
 const {
@@ -22,7 +25,10 @@ const {
   includeOrganizationData = false,
   structuredData = [],
   noindex = false,
+  lang = 'en',
+  alternates = false,
 } = Astro.props;
+const t = copy[lang];
 
 const canonical = new URL(pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
@@ -44,7 +50,7 @@ const websiteData = {
   name: site.name,
   url: site.url,
   publisher: { '@id': `${site.url}/#organization` },
-  inLanguage: 'en',
+  inLanguage: languages.map((l) => copy[l].htmlLang),
 };
 const schemaItems = includeOrganizationData
   ? [organizationData, websiteData, ...structuredData]
@@ -52,7 +58,7 @@ const schemaItems = includeOrganizationData
 ---
 
 <!doctype html>
-<html lang="en" data-motion="pending">
+<html lang={t.htmlLang} data-motion="pending">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -60,6 +66,13 @@ const schemaItems = includeOrganizationData
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={canonical} />
+    {
+      alternates &&
+        languages.map((l) => (
+          <link rel="alternate" hreflang={copy[l].htmlLang} href={new URL(homePath[l], Astro.site)} />
+        ))
+    }
+    {alternates && <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site)} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/onest-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -72,7 +85,7 @@ const schemaItems = includeOrganizationData
     <meta property="og:image" content={socialImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={t.ogLocale} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -100,11 +113,11 @@ const schemaItems = includeOrganizationData
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <SiteHeader />
+    <a class="skip-link" href="#main-content">{t.skip}</a>
+    <SiteHeader lang={lang} />
     <main id="main-content">
       <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter lang={lang} />
   </body>
 </html>

@@ -314,3 +314,14 @@ h3 {
     transition: none !important;
   }
 }
+
+.primary-navigation a.lang-switch {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .primary-navigation a.lang-switch {
+    display: inline;
+  }
+}

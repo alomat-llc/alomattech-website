@@ -28,7 +28,7 @@ test('publishes crawl and discovery files', async ({ request }) => {
 
 test('sitemap lists only the pages that exist', async ({ request }) => {
   const sitemap = await (await request.get('/sitemap-0.xml')).text();
-  for (const path of ['/', '/privacy/', '/terms/']) {
+  for (const path of ['/', '/uz/', '/privacy/', '/terms/']) {
     expect(sitemap).toContain(`<loc>https://alomattech.com${path}</loc>`);
   }
   for (const gone of ['/platform', '/demo', '/about', '/pilot', '/faq', '/404']) {

@@ -1,13 +1,26 @@
 ---
-import { navigation, site } from '../content/site';
+import { appUrl, copy, homePath, type Lang } from '../content/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang];
+const home = homePath[lang];
+const other = t.switchTo;
 ---
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/" aria-label="Alomat home"><b>.</b>alomat</a>
-    <nav class="primary-navigation" aria-label="Primary">
-      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
-      <a class="btn btn-line" href={site.appUrl}>Sign in</a>
+    <a class="brand" href={home} aria-label="Alomat"><b>.</b>alomat</a>
+    <nav class="primary-navigation" aria-label={t.nav.primary}>
+      <a href={`${home}#product`}>{t.nav.product}</a>
+      <a href={`${home}#demo`}>{t.nav.demo}</a>
+      <a href={`${home}#stage`}>{t.nav.stage}</a>
+      <a href={`${home}#company`}>{t.nav.company}</a>
+      <a class="lang-switch" href={homePath[other.lang]} hreflang={other.lang} lang={copy[other.lang].htmlLang}>{other.label}</a>
+      <a class="btn btn-line" href={appUrl(lang)}>{t.nav.signIn}</a>
     </nav>
   </div>
 </header>
